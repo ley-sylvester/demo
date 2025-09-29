@@ -1,0 +1,1908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle SQL Firewall - Interactive Security Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --brand-red: #C74634;
+            --brand-dark: #312D2A;
+            --slate-100: #697778;
+            --page-bg: #F5F3F0;
+            --white: #FFFFFF;
+            --text-primary: #161513;
+            --text-secondary: #6B6966;
+            --border-color: #D3D3D1;
+            --shadow-light: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.12);
+            --success: #4CAF50;
+            --warning: #FF9800;
+            --danger: #F44336;
+            --info: #2196F3;
+            --code-bg: #1E1E1E;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--page-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--text-primary);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        h1 { font-size: 2.5rem; font-weight: 300; color: var(--text-primary); }
+        h2 { font-size: 2rem; font-weight: 300; color: var(--text-primary); }
+        h3 { font-size: 1.5rem; font-weight: 400; color: var(--text-primary); }
+        h4 { font-size: 1.25rem; font-weight: 500; color: var(--text-primary); }
+        p { color: var(--text-secondary); margin-bottom: 1rem; }
+
+        /* Header */
+        .header {
+            background: var(--white);
+            height: 56px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--brand-red);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: bold;
+        }
+
+        /* Progress */
+        .progress-container {
+            background: var(--white);
+            padding: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 24px;
+        }
+
+        .step {
+            text-align: center;
+            cursor: pointer;
+            transition: .2s;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 32px;
+            height: 32px;
+            background: var(--white);
+            border: 2px solid var(--text-secondary);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: .875rem;
+            transition: .2s;
+            margin-bottom: 8px;
+        }
+
+        .step.active .step-circle,
+        .step.completed .step-circle {
+            background: var(--brand-red);
+            color: var(--white);
+            border-color: var(--brand-red);
+        }
+
+        .step-title {
+            font-size: .875rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .step.active .step-title {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 32px 24px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: var(--white);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            box-shadow: 0 2px 4px var(--shadow-light);
+            display: none;
+        }
+
+        .demo-section.active { display: block; }
+
+        .section-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-header h2 { margin-bottom: 8px; }
+        .section-header p { margin: 0; }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+            box-shadow: 0 2px 4px var(--shadow-light);
+            transition: .2s;
+            margin-bottom: 24px;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-hover);
+        }
+
+        .grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .grid-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+
+        .btn {
+            padding: 12px 24px;
+            background: var(--slate-100);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s;
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover { background: #5a6869; }
+        .btn:focus-visible { outline: 2px solid var(--brand-red); outline-offset: 2px; }
+
+        .btn-primary {
+            background: var(--brand-red);
+            color: var(--white);
+        }
+
+        .btn-primary:hover { background: #a63426; }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover { background: var(--page-bg); }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-size: 1rem;
+            background: var(--white);
+            transition: border-color .2s;
+            min-height: 44px;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: var(--brand-red);
+        }
+
+        .code-container {
+            background: var(--code-bg);
+            color: #d4d4d4;
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        .keyword { color: #569cd6; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .function { color: #dcdcaa; }
+
+        .alert {
+            padding: 16px;
+            border-radius: 4px;
+            margin: 16px 0;
+            border: 1px solid;
+        }
+
+        .alert-success {
+            background: #e8f5e9;
+            border-color: #4caf50;
+            color: #1b5e20;
+        }
+
+        .alert-warning {
+            background: #fff3e0;
+            border-color: #ff9800;
+            color: #e65100;
+        }
+
+        .alert-danger {
+            background: #ffebee;
+            border-color: #f44336;
+            color: #b71c1c;
+        }
+
+        .alert-info {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            color: #0d47a1;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-inactive {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .status-blocked {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .metric-card {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-left: 4px solid var(--brand-red);
+            border-radius: 8px;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .metric-label {
+            font-size: .875rem;
+            color: var(--text-secondary);
+        }
+
+        .sql-monitor {
+            background: #f5f5f5;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px;
+            margin: 16px 0;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .sql-entry {
+            padding: 8px;
+            margin: 4px 0;
+            background: var(--white);
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .sql-allowed {
+            border-left: 3px solid var(--success);
+        }
+
+        .sql-blocked {
+            border-left: 3px solid var(--danger);
+            background: #ffebee;
+        }
+
+        .firewall-rule {
+            background: var(--white);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 16px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rule-enabled {
+            border-left: 4px solid var(--success);
+        }
+
+        .rule-disabled {
+            border-left: 4px solid var(--text-secondary);
+            opacity: 0.7;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            border-top-color: var(--brand-red);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0% { background: rgba(76, 175, 80, 0.4); }
+            50% { background: rgba(76, 175, 80, 0.6); }
+            100% { background: rgba(76, 175, 80, 0.2); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 24px 0;
+        }
+
+        .feature-list li {
+            padding: 8px 0;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            color: var(--success);
+            margin-top: 2px;
+        }
+
+        .attack-simulator {
+            background: var(--white);
+            border: 2px dashed var(--danger);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .attack-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: var(--danger);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999;
+            left: 0; 
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            }
+
+            .modal-content {
+            background: var(--white);
+            padding: 32px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            text-align: left;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            }
+            .modal-content h2 { margin-bottom: 16px; }
+            .modal-content ul { margin: 16px 0; padding-left: 24px; }
+
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .progress-steps { overflow-x: auto; padding-bottom: 8px; }
+            .nav-buttons { flex-direction: column; gap: 16px; }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.5rem; }
+            h3 { font-size: 1.25rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🛡️</div>
+            <h1 style="font-size: 1.25rem;">SQL Firewall</h1>
+        </div>
+        <div style="display: flex; gap: 16px; align-items: center;">
+            <span class="status-badge status-active" id="firewall-status">Firewall: Active</span>
+            <button class="btn btn-secondary" onclick="resetDemo()">Reset Demo</button>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-steps">
+            <div class="step active" onclick="goToStep(0)">
+                <div class="step-circle">1</div>
+                <div class="step-title">Introduction</div>
+            </div>
+            <div class="step" onclick="goToStep(1)">
+                <div class="step-circle">2</div>
+                <div class="step-title">Learning Mode</div>
+            </div>
+            <div class="step" onclick="goToStep(2)">
+                <div class="step-circle">3</div>
+                <div class="step-title">Baseline</div>
+            </div>
+            <div class="step" onclick="goToStep(3)">
+                <div class="step-circle">4</div>
+                <div class="step-title">Enforcement</div>
+            </div>
+            <div class="step" onclick="goToStep(4)">
+                <div class="step-circle">5</div>
+                <div class="step-title">Attack Detection</div>
+            </div>
+            <div class="step" onclick="goToStep(5)">
+                <div class="step-circle">6</div>
+                <div class="step-title">Management</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Section 0: Introduction -->
+        <div class="demo-section active" id="section-0">
+            <div class="section-header">
+                <h2>Welcome to Oracle SQL Firewall</h2>
+                <p>Protect your database from SQL injection and unauthorized access</p>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>What is SQL Firewall?</h3>
+                    <p>Oracle SQL Firewall provides real-time protection against SQL injection attacks and unauthorized SQL execution by:</p>
+                    <ul class="feature-list">
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Learning normal SQL patterns automatically
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Blocking suspicious or unauthorized queries
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Detecting SQL injection attempts in real-time
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Zero application changes required
+                        </li>
+                        <!-- New expanded Oracle-specific points -->
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Enforcing baseline SQL policies directly inside Oracle Database
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Providing 24/7 coverage of all SQL activity from apps, scripts, and direct connections
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Logging and auditing all activity to support PCI DSS, SOX, and GDPR compliance
+                        </li>
+                        <li>
+                            <svg class="check-icon" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/>
+                            </svg>
+                            Native to Oracle Database – no proxies, middleware, or third-party tools required
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="card">
+                    <h3>Key Benefits</h3>
+                    <div class="grid grid-2" style="margin-top: 16px;">
+                        <div class="metric-card">
+                            <div class="metric-value">0</div>
+                            <div class="metric-label">Code Changes</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px;">Policies applied at database layer, existing apps run as-is</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">24/7</div>
+                            <div class="metric-label">Protection</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px;">Always active, monitors every SQL statement continuously</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">&lt;1ms</div>
+                            <div class="metric-label">Latency</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px;">Inline inspection with negligible performance impact</p>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value">100%</div>
+                            <div class="metric-label">Coverage</div>
+                            <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 8px;">All SQL traffic from apps, scripts, and direct connections</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>How It Works</h3>
+                <div class="grid grid-3" style="margin-top: 16px;">
+                    <div style="text-align: center; padding: 16px;">
+                        <div style="font-size: 2rem; margin-bottom: 8px;">📚</div>
+                        <h4>1. Learning Phase</h4>
+                        <p style="font-size: 0.875rem;">Capture normal SQL patterns from your application</p>
+                    </div>
+                    <div style="text-align: center; padding: 16px;">
+                        <div style="font-size: 2rem; margin-bottom: 8px;">✅</div>
+                        <h4>2. Baseline Creation</h4>
+                        <p style="font-size: 0.875rem;">Review and approve allowed SQL statements</p>
+                    </div>
+                    <div style="text-align: center; padding: 16px;">
+                        <div style="font-size: 2rem; margin-bottom: 8px;">🛡️</div>
+                        <h4>3. Enforcement</h4>
+                        <p style="font-size: 0.875rem;">Block any SQL not in the approved baseline</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <div></div>
+                <button class="btn btn-primary" onclick="nextStep()">Start Learning Mode →</button>
+            </div>
+        </div>
+
+        <!-- Section 1: Learning Mode -->
+        <div class="demo-section" id="section-1">
+            <div class="section-header">
+                <h2>Learning Mode</h2>
+                <p>Capture normal SQL patterns from your application</p>
+            </div>
+
+            <div class="alert alert-info">
+                <strong>ℹ️ Learning Mode Active:</strong> The firewall is now capturing all SQL statements to learn your application's normal behavior.
+            </div>
+
+            <div class="card">
+                <h3>Enable SQL Firewall for HR_APP User</h3>
+                <div class="code-container">
+<pre><span class="comment">-- Enable SQL Firewall for a specific user</span>
+<span class="keyword">BEGIN</span>
+    <span class="function">DBMS_SQL_FIREWALL.CREATE_CAPTURE</span>(
+        username => <span class="string">'HR_APP'</span>,
+        top_level_only => <span class="keyword">FALSE</span>
+    );
+<span class="keyword">END</span>;
+/</pre>
+                </div>
+                <button class="btn btn-success" onclick="startLearning()">
+                    <span id="learnBtn">Start Learning</span>
+                    <span id="learnLoader" class="loading" style="display:none;"></span>
+                </button>
+            </div>
+
+            <div class="card" id="learningProgress" style="display:none;">
+                <h3>Learning Progress</h3>
+                <p>Simulating application SQL activity...</p>
+                <div class="sql-monitor" id="sqlMonitor">
+                    <!-- SQL statements will appear here -->
+                </div>
+                <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center;">
+                    <span><strong>Statements Captured:</strong> <span id="stmtCount">0</span></span>
+                    <button class="btn btn-secondary" onclick="stopLearning()">Stop Learning</button>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep()" id="nextFromLearn" style="display:none;">Review Baseline →</button>
+            </div>
+        </div>
+
+        <!-- Section 2: Baseline Review -->
+        <div class="demo-section" id="section-2">
+            <div class="section-header">
+                <h2>Baseline Review</h2>
+                <p>Review and approve captured SQL patterns</p>
+            </div>
+
+            <div class="card">
+                <h3>Generate Baseline</h3>
+                <div class="code-container">
+                    <pre><span class="comment">-- Generate baseline from captured SQL</span>
+                    <span class="keyword">BEGIN</span>
+                        <span class="function">DBMS_SQL_FIREWALL.GENERATE_BASELINE</span>(
+                            username => <span class="string">'HR_APP'</span>,
+                            force => <span class="keyword">TRUE</span>
+                        );
+                    <span class="keyword">END</span>;
+                    /</pre>
+                </div>
+                <button class="btn btn-success" onclick="generateBaseline()">Generate Baseline</button>
+            </div>
+
+            <div class="card">
+                <h3>Captured SQL Patterns</h3>
+                <!--<p>These SQL statements were captured during the learning phase:</p> -->
+                <div id="baselineList" style="margin-top: 16px;">
+                    <!-- Baseline rules will appear here -->
+                </div>
+            </div>
+
+            <div class="alert alert-success" id="baselineSuccess" style="display:none;">
+                <strong>✅ Baseline Generated Successfully!</strong> 
+                <span id="ruleCount"></span> SQL patterns have been approved for HR_APP user.
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep()" id="nextFromBaseline" style="display:none;">Enable Enforcement →</button>
+            </div>
+        </div>
+
+        <!-- Section 3: Enforcement Mode -->
+        <div class="demo-section" id="section-3">
+            <div class="section-header">
+                <h2>Enforcement Mode</h2>
+                <p>Activate protection against unauthorized SQL</p>
+            </div>
+
+            <div class="card">
+                <h3>Enable SQL Firewall Enforcement</h3>
+                <p>Once enabled, only SQL statements in the baseline will be allowed to execute.</p>
+                <div class="code-container">
+<pre><span class="comment">-- Enable enforcement mode</span>
+<span class="keyword">BEGIN</span>
+    <span class="function">DBMS_SQL_FIREWALL.ENABLE_FIREWALL</span>(
+        username => <span class="string">'HR_APP'</span>,
+        enforce => <span class="keyword">TRUE</span>,
+        block => <span class="keyword">TRUE</span>
+    );
+<span class="keyword">END</span>;
+/</pre>
+                </div>
+                <button class="btn btn-danger" onclick="enableEnforcement()">
+                    Enable Enforcement
+                </button>
+            </div>
+
+            <div class="card" id="enforcementStatus" style="display:none;">
+                <h3>🛡️ Firewall Status: ENFORCING</h3>
+                <div class="alert alert-warning">
+                    <strong>Protection Active:</strong> All SQL statements are now being validated against the baseline. Unauthorized queries will be blocked.
+                </div>
+                
+                <div class="grid grid-3" style="margin-top: 24px;">
+                    <div class="metric-card">
+                        <div class="metric-value" id="allowedCount">0</div>
+                        <div class="metric-label">Allowed Queries</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="blockedCount">0</div>
+                        <div class="metric-label">Blocked Queries</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" id="violationCount">0</div>
+                        <div class="metric-label">Violations</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <h4 style="margin-bottom: 16px;">Live SQL Activity Monitor</h4>
+                    <div style="background: #1a1a1a; border-radius: 8px; padding: 16px; position: relative; overflow: hidden; height: 320px;">
+                        <div style="position: absolute; top: 16px; right: 16px; z-index: 10;">
+                            <span style="color: #4CAF50; font-size: 0.875rem;">● MONITORING</span>
+                        </div>
+                        <div id="liveMonitor" style="position: absolute; bottom: 0; left: 0; right: 0; padding: 16px;">
+                            <!-- SQL statements will auto-scroll here -->
+                        </div>
+                    </div>
+                    <div style="margin-top: 12px; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; gap: 24px; font-size: 0.875rem;">
+                            <span><span style="display: inline-block; width: 12px; height: 12px; background: #4CAF50; border-radius: 2px;"></span> Allowed</span>
+                            <span><span style="display: inline-block; width: 12px; height: 12px; background: #F44336; border-radius: 2px;"></span> Blocked</span>
+                            <span><span style="display: inline-block; width: 12px; height: 12px; background: #FF9800; border-radius: 2px;"></span> Suspicious</span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="toggleMonitor()" id="monitorToggle">Pause Monitor</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 24px;">
+                    <h4>Test Enforcement</h4>
+                    <p style="margin-bottom: 16px; font-size: 0.875rem;">Try executing different SQL statements to see how the firewall responds:</p>
+                    <div class="grid grid-2">
+                        <button class="btn btn-success" onclick="testAllowedQuery()">
+                            Execute Allowed Query
+                        </button>
+                        <button class="btn btn-danger" onclick="testBlockedQuery()">
+                            Execute Unauthorized Query
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep()" id="nextFromEnforce" style="display:none;">Test Attack Detection →</button>
+            </div>
+        </div>
+
+        <!-- Section 4: Attack Detection -->
+        <div class="demo-section" id="section-4">
+            <div class="section-header">
+                <h2>Attack Detection & Prevention</h2>
+                <p>Test the firewall's ability to detect and block SQL injection attacks</p>
+            </div>
+
+            <div class="attack-simulator">
+                <div class="attack-header">
+                    <span style="font-size: 1.5rem;">⚠️</span>
+                    <h3 style="margin: 0;">SQL Injection Attack Simulator</h3>
+                </div>
+                <p>Try these common attack patterns to see how SQL Firewall protects your database:</p>
+                
+                <div style="margin-top: 16px;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Select Attack Type:</label>
+                    <select class="input" id="attackType" onchange="updateAttackQuery()">
+                        <option value="">-- Choose an attack --</option>
+                        <option value="union">UNION-based Injection</option>
+                        <option value="blind">Blind SQL Injection</option>
+                        <option value="drop">Destructive DDL Attack</option>
+                        <option value="bypass">Authentication Bypass</option>
+                        <option value="extraction">Data Extraction</option>
+                    </select>
+                </div>
+
+                <div id="attackQuery" style="margin-top: 16px; display: none;">
+                    <label style="display: block; margin-bottom: 8px; font-weight: 500;">Attack Query:</label>
+                    <div class="code-container">
+                        <pre id="attackSQL"></pre>
+                    </div>
+                    <button class="btn btn-danger" onclick="executeAttack()">
+                        Execute Attack
+                    </button>
+                </div>
+            </div>
+
+            <div id="attackResults" style="margin-top: 24px;">
+                <!-- Attack results will appear here -->
+            </div>
+
+            <div class="card">
+                <h3>Recent Activity Log</h3>
+                <div class="sql-monitor" id="activityLog" style="max-height: 200px;">
+                    <div class="sql-entry sql-allowed">
+                        <span>SELECT * FROM employees WHERE id = 100</span>
+                        <span class="status-badge status-active">Allowed</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                <button class="btn btn-primary" onclick="nextStep()">Management & Monitoring →</button>
+            </div>
+        </div>
+
+        <!-- Section 5: Management -->
+        <div class="demo-section" id="section-5">
+            <div class="section-header">
+                <h2>Management & Monitoring</h2>
+                <p>Monitor firewall activity and manage security policies</p>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Security Dashboard</h3>
+                    <div class="grid grid-2" style="margin-top: 16px;">
+                        <div class="metric-card">
+                            <div class="metric-value" id="totalQueries">247,892</div>
+                            <div class="metric-label">Queries Processed (24h)</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" style="color: var(--success);" id="blockRate">99.8%</div>
+                            <div class="metric-label">Legitimate Traffic</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" style="color: var(--danger);" id="uniquePatterns">487</div>
+                            <div class="metric-label">Attacks Blocked (6h)</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="activeUsers">22</div>
+                            <div class="metric-label">Protected Applications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>Top Attack Types (Last 6 hours)</h3>
+                    <div style="padding: 20px;">
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 0.875rem;">SQL Injection</span>
+                                <span style="font-size: 0.875rem; font-weight: 600;">234</span>
+                            </div>
+                            <div style="background: #f5f5f5; height: 20px; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 85%; height: 100%; background: var(--danger);"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 0.875rem;">Privilege Escalation</span>
+                                <span style="font-size: 0.875rem; font-weight: 600;">143</span>
+                            </div>
+                            <div style="background: #f5f5f5; height: 20px; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 52%; height: 100%; background: var(--warning);"></div>
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 0.875rem;">Unauthorized DDL</span>
+                                <span style="font-size: 0.875rem; font-weight: 600;">89</span>
+                            </div>
+                            <div style="background: #f5f5f5; height: 20px; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 32%; height: 100%; background: #FF9800;"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 0.875rem;">Data Exfiltration Attempts</span>
+                                <span style="font-size: 0.875rem; font-weight: 600;">21</span>
+                            </div>
+                            <div style="background: #f5f5f5; height: 20px; border-radius: 4px; overflow: hidden;">
+                                <div style="width: 8%; height: 100%; background: #FFC107;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Policy Management</h3>
+                <div class="grid grid-3" style="margin-top: 16px;">
+                    <div>
+                        <h4>Baseline Management</h4>
+                        <p style="font-size: 0.875rem; margin-bottom: 16px;">Manage SQL patterns and update baselines</p>
+                        <button class="btn btn-secondary" onclick="manageBaseline()">
+                            📋 Manage Baselines
+                        </button>
+                    </div>
+                    <div>
+                        <h4>Violation Analysis</h4>
+                        <p style="font-size: 0.875rem; margin-bottom: 16px;">Review blocked queries and investigate incidents</p>
+                        <button class="btn btn-secondary" onclick="analyzeViolations()">
+                            🔍 Analyze Violations
+                        </button>
+                    </div>
+                    <div>
+                        <h4>Alert Configuration</h4>
+                        <p style="font-size: 0.875rem; margin-bottom: 16px;">Configure notifications and security alerts</p>
+                        <button class="btn btn-secondary" onclick="configureAlerts()">
+                            🔔 Configure Alerts
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-2">
+                <div class="card">
+                    <h3>Recent High-Risk Violations</h3>
+                    <div style="max-height: 400px; overflow-y: auto;">
+                        <div class="firewall-rule" style="border-left-color: var(--danger); margin-bottom: 12px;">
+                            <div>
+                                <strong style="color: var(--danger);">CRITICAL</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 8px;">2 minutes ago</span>
+                                <div style="font-family: monospace; font-size: 0.875rem; margin-top: 4px;">
+                                    DROP TABLE employees CASCADE
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">
+                                    Source IP: 192.168.1.147 | User: APP_USER
+                                </div>
+                            </div>
+                        </div>
+                        <div class="firewall-rule" style="border-left-color: var(--warning); margin-bottom: 12px;">
+                            <div>
+                                <strong style="color: var(--warning);">HIGH</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 8px;">15 minutes ago</span>
+                                <div style="font-family: monospace; font-size: 0.875rem; margin-top: 4px;">
+                                    GRANT DBA TO malicious_user
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">
+                                    Source IP: 10.0.2.45 | User: HR_APP
+                                </div>
+                            </div>
+                        </div>
+                        <div class="firewall-rule" style="border-left-color: var(--warning); margin-bottom: 12px;">
+                            <div>
+                                <strong style="color: var(--warning);">HIGH</strong>
+                                <span style="font-size: 0.75rem; color: var(--text-secondary); margin-left: 8px;">1 hour ago</span>
+                                <div style="font-family: monospace; font-size: 0.875rem; margin-top: 4px;">
+                                    SELECT * FROM v$session UNION SELECT...
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px;">
+                                    Source IP: 45.67.89.123 | User: WEB_USER
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+            <h3>Compliance & Reporting</h3>
+            <div style="margin-top: 16px;">
+                <!-- PCI DSS -->
+                <div style="padding: 12px; background: var(--page-bg); border-radius: 4px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><strong>PCI DSS</strong></span>
+                    <span class="status-badge status-active">✓ Compliant</span>
+                </div>
+                <p style="font-size: 0.75rem; margin-top: 4px; margin-bottom: 0;">
+                    Requirement 6.4.1: Continuous SQL monitoring protects cardholder data environments.
+                </p>
+                </div>
+                <!-- SOX -->
+                <div style="padding: 12px; background: var(--page-bg); border-radius: 4px; margin-bottom: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><strong>SOX</strong></span>
+                    <span class="status-badge status-active">✓ Compliant</span>
+                </div>
+                <p style="font-size: 0.75rem; margin-top: 4px; margin-bottom: 0;">
+                    Section 404: Enforced access policies and full audit trails meet financial reporting requirements.
+                </p>
+                </div>
+                <!-- GDPR -->
+                <div style="padding: 12px; background: var(--page-bg); border-radius: 4px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span><strong>GDPR Article 32</strong></span>
+                    <span class="status-badge status-active">✓ Compliant</span>
+                </div>
+                <p style="font-size: 0.75rem; margin-top: 4px; margin-bottom: 0;">
+                    Technical measures for securing personal data include query logging, policy enforcement, and incident reporting.
+                </p>
+                </div>
+            </div>
+
+            <!-- Added explanation -->
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 16px;">
+                Oracle SQL Firewall not only blocks unauthorized SQL, it automatically logs every statement —
+                allowed and denied — creating <strong>auditable evidence</strong> for PCI DSS, SOX, and GDPR.
+                These reports support <strong>regulatory compliance</strong>, <strong>forensics</strong>, and
+                <strong>security operations</strong>.
+            </p>
+
+            <!-- Report button -->
+            <button class="btn btn-primary" style="margin-top: 16px; width: 100%;" onclick="generateReport()">
+                📊 Download Compliance Report (PDF)
+            </button>
+            </div>
+
+            </div>
+
+            <!--<div class="card">
+                <h3>Administrative Actions</h3>
+                <div class="code-container">
+                <pre><span class="comment">-- Export current firewall configuration</span>
+                <span class="keyword">BEGIN</span>
+                    <span class="function">DBMS_SQL_FIREWALL.EXPORT_CONFIGURATION</span>(
+                        file_name => <span class="string">'firewall_backup_20240125.json'</span>
+                    );
+                <span class="keyword">END</span>;
+
+                <span class="comment">-- View recent violations with details</span>
+                <span class="keyword">SELECT</span> 
+                    violation_time,
+                    username,
+                    sql_text,
+                    ip_address,
+                    client_program,
+                    violation_type
+                <span class="keyword">FROM</span> DBA_SQL_FIREWALL_VIOLATIONS
+                <span class="keyword">WHERE</span> violation_time > SYSTIMESTAMP - <span class="keyword">INTERVAL</span> <span class="string">'1'</span> <span class="keyword">HOUR</span>
+                <span class="keyword">ORDER BY</span> violation_time <span class="keyword">DESC</span>;
+
+                <span class="comment">-- Temporarily disable firewall for maintenance</span>
+                <span class="keyword">EXECUTE</span> <span class="function">DBMS_SQL_FIREWALL.DISABLE_FIREWALL</span>(username => <span class="string">'HR_APP'</span>);</pre>
+                                </div>
+            </div>-->
+
+            <div class="alert alert-success" style="margin-top: 24px;">
+                <h3>🎉 Demo Complete!</h3>
+                <p>You've successfully learned how to:</p>
+                <ul style="margin: 16px 0; padding-left: 24px;">
+                    <li>Enable SQL Firewall for database users</li>
+                    <li>Capture and analyze normal SQL patterns</li>
+                    <li>Create and review security baselines</li>
+                    <li>Enforce SQL access policies</li>
+                    <li>Detect and block SQL injection attacks</li>
+                    <li>Monitor violations and manage security policies</li>
+                    <li>Generate compliance reports</li>
+                </ul>
+                <div style="margin-top: 24px; display: flex; gap: 16px;">
+                    <button class="btn btn-primary" onclick="resetDemo()">Restart Demo</button>
+                    <a href="https://docs.oracle.com/en/database/oracle/oracle-database/23/dbseg/using-sql-firewall.html" target="_blank">
+                        <button class="btn btn-secondary">View Documentation</button>
+                    </a>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="previousStep()">← Back</button>
+                <button class="btn btn-success" onclick="completeDemo()">Complete Demo ✓</button>
+            </div>
+        </div>
+
+        <!-- Completion Modal -->
+        <div id="completionModal" class="modal">
+            <div class="modal-content">
+                <h2>🎉 Congratulations!</h2>
+                <p>You’ve completed the SQL Firewall demo.</p>
+                <ul>
+                <li>Zero application changes required</li>
+                <li>Real-time SQL injection prevention</li>
+                <li>99.8% legitimate traffic flows unimpeded</li>
+                <li>Complete audit trail and compliance reporting</li>
+                <li>Blocks attacks at the database layer</li>
+                </ul>
+                <button class="btn btn-primary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+        <!-- Baseline Management Modal -->
+        <div id="baselineModal" class="modal">
+        <div class="modal-content">
+            <h3>Baseline Management</h3>
+            <p style="font-size: 0.85rem; margin-bottom: 12px;">
+            Below is the current baseline of approved SQL statements. You can add or remove policies to update what Oracle SQL Firewall enforces.
+            </p>
+
+            <table id="baselineTable" style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+            <tr style="background: var(--page-bg);">
+                <th style="text-align:left; padding: 6px;">Policy ID</th>
+                <th style="text-align:left; padding: 6px;">SQL Pattern</th>
+                <th style="text-align:left; padding: 6px;">Status</th>
+                <th style="text-align:left; padding: 6px;">Action</th>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">POL-001</td>
+                <td style="padding: 6px;">SELECT * FROM CUSTOMERS</td>
+                <td style="padding: 6px;">Approved</td>
+                <td style="padding: 6px;"><button onclick="removeBaseline(this)">🗑️</button></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">POL-002</td>
+                <td style="padding: 6px;">UPDATE ORDERS SET STATUS=?</td>
+                <td style="padding: 6px;">Approved</td>
+                <td style="padding: 6px;"><button onclick="removeBaseline(this)">🗑️</button></td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">POL-003</td>
+                <td style="padding: 6px;">DROP TABLE *</td>
+                <td style="padding: 6px;">Denied</td>
+                <td style="padding: 6px;"><button onclick="removeBaseline(this)">🗑️</button></td>
+            </tr>
+            </table>
+
+            <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;">
+            <button class="btn btn-secondary" onclick="closeBaseline()">Close</button>
+            <button class="btn btn-primary" onclick="addBaseline()">➕ Add Baseline</button>
+            </div>
+        </div>
+        </div>
+       <div id="violationsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+        <div style="background:#fff; border-radius:8px; width:80%; max-width:700px; padding:20px;">
+            <h3>Violation Analysis</h3>
+            <p style="font-size:0.85rem; color:#666; margin-top:4px;">
+            Click on any row to view full details and actions.
+            </p>
+
+            <!-- Notification area -->
+            <div id="violationsNotice" class="alert alert-info" style="display:none; margin:12px 0;"></div>
+
+            <table style="width:100%; border-collapse:collapse; margin-top:12px;" id="violationsTable"></table>
+
+            <div style="margin-top:16px; text-align:right;">
+            <button class="btn btn-secondary" onclick="closeViolationsModal()">Close</button>
+            </div>
+        </div>
+        </div>
+
+        <div id="alertsModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(0,0,0,0.5); align-items:center; justify-content:center; z-index:9999;">
+        <div style="background:#fff; border-radius:8px; width:80%; max-width:650px; padding:20px;">
+            <h3>Oracle SQL Firewall – Alert Configuration</h3>
+            <p style="font-size:0.85rem; color:#666; margin-top:4px;">
+            Configure how SQL Firewall alerts are generated and forwarded.
+            </p>
+
+            <!-- Options -->
+            <div style="margin-top:16px;">
+            <label><input type="checkbox" id="alertAuditVault" checked> Forward alerts to <strong>Oracle Audit Vault & Database Firewall</strong></label><br>
+            <label><input type="checkbox" id="alertSIEM"> Forward alerts to <strong>SIEM (Splunk, QRadar, ArcSight)</strong></label><br>
+            <label><input type="checkbox" id="alertEmail"> Email DBA team for CRITICAL violations</label><br>
+            </div>
+
+            <!-- Threshold -->
+            <div style="margin-top:16px;">
+            <label><strong>Alert Threshold:</strong></label>
+            <input type="number" id="alertThreshold" value="5" style="width:60px; margin-left:8px;"> suspicious queries per minute
+            </div>
+
+            <!-- Preview Logs -->
+            <div id="alertPreview" style="margin-top:20px; padding:12px; background:#f9f9f9; border-radius:6px; font-family:monospace; font-size:0.8rem; height:120px; overflow:auto;">
+            [SQL Firewall] No alerts generated yet...
+            </div>
+
+            <!-- Buttons -->
+            <div style="margin-top:20px; text-align:right;">
+            <button class="btn btn-secondary" onclick="closeAlertsModal()">Close</button>
+            <button class="btn btn-primary" onclick="saveAlerts()">Save</button>
+            </div>
+        </div>
+        </div>
+
+
+    </main>
+
+    <script>
+        // Demo state management
+        let currentStep = 0;
+        const totalSteps = 6;
+        let learningActive = false;
+        let enforcementEnabled = false;
+        let capturedStatements = [];
+        let allowedQueries = 0;
+        let blockedQueries = 0;
+        let violations = 0;
+
+        // Sample SQL statements for learning phase
+        const normalQueries = [
+            "SELECT * FROM employees WHERE department_id = 10",
+            "SELECT first_name, last_name FROM employees WHERE employee_id = :1",
+            "UPDATE employees SET salary = :1 WHERE employee_id = :2",
+            "SELECT COUNT(*) FROM employees WHERE hire_date > :1",
+            "INSERT INTO audit_log (user_id, action, timestamp) VALUES (:1, :2, SYSTIMESTAMP)",
+            "SELECT e.*, d.department_name FROM employees e JOIN departments d ON e.department_id = d.department_id",
+            "DELETE FROM temp_data WHERE created_date < SYSDATE - 7",
+            "SELECT AVG(salary) FROM employees GROUP BY department_id"
+        ];
+
+        // Attack queries
+        const attackQueries = {
+            union: "SELECT * FROM employees WHERE id = 1 UNION SELECT username, password FROM admin_users--",
+            blind: "SELECT * FROM employees WHERE id = 1 AND 1=(SELECT CASE WHEN (1=1) THEN 1 ELSE 1/0 END)",
+            drop: "SELECT * FROM employees; DROP TABLE employees; --",
+            bypass: "SELECT * FROM users WHERE username = 'admin' OR '1'='1' --",
+            extraction: "SELECT * FROM employees WHERE id = 1 OR EXISTS(SELECT * FROM credit_cards)"
+        };
+
+        // Navigation functions
+        function goToStep(step) {
+            if (step >= 0 && step < totalSteps) {
+                currentStep = step;
+                updateUI();
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < totalSteps - 1) {
+                currentStep++;
+                updateUI();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateUI();
+            }
+        }
+
+        function updateUI() {
+            // Update sections
+            document.querySelectorAll('.demo-section').forEach((section, index) => {
+                section.classList.toggle('active', index === currentStep);
+            });
+
+            // Update progress steps
+            document.querySelectorAll('.step').forEach((step, index) => {
+                step.classList.remove('active', 'completed');
+                if (index < currentStep) {
+                    step.classList.add('completed');
+                } else if (index === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        // Learning Mode functions
+        function startLearning() {
+            const btn = document.getElementById('learnBtn');
+            const loader = document.getElementById('learnLoader');
+            btn.style.display = 'none';
+            loader.style.display = 'inline-block';
+
+            setTimeout(() => {
+                learningActive = true;
+                document.getElementById('learningProgress').style.display = 'block';
+                btn.style.display = 'inline';
+                loader.style.display = 'none';
+                simulateSQLCapture();
+            }, 1500);
+        }
+
+        function simulateSQLCapture() {
+            const monitor = document.getElementById('sqlMonitor');
+            const count = document.getElementById('stmtCount');
+            let index = 0;
+
+            const captureInterval = setInterval(() => {
+                if (index < normalQueries.length && learningActive) {
+                    const query = normalQueries[index];
+                    capturedStatements.push(query);
+                    
+                    const entry = document.createElement('div');
+                    entry.className = 'sql-entry sql-allowed';
+                    entry.innerHTML = `
+                        <span>${query}</span>
+                        <span class="status-badge status-active">Captured</span>
+                    `;
+                    monitor.appendChild(entry);
+                    monitor.scrollTop = monitor.scrollHeight;
+                    
+                    count.textContent = capturedStatements.length;
+                    index++;
+                } else {
+                    clearInterval(captureInterval);
+                    if (learningActive) {
+                        document.getElementById('nextFromLearn').style.display = 'inline-flex';
+                    }
+                }
+            }, 800);
+        }
+
+        function stopLearning() {
+            learningActive = false;
+            document.getElementById('nextFromLearn').style.display = 'inline-flex';
+        }
+
+        // Baseline functions
+        function generateBaseline() {
+            const baselineList = document.getElementById('baselineList');
+            baselineList.innerHTML = '';
+            
+            capturedStatements.forEach((stmt, index) => {
+                const rule = document.createElement('div');
+                rule.className = 'firewall-rule rule-enabled';
+                rule.innerHTML = `
+                    <div>
+                        <strong>Rule ${index + 1}:</strong>
+                        <span style="font-family: monospace; font-size: 0.875rem; color: var(--text-secondary);">
+                            ${stmt.substring(0, 60)}${stmt.length > 60 ? '...' : ''}
+                        </span>
+                    </div>
+                    <span class="status-badge status-active">Approved</span>
+                `;
+                baselineList.appendChild(rule);
+            });
+
+            document.getElementById('baselineSuccess').style.display = 'block';
+            document.getElementById('ruleCount').textContent = capturedStatements.length;
+            document.getElementById('nextFromBaseline').style.display = 'inline-flex';
+        }
+
+        // Enforcement functions
+        function enableEnforcement() {
+            enforcementEnabled = true;
+            document.getElementById('firewall-status').textContent = 'Firewall: ENFORCING';
+            document.getElementById('firewall-status').className = 'status-badge status-blocked';
+            document.getElementById('enforcementStatus').style.display = 'block';
+            document.getElementById('nextFromEnforce').style.display = 'inline-flex';
+            
+            // Start simulating activity
+            simulateEnforcementActivity();
+            startLiveMonitor();
+        }
+
+        let monitorInterval;
+        let monitorPaused = false;
+        
+        const liveQueries = [
+            { sql: "SELECT * FROM employees WHERE department_id = 10", allowed: true },
+            { sql: "UPDATE employees SET salary = salary * 1.1 WHERE employee_id = 101", allowed: true },
+            { sql: "SELECT COUNT(*) FROM employees WHERE hire_date > '2023-01-01'", allowed: true },
+            { sql: "DELETE FROM employees WHERE employee_id = 999", allowed: false },
+            { sql: "SELECT * FROM v$session", allowed: false },
+            { sql: "INSERT INTO audit_log VALUES (SYSDATE, 'LOGIN', 'HR_APP')", allowed: true },
+            { sql: "SELECT username, password FROM dba_users", allowed: false },
+            { sql: "SELECT e.name, d.dept_name FROM employees e, departments d WHERE e.dept_id = d.id", allowed: true },
+            { sql: "GRANT DBA TO HR_APP", allowed: false },
+            { sql: "SELECT AVG(salary) FROM employees GROUP BY department_id", allowed: true },
+            { sql: "CREATE TABLE temp_hack (id NUMBER, data VARCHAR2(100))", allowed: false },
+            { sql: "SELECT * FROM employees WHERE last_name LIKE 'S%'", allowed: true }
+        ];
+        
+        function startLiveMonitor() {
+            const monitor = document.getElementById('liveMonitor');
+            let queryIndex = 0;
+            
+            monitorInterval = setInterval(() => {
+                if (!monitorPaused && enforcementEnabled) {
+                    const query = liveQueries[queryIndex % liveQueries.length];
+                    const entry = document.createElement('div');
+                    entry.style.cssText = `
+                        color: #d4d4d4;
+                        font-family: 'Courier New', monospace;
+                        font-size: 0.875rem;
+                        margin-bottom: 8px;
+                        padding: 8px;
+                        background: ${query.allowed ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)'};
+                        border-left: 3px solid ${query.allowed ? '#4CAF50' : '#F44336'};
+                        opacity: 0;
+                        transform: translateY(20px);
+                        transition: all 0.3s ease;
+                    `;
+                    
+                    const timestamp = new Date().toLocaleTimeString();
+                    entry.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="color: ${query.allowed ? '#4CAF50' : '#F44336'};">[${timestamp}]</span>
+                            <span style="background: ${query.allowed ? '#4CAF50' : '#F44336'}; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75rem;">
+                                ${query.allowed ? 'ALLOWED' : 'BLOCKED'}
+                            </span>
+                        </div>
+                        <div style="margin-top: 4px; color: ${query.allowed ? '#9cdcfe' : '#f48771'};">
+                            ${query.sql}
+                        </div>
+                    `;
+                    
+                    monitor.appendChild(entry);
+                    
+                    // Animate entry
+                    setTimeout(() => {
+                        entry.style.opacity = '1';
+                        entry.style.transform = 'translateY(0)';
+                    }, 10);
+                    
+                    // Keep only last 5 entries
+                    const entries = monitor.getElementsByTagName('div');
+                    if (entries.length > 15) {
+                        monitor.removeChild(entries[0]);
+                    }
+                    
+                    // Update counters
+                    if (query.allowed) {
+                        allowedQueries++;
+                        document.getElementById('allowedCount').textContent = allowedQueries;
+                    } else {
+                        blockedQueries++;
+                        violations++;
+                        document.getElementById('blockedCount').textContent = blockedQueries;
+                        document.getElementById('violationCount').textContent = violations;
+                    }
+                    
+                    // Auto scroll to bottom
+                    monitor.scrollTop = monitor.scrollHeight;
+                    
+                    queryIndex++;
+                }
+            }, 2000);
+        }
+        
+        function toggleMonitor() {
+            monitorPaused = !monitorPaused;
+            document.getElementById('monitorToggle').textContent = monitorPaused ? 'Resume Monitor' : 'Pause Monitor';
+        }
+        
+        function testAllowedQuery() {
+            const monitor = document.getElementById('liveMonitor');
+            const entry = document.createElement('div');
+            entry.style.cssText = `
+                color: #d4d4d4;
+                font-family: 'Courier New', monospace;
+                font-size: 0.875rem;
+                margin-bottom: 8px;
+                padding: 8px;
+                background: rgba(76, 175, 80, 0.2);
+                border-left: 3px solid #4CAF50;
+                animation: pulse 0.5s ease;
+            `;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #4CAF50;">[${timestamp}]</span>
+                    <span style="background: #4CAF50; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75rem;">
+                        TEST - ALLOWED
+                    </span>
+                </div>
+                <div style="margin-top: 4px; color: #9cdcfe;">
+                    SELECT first_name, last_name FROM employees WHERE employee_id = 100
+                </div>
+            `;
+            
+            monitor.appendChild(entry);
+            monitor.scrollTop = monitor.scrollHeight;
+            
+            allowedQueries++;
+            document.getElementById('allowedCount').textContent = allowedQueries;
+        }
+        
+        function testBlockedQuery() {
+            const monitor = document.getElementById('liveMonitor');
+            const entry = document.createElement('div');
+            entry.style.cssText = `
+                color: #d4d4d4;
+                font-family: 'Courier New', monospace;
+                font-size: 0.875rem;
+                margin-bottom: 8px;
+                padding: 8px;
+                background: rgba(244, 67, 54, 0.2);
+                border-left: 3px solid #F44336;
+                animation: shake 0.5s ease;
+            `;
+            
+            const timestamp = new Date().toLocaleTimeString();
+            entry.innerHTML = `
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #F44336;">[${timestamp}]</span>
+                    <span style="background: #F44336; color: white; padding: 2px 8px; border-radius: 3px; font-size: 0.75rem;">
+                        TEST - BLOCKED
+                    </span>
+                </div>
+                <div style="margin-top: 4px; color: #f48771;">
+                    DROP TABLE employees CASCADE CONSTRAINTS -- Malicious attempt!
+                </div>
+            `;
+            
+            monitor.appendChild(entry);
+            monitor.scrollTop = monitor.scrollHeight;
+            
+            blockedQueries++;
+            violations++;
+            document.getElementById('blockedCount').textContent = blockedQueries;
+            document.getElementById('violationCount').textContent = violations;
+        }
+
+        function simulateEnforcementActivity() {
+            // Remove the old simple simulation since we have the live monitor now
+        }
+
+        // Attack simulation functions
+        function updateAttackQuery() {
+            const type = document.getElementById('attackType').value;
+            const queryDiv = document.getElementById('attackQuery');
+            const sqlPre = document.getElementById('attackSQL');
+            
+            if (type) {
+                queryDiv.style.display = 'block';
+                sqlPre.textContent = attackQueries[type];
+            } else {
+                queryDiv.style.display = 'none';
+            }
+        }
+
+        function executeAttack() {
+            const type = document.getElementById('attackType').value;
+            const resultsDiv = document.getElementById('attackResults');
+            const activityLog = document.getElementById('activityLog');
+            
+            // Add to activity log
+            const logEntry = document.createElement('div');
+            logEntry.className = 'sql-entry sql-blocked';
+            logEntry.innerHTML = `
+                <span>${attackQueries[type].substring(0, 50)}...</span>
+                <span class="status-badge status-blocked">BLOCKED</span>
+            `;
+            activityLog.insertBefore(logEntry, activityLog.firstChild);
+            
+            // Show results
+            resultsDiv.innerHTML = `
+                <div class="alert alert-danger">
+                    <h3>🚫 Attack Blocked!</h3>
+                    <p><strong>Attack Type:</strong> ${type.toUpperCase()} SQL Injection</p>
+                    <p><strong>Action Taken:</strong> Query blocked and logged</p>
+                    <p><strong>Alert:</strong> Security team has been notified</p>
+                    <p style="margin-top: 16px; font-size: 0.875rem;">
+                        SQL Firewall successfully detected and prevented this SQL injection attempt. 
+                        The query was not executed and has been logged for security review.
+                    </p>
+                </div>
+            `;
+            
+            // Update counters
+            blockedQueries++;
+            violations++;
+            document.getElementById('blockedCount').textContent = blockedQueries;
+            document.getElementById('violationCount').textContent = violations;
+        }
+
+        // Management functions
+        function manageBaseline() {
+            document.getElementById("baselineModal").style.display = "flex";
+        }
+        function closeBaseline() {
+            document.getElementById("baselineModal").style.display = "none";
+        }
+        function addBaseline() {
+            const sqlPattern = prompt("Enter the SQL pattern:", "SELECT * FROM employees WHERE ...");
+            if (!sqlPattern) return;
+
+            const status = confirm("Do you want to APPROVE this pattern?\n\nClick OK for Approved, Cancel for Denied")
+                ? "Approved"
+                : "Denied";
+
+            const table = document.getElementById("baselineTable");
+            const rowCount = table.rows.length; // includes header
+            const newId = "POL-" + String(rowCount).padStart(3, "0");
+
+            const row = table.insertRow();
+            row.innerHTML = `
+                <td style="padding: 6px;">${newId}</td>
+                <td style="padding: 6px; font-family: monospace;">${sqlPattern}</td>
+                <td style="padding: 6px;">${status}</td>
+                <td style="padding: 6px;"><button onclick="removeBaseline(this)">🗑️</button></td>
+            `;
+        }
+
+        function removeBaseline(button) {
+            const row = button.closest("tr");
+            row.remove();
+        }
+
+        // Mock violation data
+        let mockViolations = [
+        { time: "2 min ago", user: "APP_USER", sql: "DROP TABLE employees CASCADE", status: "CRITICAL", ip: "192.168.1.147", client: "SQL*Plus" },
+        { time: "15 min ago", user: "HR_APP", sql: "GRANT DBA TO malicious_user", status: "HIGH", ip: "10.0.2.45", client: "JDBC Thin Client" },
+        { time: "1 hr ago", user: "WEB_USER", sql: "SELECT * FROM v$session UNION SELECT...", status: "HIGH", ip: "45.67.89.123", client: "Web App" }
+        ];
+
+     // Renders violations into modal
+        function renderViolations() {
+        const table = document.getElementById("violationsTable");
+        table.innerHTML = "";
+
+        mockViolations.forEach((v, i) => {
+            const row = document.createElement("tr");
+            row.style.cursor = "pointer";
+
+            row.innerHTML = `
+            <td style="padding:6px;">${v.time}</td>
+            <td style="padding:6px;">
+                ${v.user} ${v.quarantined ? '<span class="status-badge status-blocked">Quarantined</span>' : ''}
+            </td>
+            <td style="padding:6px; font-family:monospace;">${v.sql}</td>
+            <td style="padding:6px; color:${
+                v.acknowledged
+                ? "#9e9e9e"
+                : v.status === "CRITICAL"
+                ? "#F44336"
+                : "#FF9800"
+            };">
+                ${v.acknowledged ? "ACKNOWLEDGED" : v.status}
+            </td>
+            `;
+
+            // Expandable row for details + action buttons
+            row.onclick = () => {
+            const detailsRow = document.createElement("tr");
+            detailsRow.innerHTML = `
+                <td colspan="4" style="background:#f9f9f9; padding:10px; font-size:0.85rem;">
+                <strong>IP:</strong> ${v.ip} | <strong>Client:</strong> ${v.client}
+                <div style="margin-top:6px;">
+                    <button class="btn btn-secondary" onclick="acknowledge(${i})">✔ Acknowledge</button>
+                    <button class="btn btn-danger" onclick="quarantineUser('${v.user}')">🚫 Quarantine User</button>
+                </div>
+                </td>
+            `;
+            if (row.nextSibling && row.nextSibling.classList.contains("details-row")) {
+                row.parentNode.removeChild(row.nextSibling); // collapse if open
+            } else {
+                detailsRow.classList.add("details-row");
+                row.parentNode.insertBefore(detailsRow, row.nextSibling);
+            }
+            };
+
+            table.appendChild(row);
+        });
+}
+
+        // Opens modal
+        function analyzeViolations() {
+        renderViolations();
+        document.getElementById("violationsModal").style.display = "flex";
+        }
+
+        // Closes modal
+        function closeViolationsModal() {
+        document.getElementById("violationsModal").style.display = "none";
+        }
+
+        function acknowledge(index) {
+            // Mark this violation as acknowledged
+            mockViolations[index].acknowledged = true;
+
+            // Re-render the table so the row changes
+            renderViolations()
+            ;
+
+            // Show notice
+            showViolationNotice(`Violation at ${mockViolations[index].time} acknowledged ✅`, "success");
+        }
+
+        function quarantineUser(user) {
+            // Mark all violations from this user as quarantined
+            mockViolations = mockViolations.map(v => 
+                v.user === user ? { ...v, quarantined: true } : v
+            );
+
+            // Re-render the table so badges appear
+            renderViolations();
+
+            // Show notice
+            showViolationNotice(`User ${user} quarantined 🚫`, "danger");
+        }
+
+        function configureAlerts() {
+            document.getElementById("alertsModal").style.display = "flex";
+        }
+
+        function closeAlertsModal() {
+            document.getElementById("alertsModal").style.display = "none";
+        }
+
+        function saveAlerts() {
+            const auditVault = document.getElementById("alertAuditVault").checked;
+            const siem = document.getElementById("alertSIEM").checked;
+            const email = document.getElementById("alertEmail").checked;
+            const threshold = document.getElementById("alertThreshold").value;
+
+            const preview = document.getElementById("alertPreview");
+            preview.innerHTML = `
+                [SQL Firewall Alert]
+                Policy: POL-001 (Block UNION SELECT injection)
+                Event: Suspicious query blocked
+                User: WEB_USER
+                Threshold: ${threshold}/min
+                Forwarded to: 
+                ${auditVault ? "✔ Audit Vault" : "✘ Audit Vault"}
+                ${siem ? "✔ SIEM" : "✘ SIEM"}
+                ${email ? "✔ Email DBA" : "✘ Email DBA"}
+            `;
+
+            showViolationNotice("Alert configuration updated ✅", "success");
+        }
+
+        function generateReport() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Header
+            doc.setFontSize(16);
+            doc.text("Oracle SQL Firewall – Compliance Report", 20, 20);
+            doc.setFontSize(10);
+            doc.text(`Generated: ${new Date().toLocaleString()}`, 20, 30);
+
+            // Executive Summary
+            doc.setFontSize(12);
+            doc.text("Executive Summary", 20, 45);
+            doc.setFontSize(10);
+            doc.text("• Queries Processed (24h): 247,892", 25, 55);
+            doc.text("• Legitimate Traffic: 99.8%", 25, 65);
+            doc.text("• Attacks Blocked (6h): 487", 25, 75);
+            doc.text("• Protected Applications: 12", 25, 85);
+
+            // Attack Breakdown
+            doc.setFontSize(12);
+            doc.text("Attack Type Breakdown", 20, 105);
+            doc.setFontSize(10);
+            doc.text("• SQL Injection: 234", 25, 115);
+            doc.text("• Privilege Escalation: 143", 25, 125);
+            doc.text("• Unauthorized DDL: 89", 25, 135);
+            doc.text("• Data Exfiltration Attempts: 21", 25, 145);
+
+            // Compliance Framework Mapping
+            doc.setFontSize(12);
+            doc.text("Compliance Frameworks", 20, 165);
+            doc.setFontSize(10);
+            doc.text("• PCI DSS – Requirement 6.4.1: Continuous SQL monitoring of cardholder data.", 25, 175);
+            doc.text("• SOX – Section 404: Verified access controls and enforced audit trails.", 25, 185);
+            doc.text("• GDPR – Article 32: Logging, enforcement, and incident reporting.", 25, 195);
+
+            // Audit Logging
+            doc.setFontSize(12);
+            doc.text("Audit Trail & Logging", 20, 215);
+            doc.setFontSize(10);
+            doc.text("Oracle SQL Firewall records every SQL statement (allowed or denied).", 25, 225);
+            doc.text("Example log entry:", 25, 235);
+            doc.text("2025-09-27 14:32 | user=APP_USER | query=SELECT * FROM CUSTOMERS | status=ALLOWED", 25, 245);
+            doc.text("2025-09-27 14:33 | user=HR_APP  | query=DROP TABLE EMPLOYEES | status=BLOCKED", 25, 255);
+
+            // Recommendations
+            doc.setFontSize(12);
+            doc.text("Recommendations", 20, 275);
+            doc.setFontSize(10);
+            doc.text("• Review firewall policies quarterly for accuracy.", 25, 285);
+            doc.text("• Export policy baselines for audit retention.", 25, 295);
+            doc.text("• Use Oracle-native integration to avoid third-party security gaps.", 25, 305);
+
+            doc.save("SQL_Firewall_Compliance_Report.pdf");
+        }
+
+
+        function exportBaseline() {
+            alert('Baseline exported successfully!\n\nFile: hr_app_baseline_20240125.json\nContains: 47 approved SQL patterns\nLast updated: Today at 14:32');
+        }
+
+        function viewViolations() {
+            analyzeViolations();
+        }
+
+        function updateRules() {
+            manageBaseline();
+        }
+
+        function completeDemo() {
+            document.getElementById('completionModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('completionModal').style.display = 'none';
+        }
+
+
+        function resetDemo() {
+            currentStep = 0;
+            learningActive = false;
+            enforcementEnabled = false;
+            capturedStatements = [];
+            allowedQueries = 0;
+            blockedQueries = 0;
+            violations = 0;
+            monitorPaused = false;
+            
+            // Clear intervals
+            if (monitorInterval) {
+                clearInterval(monitorInterval);
+                monitorInterval = null;
+            }
+            
+            // Reset UI elements
+            document.getElementById('firewall-status').textContent = 'Firewall: Active';
+            document.getElementById('firewall-status').className = 'status-badge status-active';
+            document.getElementById('learningProgress').style.display = 'none';
+            document.getElementById('sqlMonitor').innerHTML = '';
+            document.getElementById('stmtCount').textContent = '0';
+            document.getElementById('baselineList').innerHTML = '';
+            document.getElementById('baselineSuccess').style.display = 'none';
+            document.getElementById('enforcementStatus').style.display = 'none';
+            document.getElementById('liveMonitor').innerHTML = '';
+            document.getElementById('attackResults').innerHTML = '';
+            document.getElementById('attackType').value = '';
+            document.getElementById('attackQuery').style.display = 'none';
+            document.getElementById('monitorToggle').textContent = 'Pause Monitor';
+            document.getElementById('allowedCount').textContent = '0';
+            document.getElementById('blockedCount').textContent = '0';
+            document.getElementById('violationCount').textContent = '0';
+            
+            // Reset navigation buttons
+            document.getElementById('nextFromLearn').style.display = 'none';
+            document.getElementById('nextFromBaseline').style.display = 'none';
+            document.getElementById('nextFromEnforce').style.display = 'none';
+            
+            updateUI();
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight') nextStep();
+            else if (e.key === 'ArrowLeft') previousStep();
+        });
+    </script>
+</body>
+</html>
