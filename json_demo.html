@@ -1568,20 +1568,8 @@
                 <div class="panel-header"><span style="color:#fbbf24">📋</span><span>JSON Document View & Visual
                         Demo</span></div>
                 <div class="panel-content">
-                    <div style="margin-top:16px">
-                        <div style="font-size:14px;font-weight:700;color:#374151;margin-bottom:8px">Operation
-                            Visualization</div>
-                        <div id="visualContainer" class="visual-container">
-                            <div class="database">
-                                <div class="db-top"></div>
-                                <div class="db-body"></div>
-                                <div class="db-bottom"></div>
-                                <div class="db-label">Oracle<br>Database</div>
-                            </div>
-                        </div>
-                    </div>
                     <div id="explanationBox"
-                        style="background:#f0f9ff;border-left:4px solid #0284c7;padding:12px;border-radius:4px;margin-top:16px">
+                        style="background:#f0f9ff;border-left:4px solid #0284c7;padding:12px;border-radius:4px;margin-bottom:16px">
                         <div style="font-size:14px;font-weight:700;color:#0c4a6e;margin-bottom:8px;">What is JSON
                             Duality?</div>
                         <div
@@ -1598,6 +1586,18 @@
                             style="font-size:12px;color:#475569;line-height:1.6;margin-bottom:4px;padding-left:16px;position:relative">
                             <span style="position:absolute;left:0;color:#0284c7;font-weight:bold">•</span>
                             <strong>Automatic Sync:</strong> Changes in one view instantly reflect in the other
+                        </div>
+                    </div>
+                    <div style="margin-top:16px">
+                        <div style="font-size:14px;font-weight:700;color:#374151;margin-bottom:8px">Operation
+                            Visualization</div>
+                        <div id="visualContainer" class="visual-container">
+                            <div class="database">
+                                <div class="db-top"></div>
+                                <div class="db-body"></div>
+                                <div class="db-bottom"></div>
+                                <div class="db-label">Oracle<br>Database</div>
+                            </div>
                         </div>
                     </div>
                     <div style="margin-top:16px">
@@ -1695,7 +1695,7 @@
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
             document.getElementById('sqlLog').textContent = '-- Query via relational tables\nSELECT c.customer_id, c.name, c.email, c.status\nFROM customers c\nWHERE c.status = \'active\'\n  AND EXISTS (\n    SELECT 1 FROM orders o\n    WHERE o.customer_id = c.customer_id\n  );\n\n-- Returns: ' + results.length + ' active customers with orders\n-- Automatically synced with JSON view';
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Found ' + results.length + ' matching customers (Bob Johnson excluded)</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Found ' + results.length + ' matching customers. Only active customers with at least one order are included in the report. Inactive records are automatically excluded to keep results current and relevant.</span>';
             document.getElementById('sqlOutput').style.display = 'block';
             let html = '<table class="result-table"><thead><tr><th>customer_id</th><th>Name</th><th>Email</th><th>Status</th><th>Orders</th></tr></thead><tbody>';
             results.forEach(r => { html += '<tr><td><strong>' + r.customer_id + '</strong></td><td>' + r.name + '</td><td>' + r.email + '</td><td>' + r.status + '</td><td>' + r.orders.length + ' order(s)</td></tr>'; });
