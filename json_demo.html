@@ -1691,19 +1691,52 @@
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
             document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Get real-time, report-ready insight directly from customer and order data. Reports reflect the latest updates without requiring separate systems or data copies.';
+
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
+
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
-            document.getElementById('sqlLog').textContent = '-- Query via relational tables\nSELECT c.customer_id, c.name, c.email, c.status\nFROM customers c\nWHERE c.status = \'active\'\n  AND EXISTS (\n    SELECT 1 FROM orders o\n    WHERE o.customer_id = c.customer_id\n  );\n\n-- Returns: ' + results.length + ' active customers with orders\n-- Automatically synced with JSON view';
+            document.getElementById('sqlLog').textContent = 
+                '-- Query via relational tables\n' +
+                'SELECT c.name, c.email, c.status, SUM(o.amount) AS order_total\n' +
+                'FROM customers c\n' +
+                'JOIN orders o ON c.customer_id = o.customer_id\n' +
+                'WHERE c.status = \'active\'\n' +
+                'GROUP BY c.name, c.email, c.status;\n\n' +
+                '-- Returns: ' + results.length + ' active customers with total order value\n' +
+                '-- Automatically synced with JSON view';
+
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Found ' + results.length + ' matching customers. Only active customers with at least one order are included in the report. Inactive records are automatically excluded to keep results current and relevant.</span>';
+            document.getElementById('resultsSummary').innerHTML = 
+                '<span>✅</span><span class="results-text">Found ' + results.length + 
+                ' matching customers. Only active customers with at least one order are included in the report. Inactive records are automatically excluded to keep results current and relevant.</span>';
+
             document.getElementById('sqlOutput').style.display = 'block';
-            let html = '<table class="result-table"><thead><tr><th>customer_id</th><th>Name</th><th>Email</th><th>Status</th><th>Orders</th></tr></thead><tbody>';
-            results.forEach(r => { html += '<tr><td><strong>' + r.customer_id + '</strong></td><td>' + r.name + '</td><td>' + r.email + '</td><td>' + r.status + '</td><td>' + r.orders.length + ' order(s)</td></tr>'; });
+
+            // Build HTML results table
+            let html = '<table class="result-table"><thead><tr><th>Name</th><th>Email</th><th>Status</th><th>Order Total ($)</th></tr></thead><tbody>';
+            results.forEach(r => {
+                const total = r.orders.reduce((sum, o) => sum + o.amount, 0).toFixed(2);
+                html += '<tr><td>' + r.name + '</td><td>' + r.email + '</td><td>' + r.status + '</td><td>$' + total + '</td></tr>';
+            });
             html += '</tbody></table>';
             document.getElementById('queryResults').innerHTML = html;
+
+            // JSON query sample text (unchanged except simplified to remove customer_id)
             document.getElementById('sampleTitle').textContent = 'Query Operation - JSON Query Code';
             document.getElementById('sampleContent').className = 'code-display';
-            document.getElementById('sampleContent').textContent = '-- JSON Query using JSON_VALUE and JSON_EXISTS\nSELECT \n  JSON_VALUE(json_document, \'$.customer_id\') AS customer_id,\n  JSON_VALUE(json_document, \'$.name\') AS name,\n  JSON_VALUE(json_document, \'$.email\') AS email,\n  JSON_VALUE(json_document, \'$.status\') AS status\nFROM customers_collection\nWHERE JSON_VALUE(json_document, \'$.status\') = \'active\'\n  AND JSON_EXISTS(json_document, \'$.orders[0]\');\n\n-- Result: Returns only active customers with orders\n-- Filtered out: Bob Johnson (inactive, no orders)';
+            document.getElementById('sampleContent').textContent = 
+                '-- JSON Query using JSON_VALUE and JSON_EXISTS\n' +
+                'SELECT \n' +
+                '  JSON_VALUE(json_document, \'$.name\') AS name,\n' +
+                '  JSON_VALUE(json_document, \'$.email\') AS email,\n' +
+                '  JSON_VALUE(json_document, \'$.status\') AS status,\n' +
+                '  SUM(JSON_VALUE(json_document, \'$.orders[*].amount\')) AS order_total\n' +
+                'FROM customers_collection\n' +
+                'WHERE JSON_VALUE(json_document, \'$.status\') = \'active\'\n' +
+                '  AND JSON_EXISTS(json_document, \'$.orders[0]\')\n' +
+                'GROUP BY JSON_VALUE(json_document, \'$.name\'), JSON_VALUE(json_document, \'$.email\'), JSON_VALUE(json_document, \'$.status\');\n\n' +
+                '-- Result: Returns active customers with their total order value';
+
             updateRightPanel('query');
             updateDataTable();
         }
@@ -1726,27 +1759,116 @@
             updateRightPanel('duality');
             updateDataTable();
         }
-
+        
         function updateJSON() {
             newCustomerId = null;
-            const customerToUpdate = currentData[updateIndex % currentData.length];
+
+            // Pick a random customer to update
+            const randomIndex = Math.floor(Math.random() * currentData.length);
+            const customerToUpdate = currentData[randomIndex];
             const oldStatus = customerToUpdate.status;
-            customerToUpdate.status = customerToUpdate.status === 'active' ? 'inactive' : 'active';
-            updateIndex++;
+
+            let newOrders = [];
+            let statusChanged = false;
+
+            // Business logic: ensure every update causes a valid change
+            if (customerToUpdate.status === 'inactive' && customerToUpdate.orders.length === 0) {
+                // Reactivate inactive customer with no orders and add some
+                customerToUpdate.status = 'active';
+                statusChanged = true;
+                const addCount = Math.floor(Math.random() * 2) + 1; // 1–2 new orders
+                for (let i = 0; i < addCount; i++) {
+                    const randomProduct = newProducts[Math.floor(Math.random() * newProducts.length)];
+                    const newOrder = { ...randomProduct, order_id: nextOrderId++ };
+                    customerToUpdate.orders.push(newOrder);
+                    newOrders.push(newOrder);
+                }
+            } else if (customerToUpdate.status === 'active') {
+                // Active customers can either add new orders or become inactive
+                if (Math.random() < 0.5) {
+                    // Add 1–2 new orders
+                    const addCount = Math.floor(Math.random() * 2) + 1;
+                    for (let i = 0; i < addCount; i++) {
+                        const randomProduct = newProducts[Math.floor(Math.random() * newProducts.length)];
+                        const newOrder = { ...randomProduct, order_id: nextOrderId++ };
+                        customerToUpdate.orders.push(newOrder);
+                        newOrders.push(newOrder);
+                    }
+                } else {
+                    // Deactivate customer
+                    customerToUpdate.status = 'inactive';
+                    statusChanged = true;
+                }
+            } else if (customerToUpdate.status === 'inactive' && customerToUpdate.orders.length > 0) {
+                // Inactive customers with existing orders can reactivate
+                if (Math.random() < 0.7) {
+                    customerToUpdate.status = 'active';
+                    statusChanged = true;
+                } else {
+                    // Add no orders but keep them inactive — rare, but change still shown
+                    statusChanged = false;
+                }
+            }
+
+            // UI
             document.getElementById('modeIndicator').className = 'mode-indicator update active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '✏️ Modify Customer';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Quickly update customer details to keep every application and report aligned in real time. This ensures accurate and up-to-date information, and reduces the risk of decisions based on outdated records.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent =
+                'Update customer details or add new orders to keep every application and report aligned in real time.';
+
+            // SQL
+            let sqlText = '-- Update via relational table\n';
+            if (statusChanged) {
+                sqlText += 'UPDATE customers\nSET status = \'' + customerToUpdate.status + '\'\n' +
+                        'WHERE customer_id = ' + customerToUpdate.customer_id + ';\n\n' +
+                        '-- ✓ Status changed from "' + oldStatus + '" to "' + customerToUpdate.status + '"\n';
+            }
+            if (newOrders.length > 0) {
+                sqlText += '-- Insert new orders:\n' +
+                    newOrders.map(o =>
+                        'INSERT INTO orders (order_id, customer_id, product, amount)\n' +
+                        'VALUES (' + o.order_id + ', ' + customerToUpdate.customer_id + ', \'' + o.product + '\', ' + o.amount + ');'
+                    ).join('\n') + '\n';
+            }
+            sqlText += '-- ✓ Change automatically synced to JSON view';
+
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
-            document.getElementById('sqlLog').textContent = '-- Update via relational table\nUPDATE customers\nSET status = \'' + customerToUpdate.status + '\'\nWHERE customer_id = ' + customerToUpdate.customer_id + ';\n\n-- ✓ Updated customer #' + customerToUpdate.customer_id + '\n-- ✓ Change automatically synced to JSON view\n-- ✓ Status changed from "' + oldStatus + '" to "' + customerToUpdate.status + '"';
+            document.getElementById('sqlLog').textContent = sqlText;
+
+            // Results summary
+            const newTotal = customerToUpdate.orders.reduce((sum, o) => sum + o.amount, 0).toFixed(2);
+            const actions = [];
+            if (statusChanged) actions.push('status updated');
+            if (newOrders.length > 0) actions.push(newOrders.length + ' new order(s) added');
+            const summaryText = actions.length > 0 ? actions.join(' and ') : 'status verified (no changes needed)';
+
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') status to "' + customerToUpdate.status + '"</span>';
+            document.getElementById('resultsSummary').innerHTML =
+                '<span>✅</span><span class="results-text">Customer #' + customerToUpdate.customer_id +
+                ' (' + customerToUpdate.name + ') ' + summaryText + '. Total order value: $' + newTotal + '.</span>';
+
+            // JSON panel
             document.getElementById('sqlOutput').style.display = 'none';
             document.getElementById('sampleTitle').textContent = 'Update Operation - JSON_TRANSFORM Code';
             document.getElementById('sampleContent').className = 'code-display';
-            document.getElementById('sampleContent').textContent = '-- Update JSON document using JSON_TRANSFORM\nUPDATE customers_dv\nSET data = JSON_TRANSFORM(\n  data,\n  SET \'$.status\' = \'' + customerToUpdate.status + '\'\n)\nWHERE JSON_VALUE(data, \'$.customer_id\') = ' + customerToUpdate.customer_id + ';\n\n-- Updated Document:\n' + JSON.stringify(customerToUpdate, null, 2) + '\n\n-- Status changed from "' + oldStatus + '" to "' + customerToUpdate.status + '"\n-- Changes reflected in both JSON and relational views';
+
+            let jsonText = '-- Update JSON document using JSON_TRANSFORM\n';
+            if (statusChanged) {
+                jsonText += 'UPDATE customers_dv\nSET data = JSON_TRANSFORM(\n  data,\n  SET \'$.status\' = \'' + customerToUpdate.status + '\'\n)\n' +
+                            'WHERE JSON_VALUE(data, \'$.customer_id\') = ' + customerToUpdate.customer_id + ';\n\n';
+            }
+            if (newOrders.length > 0) {
+                jsonText += '-- Added new orders to nested array:\n' + JSON.stringify(newOrders, null, 2) + '\n\n';
+            }
+            jsonText += '-- Updated Document:\n' + JSON.stringify(customerToUpdate, null, 2) +
+                        '\n\n-- Changes reflected in both JSON and relational views';
+
+            document.getElementById('sampleContent').textContent = jsonText;
+
             updateRightPanel('update');
             updateDataTable();
         }
+
 
         function deleteJSON() {
             if (currentData.length <= 1) { alert('Cannot delete - must keep at least one record'); return; }
