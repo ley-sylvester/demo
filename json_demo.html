@@ -1524,8 +1524,7 @@
     </div>
 
     <div class="problem-banner">
-        <span style="font-size:24px">🤔</span>
-        <span class="problem-text">"I need to see customer and order data instantly in both my app and my reports."</span>
+        <span class="problem-text">"Connect every app and report to the same real-time truth so your business runs smarter, not slower."</span>
     </div>
 
     <div class="container">
@@ -1618,7 +1617,7 @@
     </button>
 
     <script>
-        const customersData = [{ customer_id: 1, name: "John Smith", email: "john.smith@email.com", status: "active", orders: [{ order_id: 101, product: "Laptop", amount: 1299.99 }] }, { customer_id: 2, name: "Jane Doe", email: "jane.doe@email.com", status: "active", orders: [{ order_id: 102, product: "Mouse", amount: 29.99 }, { order_id: 103, product: "Keyboard", amount: 89.99 }] }, { customer_id: 3, name: "Bob Johnson", email: "bob.j@email.com", status: "inactive", orders: [] }];
+        const customersData = [{ customer_id: 1, name: "John Smith", email: "john.smith@email.com", status: "active", orders: [{ order_id: 101, product: "Laptop", amount: 1299.99 }] }, { customer_id: 2, name: "Jane Thompson", email: "jane.doe@email.com", status: "active", orders: [{ order_id: 102, product: "Mouse", amount: 29.99 }, { order_id: 103, product: "Keyboard", amount: 89.99 }] }, { customer_id: 3, name: "Bob Johnson", email: "bob.j@email.com", status: "inactive", orders: [] }];
         const newCustomers = [{ name: "Alice Williams", email: "alice.w@email.com", status: "active" }, { name: "Charlie Brown", email: "charlie.b@email.com", status: "active" }, { name: "Diana Prince", email: "diana.p@email.com", status: "active" }, { name: "Eve Martinez", email: "eve.m@email.com", status: "inactive" }];
         const newProducts = [{ product: "Monitor", amount: 299.99 }, { product: "Webcam", amount: 79.99 }, { product: "Headset", amount: 129.99 }, { product: "USB Hub", amount: 39.99 }, { product: "Desk Lamp", amount: 49.99 }];
         let currentData = JSON.parse(JSON.stringify(customersData));
@@ -1690,7 +1689,9 @@
             newCustomerId = null;
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Relational reporting often requires writing multiple joins across several tables, or relying on copied and transformed data, which can slow down analysis. JSON Duality Views provide a single, real-time source of operational data that applications and reports can share, ensuring every report reflects current activity and accurate results.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
+                'Many organizations rely on a mix of different business systems, such as customer portals, mobile apps, and internal reporting tools, that don’t always share information easily. This leads to delays, duplicate data, and decisions made on outdated facts.<br><br>' +
+                'Oracle Duality Views connect these systems to a single real-time source of truth, allowing every team to see the same accurate information. The result is faster insight, fewer errors, and more confident decisions across the business.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
@@ -1708,7 +1709,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = 
                 '<span>✅</span><span class="results-text">Found ' + results.length + 
-                ' matching customers. Only active customers with at least one order are included in the report. Inactive records are automatically excluded to keep results current and relevant.</span>';
+                ' matching customers. The report includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle Duality Views ensure every report reflects real-time data for faster, more confident decisions.</span>';
 
             document.getElementById('sqlOutput').style.display = 'block';
 
@@ -1752,7 +1753,7 @@
             hasDualityView = true;
             document.getElementById('modeIndicator').className = 'mode-indicator duality active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔄 Create Duality View';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'A JSON Duality View unifies relational tables and JSON documents into one live data model. It simplifies development by allowing inserts, updates, and deletes across multiple related tables through a single, document-based view. Unlike regular views that are designed for reading relational data, a JSON Duality View supports both application and analytical access, eliminating data duplication and keeping everything consistent in real time.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Oracle JSON Duality Views bring together application and analytical data in a single, consistent model. This unified approach eliminates duplication, reduces integration complexity, and keeps every system aligned with real-time information—helping businesses move faster, make better decisions, and maintain complete data consistency.';
             document.getElementById('sampleTitle').textContent = 'JSON Duality View Code';
             document.getElementById('sampleContent').className = 'code-display';
             document.getElementById('sampleContent').textContent =
@@ -1784,7 +1785,7 @@
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational Tables';
             document.getElementById('sqlLog').textContent = '-- Relational Table Structure\nCREATE TABLE customers (\n  customer_id NUMBER PRIMARY KEY,\n  name VARCHAR2(100),\n  email VARCHAR2(100),\n  status VARCHAR2(20)\n);\n\nCREATE TABLE orders (\n  order_id NUMBER PRIMARY KEY,\n  customer_id NUMBER REFERENCES customers(customer_id),\n  product VARCHAR2(100),\n  amount NUMBER(10,2)\n);\n\n-- ✓ JSON Duality View maps between JSON docs and tables\n-- ✓ Changes in either view automatically sync\n-- ✓ Use SQL for analytics, JSON for applications';
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">JSON Duality View created successfully!</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">JSON Duality View created successfully! The unified model now connects applications and analytics to the same real-time data, eliminating duplication and ensuring accuracy across the business.</span>';
             document.getElementById('sqlOutput').style.display = 'none';
             document.getElementById('btnDuality').classList.add('completed');
             updateRightPanel('duality');
@@ -1827,7 +1828,7 @@
             document.getElementById('modeIndicator').className = 'mode-indicator update active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '✏️ Modify Customer';
             document.getElementById('modeIndicator').querySelector('.mode-description').textContent =
-                'Modify existing customer details or order values to demonstrate live synchronization between JSON and relational data.';
+                'When customer information changes, such as an address, contact, or account status, updates instantly flow through every connected system. Everyone sees the same accurate details, no matter which application they use. This improves consistency, efficiency, and customer trust.';
 
             // --- SQL side (relational) ---
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
@@ -1879,7 +1880,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             const summaryMsg = newOrders.length > 0
                 ? 'Added first order for customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ')'
-                : 'Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') and adjusted order data';
+                : 'Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') and adjusted order data. The latest changes are instantly reflected across all connected systems. Oracle Duality Views keep data accurate and aligned, ensuring reliable reports, better coordination, and more informed business decisions.';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">' + summaryMsg + '.</span>';
 
             updateRightPanel('update');
@@ -1892,7 +1893,7 @@
             const deletedCustomer = currentData[currentData.length - 1];
             document.getElementById('modeIndicator').className = 'mode-indicator delete active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🗑️ Remove Record';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Deleting related data across multiple tables can be complex and risky. JSON Duality Views let you remove one complete customer record, automatically deleting all related data while preserving data integrity. This prevents inconsistencies, keeps reports current, and supports data cleanup and customer deletion requirements.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Removing a customer or outdated record is instantly reflected across all connected systems, ensuring compliance and clarity. There is no risk of outdated or duplicated information remaining in one system after being deleted in another. This builds trust in data accuracy, simplifies record management, and strengthens compliance with data governance standards.';
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
             document.getElementById('sqlLog').textContent =
             '-- Delete via relational tables\n' +
@@ -1905,7 +1906,7 @@
             '-- ✓ Change automatically reflected in JSON Duality View\n' +
             '-- ✓ Reports and analytics instantly updated';
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer #' + deletedCustomer.customer_id + ' (' + deletedCustomer.name + ')</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer #' + deletedCustomer.customer_id + ' (' + deletedCustomer.name + '). The change is instantly reflected across all connected systems, maintaining accurate records and eliminating outdated information. Oracle Duality Views ensure data integrity, clarity, and compliance throughout the business.</span>';
             document.getElementById('sqlOutput').style.display = 'none';
             document.getElementById('sampleTitle').textContent = 'Delete Operation - JSON Delete Code';
             document.getElementById('sampleContent').className = 'code-display';
@@ -1924,11 +1925,11 @@
             insertIndex++;
             document.getElementById('modeIndicator').className = 'mode-indicator insert active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '➕ Insert New Customer';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Instead of inserting data into multiple tables and managing relationships manually, JSON Duality Views let you add one complete customer document in a single step. This eliminates complex multi-table logic and ensures data stays consistent automatically.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Adding a new customer record instantly makes that information available across all connected systems. Oracle Duality Views eliminate complex data handling, ensuring accuracy, consistency, and faster onboarding. New customer information is immediately available for use across the business.';
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
             document.getElementById('sqlLog').textContent = '-- Insert via relational tables\nINSERT INTO customers (customer_id, name, email, status)\nVALUES (' + newCustomer.customer_id + ', \'' + newCustomer.name + '\', \'' + newCustomer.email + '\', \'' + newCustomer.status + '\');\n\nINSERT INTO orders (order_id, customer_id, product, amount)\nVALUES (' + newCustomer.orders[0].order_id + ', ' + newCustomer.customer_id + ', \'' + newCustomer.orders[0].product + '\', ' + newCustomer.orders[0].amount + ');\n\n-- ✓ Inserted customer #' + newCustomer.customer_id + '\n-- ✓ Automatically available in JSON view';
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Inserted new customer #' + newCustomer.customer_id + ' (' + newCustomer.name + ')</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Inserted new customer #' + newCustomer.customer_id + ' (' + newCustomer.name + '). The record is instantly available across all connected systems, ensuring immediate visibility, accuracy, and data consistency throughout the business.</span>';
             document.getElementById('sampleTitle').textContent = 'Insert Customer - JSON Insert Code';
             document.getElementById('sampleContent').className = 'code-display';
             document.getElementById('sampleContent').textContent = '-- Insert new JSON document via Duality View\nINSERT INTO customers_dv VALUES (\n' + JSON.stringify(newCustomer, null, 2) + '\n);\n\n-- ✓ New customer document inserted\n-- ✓ Automatically mapped to relational tables\n-- ✓ Nested orders array becomes orders table records';
