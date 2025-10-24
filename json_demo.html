@@ -1690,7 +1690,7 @@
             newCustomerId = null;
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Get real-time, report-ready insight directly from customer and order data. Reports reflect the latest updates without requiring separate systems or data copies.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Relational reporting often requires writing multiple joins across several tables, or relying on copied and transformed data, which can slow down analysis. JSON Duality Views provide a single, real-time source of operational data that applications and reports can share, ensuring every report reflects current activity and accurate results.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
@@ -1724,18 +1724,24 @@
             // JSON query sample text (unchanged except simplified to remove customer_id)
             document.getElementById('sampleTitle').textContent = 'Query Operation - JSON Query Code';
             document.getElementById('sampleContent').className = 'code-display';
-            document.getElementById('sampleContent').textContent = 
-                '-- JSON Query using JSON_VALUE and JSON_EXISTS\n' +
-                'SELECT \n' +
-                '  JSON_VALUE(json_document, \'$.name\') AS name,\n' +
-                '  JSON_VALUE(json_document, \'$.email\') AS email,\n' +
-                '  JSON_VALUE(json_document, \'$.status\') AS status,\n' +
-                '  SUM(JSON_VALUE(json_document, \'$.orders[*].amount\')) AS order_total\n' +
-                'FROM customers_collection\n' +
-                'WHERE JSON_VALUE(json_document, \'$.status\') = \'active\'\n' +
-                '  AND JSON_EXISTS(json_document, \'$.orders[0]\')\n' +
-                'GROUP BY JSON_VALUE(json_document, \'$.name\'), JSON_VALUE(json_document, \'$.email\'), JSON_VALUE(json_document, \'$.status\');\n\n' +
-                '-- Result: Returns active customers with their total order value';
+            document.getElementById('sampleContent').textContent =
+            '-- Query via JSON Duality View using JSON_VALUE and JSON_TABLE\n' +
+            'SELECT \n' +
+            '  JSON_VALUE(data, \'$.customerId\') AS customer_id,\n' +
+            '  JSON_VALUE(data, \'$.name\') AS name,\n' +
+            '  JSON_VALUE(data, \'$.email\') AS email,\n' +
+            '  JSON_VALUE(data, \'$.status\') AS status,\n' +
+            '  (SELECT SUM(JSON_VALUE(value, \'$.amount\'))\n' +
+            '     FROM JSON_TABLE(data, \'$.orders[*]\'\n' +
+            '       COLUMNS(value CLOB PATH \'$\')\n' +
+            '     )\n' +
+            '  ) AS total_order_amount\n' +
+            'FROM customers_dv\n' +
+            'WHERE JSON_VALUE(data, \'$.status\') = \'active\';\n\n' +
+            '-- ✓ Returns active customers with their total order value\n' +
+            '-- ✓ Executes directly on JSON documents within the Duality View\n' +
+            '-- ✓ Ensures consistent, real-time data for both apps and reports';
+
 
             updateRightPanel('query');
             updateDataTable();
@@ -1746,10 +1752,35 @@
             hasDualityView = true;
             document.getElementById('modeIndicator').className = 'mode-indicator duality active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔄 Create Duality View';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Create a Duality View that unifies JSON documents and relational tables into one live data model. This eliminates data duplication and allows both developers and business users to work with the same trusted information.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'A JSON Duality View unifies relational tables and JSON documents into one live data model. It simplifies development by allowing inserts, updates, and deletes across multiple related tables through a single, document-based view. Unlike regular views that are designed for reading relational data, a JSON Duality View supports both application and analytical access, eliminating data duplication and keeping everything consistent in real time.';
             document.getElementById('sampleTitle').textContent = 'JSON Duality View Code';
             document.getElementById('sampleContent').className = 'code-display';
-            document.getElementById('sampleContent').textContent = '-- Create JSON Relational Duality View\nCREATE OR REPLACE JSON RELATIONAL DUALITY VIEW customers_dv AS\nSELECT JSON {\n  \'customerId\' : c.customer_id,\n  \'name\' : c.name,\n  \'email\' : c.email,\n  \'status\' : c.status,\n  \'orders\' : [\n    SELECT JSON {\n      \'orderId\' : o.order_id,\n      \'product\' : o.product,\n      \'amount\' : o.amount\n    }\n    FROM orders o\n    WHERE o.customer_id = c.customer_id\n  ]\n}\nFROM customers c;\n\n-- Benefits:\n-- • Access data as JSON documents OR relational tables\n-- • Changes in one view automatically sync to the other\n-- • Combine flexibility of JSON with power of SQL';
+            document.getElementById('sampleContent').textContent =
+            '-- Create JSON Relational Duality View\n' +
+            'CREATE OR REPLACE JSON RELATIONAL DUALITY VIEW customers_dv AS\n' +
+            'SELECT JSON {\n' +
+            '  \'customerId\' : c.customer_id,\n' +
+            '  \'name\'       : c.name,\n' +
+            '  \'email\'      : c.email,\n' +
+            '  \'status\'     : c.status,\n' +
+            '  \'orders\'     : [\n' +
+            '    SELECT JSON {\n' +
+            '      \'orderId\' : o.order_id,\n' +
+            '      \'product\' : o.product,\n' +
+            '      \'amount\'  : o.amount\n' +
+            '    }\n' +
+            '    FROM orders o\n' +
+            '    WHERE o.customer_id = c.customer_id\n' +
+            '  ]\n' +
+            '}\n' +
+            'FROM customers c\n' +
+            'WITH INSERT, UPDATE, DELETE;\n\n' +
+            '-- Benefits:\n' +
+            '-- • Access the same data as JSON documents or relational tables\n' +
+            '-- • Insert, update, and delete across multiple tables through one view\n' +
+            '-- • Changes are automatically synchronized in both directions\n' +
+            '-- • Combines the flexibility of JSON with the reliability of relational data';
+
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational Tables';
             document.getElementById('sqlLog').textContent = '-- Relational Table Structure\nCREATE TABLE customers (\n  customer_id NUMBER PRIMARY KEY,\n  name VARCHAR2(100),\n  email VARCHAR2(100),\n  status VARCHAR2(20)\n);\n\nCREATE TABLE orders (\n  order_id NUMBER PRIMARY KEY,\n  customer_id NUMBER REFERENCES customers(customer_id),\n  product VARCHAR2(100),\n  amount NUMBER(10,2)\n);\n\n-- ✓ JSON Duality View maps between JSON docs and tables\n-- ✓ Changes in either view automatically sync\n-- ✓ Use SQL for analytics, JSON for applications';
             document.getElementById('resultsSummary').style.display = 'block';
@@ -1759,116 +1790,101 @@
             updateRightPanel('duality');
             updateDataTable();
         }
-        
+
         function updateJSON() {
             newCustomerId = null;
 
-            // Pick a random customer to update
+            // Pick a random customer
             const randomIndex = Math.floor(Math.random() * currentData.length);
             const customerToUpdate = currentData[randomIndex];
             const oldStatus = customerToUpdate.status;
 
+            // Start log variables
             let newOrders = [];
             let statusChanged = false;
 
-            // Business logic: ensure every update causes a valid change
-            if (customerToUpdate.status === 'inactive' && customerToUpdate.orders.length === 0) {
-                // Reactivate inactive customer with no orders and add some
-                customerToUpdate.status = 'active';
-                statusChanged = true;
-                const addCount = Math.floor(Math.random() * 2) + 1; // 1–2 new orders
-                for (let i = 0; i < addCount; i++) {
-                    const randomProduct = newProducts[Math.floor(Math.random() * newProducts.length)];
-                    const newOrder = { ...randomProduct, order_id: nextOrderId++ };
-                    customerToUpdate.orders.push(newOrder);
-                    newOrders.push(newOrder);
-                }
-            } else if (customerToUpdate.status === 'active') {
-                // Active customers can either add new orders or become inactive
-                if (Math.random() < 0.5) {
-                    // Add 1–2 new orders
-                    const addCount = Math.floor(Math.random() * 2) + 1;
-                    for (let i = 0; i < addCount; i++) {
-                        const randomProduct = newProducts[Math.floor(Math.random() * newProducts.length)];
-                        const newOrder = { ...randomProduct, order_id: nextOrderId++ };
-                        customerToUpdate.orders.push(newOrder);
-                        newOrders.push(newOrder);
-                    }
-                } else {
-                    // Deactivate customer
-                    customerToUpdate.status = 'inactive';
-                    statusChanged = true;
-                }
-            } else if (customerToUpdate.status === 'inactive' && customerToUpdate.orders.length > 0) {
-                // Inactive customers with existing orders can reactivate
-                if (Math.random() < 0.7) {
-                    customerToUpdate.status = 'active';
-                    statusChanged = true;
-                } else {
-                    // Add no orders but keep them inactive — rare, but change still shown
-                    statusChanged = false;
-                }
+            // Toggle customer status
+            customerToUpdate.status =
+                customerToUpdate.status === 'active' ? 'inactive' : 'active';
+            statusChanged = true;
+
+            // If no orders exist, add one new order (simulate first transaction)
+            if (customerToUpdate.orders.length === 0) {
+                const randomProduct = newProducts[Math.floor(Math.random() * newProducts.length)];
+                const newOrder = { ...randomProduct, order_id: nextOrderId++ };
+                customerToUpdate.orders.push(newOrder);
+                newOrders.push(newOrder);
+            } else {
+                // Otherwise, update one existing order (adjust amount slightly)
+                const randomOrderIndex = Math.floor(Math.random() * customerToUpdate.orders.length);
+                const order = customerToUpdate.orders[randomOrderIndex];
+                const oldAmount = order.amount;
+                order.amount = (order.amount * (1 + (Math.random() * 0.2 - 0.1))).toFixed(2); // ±10%
+                console.log(`Updated order ${order.order_id} amount from ${oldAmount} to ${order.amount}`);
             }
 
-            // UI
+            // --- UI setup ---
             document.getElementById('modeIndicator').className = 'mode-indicator update active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '✏️ Modify Customer';
             document.getElementById('modeIndicator').querySelector('.mode-description').textContent =
-                'Update customer details or add new orders to keep every application and report aligned in real time.';
+                'Modify existing customer details or order values to demonstrate live synchronization between JSON and relational data.';
 
-            // SQL
-            let sqlText = '-- Update via relational table\n';
-            if (statusChanged) {
-                sqlText += 'UPDATE customers\nSET status = \'' + customerToUpdate.status + '\'\n' +
-                        'WHERE customer_id = ' + customerToUpdate.customer_id + ';\n\n' +
-                        '-- ✓ Status changed from "' + oldStatus + '" to "' + customerToUpdate.status + '"\n';
-            }
-            if (newOrders.length > 0) {
-                sqlText += '-- Insert new orders:\n' +
-                    newOrders.map(o =>
-                        'INSERT INTO orders (order_id, customer_id, product, amount)\n' +
-                        'VALUES (' + o.order_id + ', ' + customerToUpdate.customer_id + ', \'' + o.product + '\', ' + o.amount + ');'
-                    ).join('\n') + '\n';
-            }
-            sqlText += '-- ✓ Change automatically synced to JSON view';
-
+            // --- SQL side (relational) ---
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
+            let sqlText =
+                '-- Update via relational table\n' +
+                'UPDATE customers\n' +
+                'SET status = \'' + customerToUpdate.status + '\'\n' +
+                'WHERE customer_id = ' + customerToUpdate.customer_id + ';\n\n';
+
+            if (newOrders.length > 0) {
+                sqlText +=
+                    '-- Insert new order for customer with no previous orders\n' +
+                    'INSERT INTO orders (order_id, customer_id, product, amount)\n' +
+                    'VALUES (' + newOrders[0].order_id + ', ' + customerToUpdate.customer_id + ', \'' +
+                    newOrders[0].product + '\', ' + newOrders[0].amount + ');\n\n';
+            } else {
+                sqlText +=
+                    '-- Adjusted order amount for an existing order\n' +
+                    '-- Changes automatically synced to JSON Duality View\n\n';
+            }
+
+            sqlText += '-- ✓ Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ')\n' +
+                    '-- ✓ Status changed from "' + oldStatus + '" to "' + customerToUpdate.status + '"\n' +
+                    '-- ✓ All updates reflected instantly in JSON Duality View';
             document.getElementById('sqlLog').textContent = sqlText;
 
-            // Results summary
-            const newTotal = customerToUpdate.orders.reduce((sum, o) => sum + o.amount, 0).toFixed(2);
-            const actions = [];
-            if (statusChanged) actions.push('status updated');
-            if (newOrders.length > 0) actions.push(newOrders.length + ' new order(s) added');
-            const summaryText = actions.length > 0 ? actions.join(' and ') : 'status verified (no changes needed)';
+            // --- JSON side (Duality View) ---
+            const updatedJSON = JSON.stringify(customerToUpdate, null, 2);
+            let jsonText =
+                '-- Update JSON document via Duality View\n' +
+                'UPDATE customers_dv\n' +
+                'SET data = JSON_TRANSFORM(\n' +
+                '  data,\n' +
+                '  SET \'$.status\' = \'' + customerToUpdate.status + '\'\n' +
+                ')\n' +
+                'WHERE JSON_VALUE(data, \'$.customerId\') = ' + customerToUpdate.customer_id + ';\n\n';
 
-            document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML =
-                '<span>✅</span><span class="results-text">Customer #' + customerToUpdate.customer_id +
-                ' (' + customerToUpdate.name + ') ' + summaryText + '. Total order value: $' + newTotal + '.</span>';
-
-            // JSON panel
-            document.getElementById('sqlOutput').style.display = 'none';
-            document.getElementById('sampleTitle').textContent = 'Update Operation - JSON_TRANSFORM Code';
-            document.getElementById('sampleContent').className = 'code-display';
-
-            let jsonText = '-- Update JSON document using JSON_TRANSFORM\n';
-            if (statusChanged) {
-                jsonText += 'UPDATE customers_dv\nSET data = JSON_TRANSFORM(\n  data,\n  SET \'$.status\' = \'' + customerToUpdate.status + '\'\n)\n' +
-                            'WHERE JSON_VALUE(data, \'$.customer_id\') = ' + customerToUpdate.customer_id + ';\n\n';
-            }
             if (newOrders.length > 0) {
-                jsonText += '-- Added new orders to nested array:\n' + JSON.stringify(newOrders, null, 2) + '\n\n';
+                jsonText += '-- Added first order for this customer:\n' +
+                            JSON.stringify(newOrders[0], null, 2) + '\n\n';
             }
-            jsonText += '-- Updated Document:\n' + JSON.stringify(customerToUpdate, null, 2) +
-                        '\n\n-- Changes reflected in both JSON and relational views';
 
+            jsonText += '-- Updated Document:\n' + updatedJSON +
+                        '\n\n-- ✓ Changes automatically synchronized between JSON and relational tables';
+            document.getElementById('sampleContent').className = 'code-display';
             document.getElementById('sampleContent').textContent = jsonText;
+
+            // --- Summary ---
+            document.getElementById('resultsSummary').style.display = 'block';
+            const summaryMsg = newOrders.length > 0
+                ? 'Added first order for customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ')'
+                : 'Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') and adjusted order data';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">' + summaryMsg + '.</span>';
 
             updateRightPanel('update');
             updateDataTable();
         }
-
 
         function deleteJSON() {
             if (currentData.length <= 1) { alert('Cannot delete - must keep at least one record'); return; }
@@ -1876,15 +1892,24 @@
             const deletedCustomer = currentData[currentData.length - 1];
             document.getElementById('modeIndicator').className = 'mode-indicator delete active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🗑️ Remove Record';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Securely remove a customer and all related orders while keeping systems accurate and compliant. This prevents inconsistencies, keeps reports current, and supports data cleanup or customer deletion requirements.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Deleting related data across multiple tables can be complex and risky. JSON Duality Views let you remove one complete customer record, automatically deleting all related data while preserving data integrity. This prevents inconsistencies, keeps reports current, and supports data cleanup and customer deletion requirements.';
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
-            document.getElementById('sqlLog').textContent = '-- Delete via relational table\nDELETE FROM customers\nWHERE customer_id = ' + deletedCustomer.customer_id + ';\n\n-- ✓ Deleted customer #' + deletedCustomer.customer_id + '\n-- ✓ Automatically removed from JSON view\n-- ✓ Orders automatically deleted (cascade)';
+            document.getElementById('sqlLog').textContent =
+            '-- Delete via relational tables\n' +
+            'DELETE FROM orders\n' +
+            'WHERE customer_id = ' + deletedCustomer.customer_id + ';\n\n' +
+            'DELETE FROM customers\n' +
+            'WHERE customer_id = ' + deletedCustomer.customer_id + ';\n\n' +
+            '-- ✓ Deleted customer #' + deletedCustomer.customer_id + '\n' +
+            '-- ✓ Related orders cascade deleted\n' +
+            '-- ✓ Change automatically reflected in JSON Duality View\n' +
+            '-- ✓ Reports and analytics instantly updated';
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer #' + deletedCustomer.customer_id + ' (' + deletedCustomer.name + ')</span>';
             document.getElementById('sqlOutput').style.display = 'none';
             document.getElementById('sampleTitle').textContent = 'Delete Operation - JSON Delete Code';
             document.getElementById('sampleContent').className = 'code-display';
-            document.getElementById('sampleContent').textContent = '-- Delete JSON document via Duality View\nDELETE FROM customers_dv\nWHERE JSON_VALUE(data, \'$.customer_id\') = ' + deletedCustomer.customer_id + ';\n\n-- Deleted Document:\n' + JSON.stringify(deletedCustomer, null, 2) + '\n\n-- ✓ Document removed from JSON collection\n-- ✓ Record deleted from relational tables\n-- ✓ Related orders cascade deleted';
+            document.getElementById('sampleContent').textContent = '-- Delete JSON document via Duality View\nDELETE FROM customers_dv\nWHERE JSON_VALUE(data, \'$.customer_id\') = ' + deletedCustomer.customer_id + ';\n\n-- Deleted Document:\n' + JSON.stringify(deletedCustomer, null, 2) + '\n\n-- ✓ Customer document removed from JSON view\n-- ✓ Corresponding record deleted from relational tables\n-- ✓ Related orders automatically cascade deleted\n-- ✓ Application and reports instantly reflect the change';
             currentData.pop();
             updateRightPanel('delete');
             updateDataTable();
@@ -1899,7 +1924,7 @@
             insertIndex++;
             document.getElementById('modeIndicator').className = 'mode-indicator insert active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '➕ Insert New Customer';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Add a new customer once and make the information instantly available across all applications and reports. This improves onboarding efficiency, eliminates duplicate entry, and ensures every team works from the same accurate data.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Instead of inserting data into multiple tables and managing relationships manually, JSON Duality Views let you add one complete customer document in a single step. This eliminates complex multi-table logic and ensures data stays consistent automatically.';
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
             document.getElementById('sqlLog').textContent = '-- Insert via relational tables\nINSERT INTO customers (customer_id, name, email, status)\nVALUES (' + newCustomer.customer_id + ', \'' + newCustomer.name + '\', \'' + newCustomer.email + '\', \'' + newCustomer.status + '\');\n\nINSERT INTO orders (order_id, customer_id, product, amount)\nVALUES (' + newCustomer.orders[0].order_id + ', ' + newCustomer.customer_id + ', \'' + newCustomer.orders[0].product + '\', ' + newCustomer.orders[0].amount + ');\n\n-- ✓ Inserted customer #' + newCustomer.customer_id + '\n-- ✓ Automatically available in JSON view';
             document.getElementById('resultsSummary').style.display = 'block';
