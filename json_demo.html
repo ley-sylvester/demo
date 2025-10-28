@@ -1676,8 +1676,8 @@
             document.getElementById('modeIndicator').className = 'mode-indicator intro active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🧩 JSON Duality Views';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Discover how Oracle Duality Views bring application and analytical data together in real time. You can generate reports, add new customers, modify existing records, or remove outdated data, all from one consistent view.<br><br>' +
-                'Many organizations struggle with disconnected systems that create delays, duplicate data, and outdated information. Oracle Duality Views solve this by keeping every system aligned with the same real-time data. This simplifies operations, improves accuracy, and helps businesses make faster, more confident decisions.';
+                'Discover how Oracle JSON Duality Views bring application and analytical data together in real time. You can generate reports, add new customers, modify existing records, or remove outdated data, all from one consistent view.<br><br>' +
+                'Many organizations struggle with disconnected systems that create delays, duplicate data, and outdated information. Oracle JSON Duality Views solve this by keeping every system aligned with the same real-time data. This simplifies operations, improves accuracy, and helps businesses make faster, more confident decisions.';
         }
 
         function viewJSONData() {
@@ -1702,7 +1702,7 @@
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
                 'Many organizations rely on a mix of different business systems, such as customer portals, mobile apps, and internal reporting tools, that don’t always share information easily. This leads to delays, duplicate data, and decisions made on outdated facts.<br><br>' +
-                'Oracle Duality Views connect these systems to a single real-time source of truth, allowing every team to see the same accurate information. The result is faster insight, fewer errors, and more confident decisions across the business.';
+                'Oracle JSON Duality Views connect these systems to a single real-time source of truth, allowing every team to see the same accurate information. The result is faster insight, fewer errors, and more confident decisions across the business.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
@@ -1720,7 +1720,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = 
                 '<span>✅</span><span class="results-text">Found ' + results.length + 
-                ' matching customers. The report includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle Duality Views ensure every report reflects real-time data for faster, more confident decisions.</span>';
+                ' matching customers. The report includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle JSON Duality Views ensure every report reflects real-time data for faster, more confident decisions.</span>';
 
             document.getElementById('sqlOutput').style.display = 'block';
 
@@ -1891,7 +1891,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             const summaryMsg = newOrders.length > 0
                 ? 'Added first order for customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ')'
-                : 'Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') and adjusted order data. The latest changes are instantly reflected across all connected systems. Oracle Duality Views keep data accurate and aligned, ensuring reliable reports, better coordination, and more informed business decisions.';
+                : 'Updated customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ') and adjusted order data. The latest changes are instantly reflected across all connected systems. Oracle JSON Duality Views keep data accurate and aligned, ensuring reliable reports, better coordination, and more informed business decisions.';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">' + summaryMsg + '.</span>';
 
             updateRightPanel('update');
@@ -1917,7 +1917,7 @@
             '-- ✓ Change automatically reflected in JSON Duality View\n' +
             '-- ✓ Reports and analytics instantly updated';
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer #' + deletedCustomer.customer_id + ' (' + deletedCustomer.name + '). The change is instantly reflected across all connected systems, maintaining accurate records and eliminating outdated information. Oracle Duality Views ensure data integrity, clarity, and compliance throughout the business.</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer #' + deletedCustomer.customer_id + ' (' + deletedCustomer.name + '). The change is instantly reflected across all connected systems, maintaining accurate records and eliminating outdated information. Oracle JSON Duality Views ensure data integrity, clarity, and compliance throughout the business.</span>';
             document.getElementById('sqlOutput').style.display = 'none';
             document.getElementById('sampleTitle').textContent = 'Delete Operation - JSON Delete Code';
             document.getElementById('sampleContent').className = 'code-display';
@@ -1936,7 +1936,7 @@
             insertIndex++;
             document.getElementById('modeIndicator').className = 'mode-indicator insert active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '➕ Insert New Customer';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Adding a new customer record instantly makes that information available across all connected systems. Oracle Duality Views eliminate complex data handling, ensuring accuracy, consistency, and faster onboarding. New customer information is immediately available for use across the business.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Adding a new customer record instantly makes that information available across all connected systems. Oracle JSON Duality Views eliminate complex data handling, ensuring accuracy, consistency, and faster onboarding. New customer information is immediately available for use across the business.';
             document.getElementById('sqlTitle').textContent = '💡 Underlying Relational SQL';
             document.getElementById('sqlLog').textContent = '-- Insert via relational tables\nINSERT INTO customers (customer_id, name, email, status)\nVALUES (' + newCustomer.customer_id + ', \'' + newCustomer.name + '\', \'' + newCustomer.email + '\', \'' + newCustomer.status + '\');\n\nINSERT INTO orders (order_id, customer_id, product, amount)\nVALUES (' + newCustomer.orders[0].order_id + ', ' + newCustomer.customer_id + ', \'' + newCustomer.orders[0].product + '\', ' + newCustomer.orders[0].amount + ');\n\n-- ✓ Inserted customer #' + newCustomer.customer_id + '\n-- ✓ Automatically available in JSON view';
             document.getElementById('resultsSummary').style.display = 'block';
