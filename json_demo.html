@@ -1527,7 +1527,7 @@
     </div>
 
     <div class="problem-banner">
-        <span class="problem-text">"Connect every app and report to the same real-time truth so your business runs smarter, not slower."</span>
+        <span class="problem-text">"Keep every app and report aligned to the same real-time data so your business runs smarter, not slower."</span>
     </div>
 
     <div class="container">
@@ -1542,7 +1542,7 @@
 
         <div class="main-grid">
             <div class="panel">
-                <div class="panel-header"><span>▶</span><span>JSON Collection Data</span></div>
+                <div class="panel-header"><span>▶</span><span>JSON Collection Tables</span></div>
                 <div class="panel-content">
                     <div id="modeIndicator" class="mode-indicator">
                         <div class="mode-title"></div>
@@ -1652,7 +1652,7 @@
 
         function updateRightPanel(mode) {
             const configs = { query: { bg: '#fef3c7', border: '#f59e0b', color: '#78350f', title: 'JSON Query Operations', items: ['Filtered Search: Queries JSON documents for relevant customer data', 'Unified Results: Combines JSON and relational data in one report', 'Real-Time Insight: Reflects the most current information instantly'] }, duality: { bg: '#f3e8ff', border: '#9333ea', color: '#581c87', title: 'JSON Duality View Benefits', items: ['Single Definition: Builds a JSON Duality View that links documents and relational tables', 'Unified Access: Lets developers work in JSON while analysts use SQL on the same data', 'Real-Time Sync: Keeps operational updates and business reports automatically aligned'] }, update: { bg: '#dbeafe', border: '#2563eb', color: '#1e3a8a', title: 'JSON Update Operations', items: ['Targeted Edits: Updates specific customer fields using JSON_TRANSFORM for precise, efficient changes', 'Automatic Mapping: Reflects updates across relational tables defined in the Duality View', 'Real-Time Consistency: Keeps customer and order information synchronized across all systems'] }, insert: { bg: '#ecfdf5', border: '#10b981', color: '#064e3b', title: 'JSON Insert Operations', items: ['Customer Document: Inserts a complete customer profile with nested order details', 'Auto Mapping: Automatically maps JSON fields to relational tables through the Duality View', 'Instant Availability: Makes new customer data immediately accessible for applications and reporting'] }, delete: { bg: '#fef2f2', border: '#dc2626', color: '#7f1d1d', title: 'JSON Delete Operations', items: ['Document Deletion: Removes the targeted customer document and all nested order details', 'Automatic Cascade: Deletes corresponding relational records through the Duality View', 'Data Integrity: Maintains referential consistency and keeps analytics aligned after deletion'] } };
-            const config = configs[mode] || { bg: '#f0f9ff', border: '#0284c7', color: '#0c4a6e', title: 'What is JSON Duality?', items: ['JSON Documents: Support fast, modern applications with flexible, business-ready data structures', 'Relational Tables: Deliver trusted analytics and reporting from the same live data', 'Automatic Sync: Ensure every change is reflected instantly across systems for consistency and accuracy'] };
+            const config = configs[mode] || { bg: '#f0f9ff', border: '#0284c7', color: '#0c4a6e', title: 'JSON Duality Views', items: ['JSON Documents: Support fast, modern applications with flexible, business-ready data structures', 'Relational Tables: Deliver trusted analytics and reporting from the same live data', 'Automatic Sync: Ensure every change is reflected instantly across systems for consistency and accuracy'] };
             const eb = document.getElementById('explanationBox');
             eb.style.background = config.bg;
             eb.style.borderColor = config.border;
@@ -1676,8 +1676,7 @@
             document.getElementById('modeIndicator').className = 'mode-indicator intro active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🧩 JSON Duality Views';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Discover how Oracle JSON Duality Views bring application and analytical data together in real time. You can generate reports, add new customers, modify existing records, or remove outdated data, all from one consistent view.<br><br>' +
-                'Many organizations struggle with disconnected systems that create delays, duplicate data, and outdated information. Oracle JSON Duality Views solve this by keeping every system aligned with the same real-time data. This simplifies operations, improves accuracy, and helps businesses make faster, more confident decisions.';
+                'Discover how Oracle JSON Duality Views bring application and analytical data together in real-time. Generate reports, add customers, edit records, or remove outdated data from one consistent view. Replace disconnected systems with a single real-time source of truth, keeping every app and dashboard aligned so teams decide faster with accurate data.';
         }
 
         function viewJSONData() {
@@ -1701,8 +1700,7 @@
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Many organizations rely on a mix of different business systems, such as customer portals, mobile apps, and internal reporting tools, that don’t always share information easily. This leads to delays, duplicate data, and decisions made on outdated facts.<br><br>' +
-                'Oracle JSON Duality Views provide a single, real-time representation of data within the database, ensuring that every connected application and report accesses the same accurate information. The result is faster insight, fewer errors, and more confident decisions across the business.';
+                'Many organizations rely on multiple business systems that don’t always share data easily, leading to delays, duplication, and decisions based on outdated information. Oracle JSON Duality Views provide a single, real-time representation of data within the database, ensuring that every connected application and report accesses the same accurate information. The result is faster insight, fewer errors, and more confident decisions across the business.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
