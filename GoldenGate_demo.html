@@ -649,11 +649,200 @@
             font-size: 16px;
             color: #4CAF50;
         }
+        
+        /* --- Responsive Navigation --- */
+
+        /* Hide toggle on large screens */
+        .menu-toggle {
+            display: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #333;
+            margin-right: 10px;
+        }
+
+        /* Medium & small screens */
+        @media (max-width: 992px) {
+            .sidebar {
+                position: fixed;
+                top: 50px;
+                left: -280px; /* hidden by default */
+                width: 250px;
+                height: 100%;
+                background: white;
+                border-right: 1px solid #ddd;
+                transition: left 0.3s ease;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+
+            .sidebar.active {
+                left: 0; /* slide in when active */
+            }
+
+            .content {
+                padding: 20px 10px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            /* Stack nav tabs vertically if needed */
+            .nav-tabs {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 1400px) {
+            .topology-diagram {
+                grid-template-columns: 240px 1fr 220px 1fr 220px;
+                gap: 5px;
+            }
+            
+            .database-box {
+                width: 240px;
+                padding: 20px;
+            }
+            
+            .ogg-box {
+                width: 200px;
+                padding: 18px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .topology-diagram {
+                grid-template-columns: 220px 100px 200px 100px 200px;
+                padding: 30px 10px;
+            }
+            
+            .database-box {
+                width: 220px;
+                padding: 18px;
+                font-size: 13px;
+            }
+            
+            .ogg-box {
+                width: 180px;
+                padding: 15px;
+            }
+            
+            .db-title {
+                font-size: 14px;
+            }
+            
+            .db-subtitle {
+                font-size: 11px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .topology-diagram {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+                padding: 20px;
+            }
+            
+            .left-column {
+                display: flex;
+                flex-direction: row;
+                gap: 20px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .horizontal-flow {
+                display: none;
+            }
+            
+            .database-box {
+                width: 280px;
+            }
+            
+            .ogg-box {
+                width: 280px;
+            }
+            
+            .stats-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .left-column {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .database-box,
+            .ogg-box {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .stat-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 8px 10px;
+            }
+            
+            .oracle-logo {
+                font-size: 18px;
+            }
+            
+            .header-title {
+                font-size: 12px;
+                margin-left: 10px;
+            }
+            
+            .nav-tabs {
+                padding: 0 10px;
+                gap: 15px;
+                overflow-x: auto;
+            }
+            
+            .nav-tab {
+                font-size: 12px;
+                white-space: nowrap;
+            }
+            
+            .content {
+                padding: 10px;
+            }
+            
+            .database-box,
+            .ogg-box {
+                padding: 15px;
+            }
+            
+            .db-title {
+                font-size: 14px;
+            }
+            
+            .ogg-title {
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <div style="display: flex; align-items: center;">
+        <div style="display: flex; align-items: center;"> 
+            <div class="menu-toggle" id="menuToggle">☰</div>
             <div class="oracle-logo"> <img src="oracle_o_logo.png" alt="Oracle Logo" style="max-height:40px; height:auto; width:auto;" /></div>
             <div class="header-title">GoldenGate 23.4 - Loan Application & Policy Data Integration</div>
         </div>
@@ -1121,6 +1310,14 @@
                 this.classList.add('active');
             });
         });
+        // Toggle sidebar on smaller screens
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.querySelector('.sidebar');
+
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
     </script>
 </body>
 </html>
