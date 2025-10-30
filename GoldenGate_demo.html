@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oracle GoldenGate - Loan & Policy Data Integration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: white;
+            color: #333;
+            padding: 8px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 50px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .oracle-logo {
+            font-size: 24px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #c74634;
+        }
+
+        .header-title {
+            font-size: 14px;
+            margin-left: 20px;
+            color: #666;
+        }
+
+        .header-right {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: #000000;
+        }
+
+        .nav-tabs {
+            background: #f8f9fa;
+            border-bottom: 1px solid #ddd;
+            padding: 0 20px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-tab {
+            padding: 12px 0;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            font-size: 14px;
+            color: #666;
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            color: #333;
+            border-bottom-color: #c74634;
+            font-weight: 500;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 102px);
+        }
+
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #ddd;
+            padding: 20px 0;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            padding: 0 20px 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4CAF50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin-right: 12px;
+        }
+
+        .user-details h3 {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .user-role {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            cursor: pointer;
+            border-left: 3px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            background: #f8f9fa;
+            border-left-color: #c74634;
+        }
+
+        .menu-item.active {
+            background: #e3f2fd;
+            border-left-color: #2196F3;
+            color: #1976D2;
+        }
+
+        .menu-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            background: #666;
+            border-radius: 2px;
+        }
+
+        .menu-item.active .menu-icon {
+            background: #2196F3;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: #fafafa;
+            overflow-y: auto;
+        }
+
+        .topology-section {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .topology-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .topology-diagram {
+            display: grid;
+            grid-template-columns: 280px 1fr 240px 1fr 240px;
+            grid-template-rows: auto auto auto;
+            align-items: center;
+            padding: 40px 10px;
+            position: relative;
+            gap: 2px;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            grid-column: 1;
+            grid-row: 1 / span 3;
+        }
+
+        .horizontal-flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            min-width: 180px;
+        }
+
+        .horizontal-flow .data-flow-container {
+            width: 100%;
+        }
+
+        .database-box {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            width: 280px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .database-box.azure {
+            border-color: #0078D4;
+            background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);
+        }
+
+        .database-box.oracle {
+            border-color: #c74634;
+            background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+        }
+
+        .db-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+
+        .db-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .azure-icon {
+            background: #0078D4;
+            color: white;
+        }
+
+        .oracle-icon {
+            background: #c74634;
+            color: white;
+        }
+
+        .db-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .db-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .db-info {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .db-info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .db-info-label {
+            font-weight: 500;
+            color: #666;
+        }
+
+        .db-info-value {
+            color: #333;
+            font-family: monospace;
+        }
+
+        .ogg-box {
+            background-color: #558EA4;
+            border-radius: 12px;
+            padding: 25px;
+            color: white;
+            width: 230px;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .ogg-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .ogg-version {
+            font-size: 11px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .ogg-status {
+            background: rgba(255,255,255,0.2);
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #91ed94;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .connection-arrow {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, #4CAF50 0%, #667eea 50%, #4CAF50 100%);
+            transform-origin: left center;
+            animation: dataFlow 2s infinite;
+        }
+
+        @keyframes dataFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .arrow-label {
+            position: absolute;
+            background: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #ddd;
+            white-space: nowrap;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .stat-badge {
+            background: #4CAF50;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .replication-log {
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .log-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .log-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .log-time {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .log-entries {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 12px;
+            border-left: 3px solid #ddd;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 13px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .log-entry.success {
+            border-left-color: #4CAF50;
+        }
+
+        .log-entry.info {
+            border-left-color: #2196F3;
+        }
+
+        .log-entry.warning {
+            border-left-color: #ff9800;
+        }
+
+        .log-timestamp {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 5px;
+        }
+
+        .log-message {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .flow-arrows {
+            position: relative;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .data-flow-container {
+            position: relative;
+            width: 250px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .flow-line {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: #ddd;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .data-packet {
+            position: absolute;
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 10px;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.4);
+            white-space: nowrap;
+            animation: movePacket 3s linear infinite;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .data-packet::before {
+            content: '📦';
+            font-size: 12px;
+        }
+
+        .data-packet.extract {
+            animation: movePacketExtract 3s linear infinite;
+        }
+
+        .data-packet.replicate {
+            animation: movePacketReplicate 3s linear infinite;
+            animation-delay: 1.5s;
+            background: linear-gradient(135deg, #2196F3 0%, #1976D2 100%);
+            box-shadow: 0 2px 8px rgba(33, 150, 243, 0.4);
+        }
+
+        @keyframes movePacketExtract {
+            0% {
+                left: -50px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: calc(100% + 50px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes movePacketReplicate {
+            0% {
+                left: -50px;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: calc(100% + 50px);
+                opacity: 0;
+            }
+        }
+        /* Custom animation for the GoldenGate → Oracle AI Database packet */
+        @keyframes movePacketReplicate3 {
+            0% {
+                left: -80px;             /* start at GoldenGate */
+                opacity: 0;
+                transform: translateX(0);
+            }
+            10% {
+                opacity: 1;
+            }
+            50% {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                left: calc(100% + 50px);
+                opacity: 0;
+            }
+        }
+
+        /* apply only to packet3 */
+        #packet3 {
+            animation: movePacketReplicate3 3s linear infinite;
+        }
+
+        .flow-label {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #666;
+            border: 1px solid #ddd;
+            font-weight: 500;
+            z-index: 10;
+        }
+
+        .flow-direction {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            color: #999;
+            margin-top: 5px;
+        }
+
+        .arrow-icon {
+            font-size: 16px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div style="display: flex; align-items: center;">
+            <div class="oracle-logo"> <img src="oracle_o_logo.png" alt="Oracle Logo" style="max-height:40px; height:auto; width:auto;" /></div>
+            <div class="header-title">GoldenGate 23.4 - Loan Application & Policy Data Integration</div>
+        </div>
+        <div class="header-right">
+            <div class="header-icon">🔔</div>
+            <div class="header-icon">❓</div>
+            <div class="header-icon">👤</div>
+        </div>
+    </div>
+
+    <div class="nav-tabs">
+        <div class="nav-tab active">Replication Overview</div>
+        <div class="nav-tab">Configuration</div>
+        <div class="nav-tab">Monitoring</div>
+        <div class="nav-tab">Performance</div>
+    </div>
+
+    <div class="main-container">
+        <div class="sidebar">
+            <div class="user-info">
+                <div class="user-avatar">⚪</div>
+                <div class="user-details">
+                    <h3>oggadmin</h3>
+                    <div class="user-role">Administrator</div>
+                </div>
+            </div>
+
+            <div class="menu-item active">
+                <div class="menu-icon"></div>
+                Dashboard
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"></div>
+                Extracts
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"></div>
+                Replicats
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"></div>
+                DB Connections
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"></div>
+                Trails
+            </div>
+            <div class="menu-item">
+                <div class="menu-icon"></div>
+                Configuration
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="topology-section">
+                <div class="topology-title">🔄 Data Replication Topology</div>
+                <div class="topology-diagram">
+                    <!-- Left Column: Azure SQL and Oracle DB19c -->
+                    <div class="left-column">
+                        <div class="database-box azure">
+                            <div class="db-header">
+                                <div class="db-icon azure-icon">☁️</div>
+                                <div>
+                                    <div class="db-title">Azure SQL Database</div>
+                                    <div class="db-subtitle">Loan Applications</div>
+                                </div>
+                            </div>
+                            <div class="db-info">
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Location:</span>
+                                    <span class="db-info-value">Azure Cloud</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Server:</span>
+                                    <span class="db-info-value">loan-sql-01</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Database:</span>
+                                    <span class="db-info-value">LoanAppDB</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Tables:</span>
+                                    <span class="db-info-value">12 Active</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Status:</span>
+                                    <span class="db-info-value" style="color: #4CAF50;">● Connected</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="database-box oracle">
+                            <div class="db-header">
+                                <div class="db-icon oracle-icon">🗄️</div>
+                                <div>
+                                    <div class="db-title">Oracle Database 19c</div>
+                                    <div class="db-subtitle">Policy Data</div>
+                                </div>
+                            </div>
+                            <div class="db-info">
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Location:</span>
+                                    <span class="db-info-value">Azure Cloud</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Server:</span>
+                                    <span class="db-info-value">ora-db-prod-01</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Database:</span>
+                                    <span class="db-info-value">POLICYDB</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Tables:</span>
+                                    <span class="db-info-value">8 Active</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Status:</span>
+                                    <span class="db-info-value" style="color: #4CAF50;">● Connected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow 1: Azure SQL to GoldenGate -->
+                    <div class="horizontal-flow" style="grid-column: 2; grid-row: 1; margin-top: 200px;">
+                        <div class="data-flow-container">
+                            <div class="flow-line"></div>
+                            <div class="data-packet extract" id="packet1"></div>
+                            <div class="flow-label">Extract from Azure SQL</div>
+                        </div>
+                    </div>
+
+                    <!-- Flow 2: Oracle DB19c to GoldenGate -->
+                    <div class="horizontal-flow" style="grid-column: 2; grid-row: 3; margin-bottom: 200px;">
+                        <div class="data-flow-container">
+                            <div class="flow-line"></div>
+                            <div class="data-packet extract" id="packet2"></div>
+                            <div class="flow-label">Extract from Oracle DB19c</div>
+                        </div>
+                    </div>
+
+                    <!-- Middle: Oracle GoldenGate -->
+                    <div style="grid-column: 3; grid-row: 1 / span 3; display: flex; align-items: center; justify-content: center;">
+                        <div class="ogg-box">
+                            <div class="ogg-title">Oracle GoldenGate</div>
+                            <div class="ogg-version">Version 23.4.0.24.05</div>
+                            <div style="font-size: 13px; line-height: 1.6;">
+                                <div>Extract: LOAN_EXT</div>
+                                <div>Extract: POLICY_EXT</div>
+                                <div>Replicat: LOAN_AI_REP</div>
+                                <div>Replicat: POLICY_AI_REP</div>
+                            </div>
+                            <div class="ogg-status">
+                                <span class="status-indicator"></span>
+                                <span style="font-size: 13px;">Active Replication</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flow 3: GoldenGate to Oracle AI Database -->
+                    <div class="horizontal-flow" style="grid-column: 4; grid-row: 2;">
+                        <div class="data-flow-container">
+                            <div class="flow-line"></div>
+                            <div class="data-packet replicate" id="packet3"></div>
+                            <div class="flow-label">Apply to Oracle DB26ai</div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Oracle AI Database -->
+                    <div style="grid-column: 5; grid-row: 1 / span 3; display: flex; align-items: center; justify-content: center;">
+                        <div class="database-box oracle">
+                            <div class="db-header">
+                                <div class="db-icon oracle-icon">🤖</div>
+                                <div>
+                                    <div class="db-title">Oracle AI Database</div>
+                                    <div class="db-subtitle">Loan Approval</div>
+                                </div>
+                            </div>
+                            <div class="db-info">
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Location:</span>
+                                    <span class="db-info-value">OCI</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Server:</span>
+                                    <span class="db-info-value">ora-ai-db-01</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Database:</span>
+                                    <span class="db-info-value">LOANAIDB</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">AI Models:</span>
+                                    <span class="db-info-value">3 Active</span>
+                                </div>
+                                <div class="db-info-item">
+                                    <span class="db-info-label">Status:</span>
+                                    <span class="db-info-value" style="color: #4CAF50;">● Connected</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Loan Application Extract (Azure SQL)</div>
+                        <div class="stat-badge">RUNNING</div>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="recordsExtracted">24,567</div>
+                            <div class="stat-label">Records Extracted</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="extractLag">0.3s</div>
+                            <div class="stat-label">Replication Lag</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">152/min</div>
+                            <div class="stat-label">Throughput</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.97%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Policy Data Extract (Oracle DB19c)</div>
+                        <div class="stat-badge">RUNNING</div>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="recordsReplicated">24,543</div>
+                            <div class="stat-label">Records Extracted</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="replicatLag">0.5s</div>
+                            <div class="stat-label">Extract Lag</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">148/min</div>
+                            <div class="stat-label">Extract Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">99.95%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Loan Application Replicat (Oracle DB26ai)</div>
+                        <div class="stat-badge">RUNNING</div>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="loanRecordsApplied">24,550</div>
+                            <div class="stat-label">Records Applied</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="loanApplyLag">0.4s</div>
+                            <div class="stat-label">Apply Lag</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">150/min</div>
+                            <div class="stat-label">Apply Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Conflicts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-header">
+                        <div class="stat-title">Policy Data Replicat (Oracle DB26ai)</div>
+                        <div class="stat-badge">RUNNING</div>
+                    </div>
+                    <div class="stat-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="policyRecordsApplied">24,538</div>
+                            <div class="stat-label">Records Applied</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="policyApplyLag">0.6s</div>
+                            <div class="stat-label">Apply Lag</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">146/min</div>
+                            <div class="stat-label">Apply Rate</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">0</div>
+                            <div class="stat-label">Conflicts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="replication-log">
+                <div class="log-header">
+                    <div class="log-title">📋 Replication Activity Log</div>
+                    <div class="log-time" id="currentTime"></div>
+                </div>
+                <div class="log-entries" id="logEntries"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const logMessages = [
+            { type: 'success', msg: 'Extract LOAN_EXT: Successfully captured 127 loan application records from Azure SQL' },
+            { type: 'info', msg: 'Trail file: Trail sequence 00042 created, size 2.3 MB' },
+            { type: 'success', msg: 'Replicat LOAN_AI_REP: Applied 127 transactions to Oracle DB26ai LOANAIDB' },
+            { type: 'info', msg: 'Table LOAN_APPLICATIONS: 45 INSERT, 12 UPDATE operations replicated' },
+            { type: 'success', msg: 'Extract POLICY_EXT: Captured 89 policy records from Oracle DB19c' },
+            { type: 'info', msg: 'Checkpoint created: CSN 8847293847, Timestamp 2025-09-29 14:23:45' },
+            { type: 'success', msg: 'Replicat POLICY_AI_REP: Applied 89 policy transactions to Oracle DB26ai' },
+            { type: 'info', msg: 'Network latency: Azure to Oracle AI Database: 12ms (Excellent)' },
+            { type: 'success', msg: 'Table POLICY_HOLDERS: Data synchronized successfully, 0 conflicts' },
+            { type: 'info', msg: 'Table CREDIT_SCORES: Real-time sync completed, 0.4s lag' },
+            { type: 'success', msg: 'Extract LOAN_EXT: Monitoring loan tables for changes (APPLICATIONS, BORROWERS, DOCUMENTS)' },
+            { type: 'info', msg: 'Heartbeat signal sent: Extract to Replicat communication verified' },
+            { type: 'success', msg: 'Both replication paths active: Azure→AI DB and Oracle19c→AI DB' }
+        ];
+
+        const loanDataLabels = [
+            'Loan Apps',
+            'Borrower Info',
+            'Credit Scores',
+            'Documents',
+            'Payments',
+            'Collateral'
+        ];
+
+        const policyDataLabels = [
+            'Policy Data',
+            'Policy Holders',
+            'Claims',
+            'Policy Docs',
+            'Premiums',
+            'Coverage'
+        ];
+
+        const combinedDataLabels = [
+            'Loan Apps',
+            'Policy Data',
+            'Borrower Info',
+            'Policy Holders',
+            'Credit Scores',
+            'Claims',
+            'Documents',
+            'Transactions'
+        ];
+
+        let logIndex = 0;
+        let recordCount = 24567;
+        let replicatedCount = 24543;
+        let loanPacketIndex = 0;
+        let policyPacketIndex = 0;
+        let combinedPacketIndex = 0;
+
+        function updatePacketLabel() {
+            const packet1 = document.getElementById('packet1');
+            const packet2 = document.getElementById('packet2');
+            const packet3 = document.getElementById('packet3');
+            
+            if (packet1) {
+                packet1.textContent = loanDataLabels[loanPacketIndex % loanDataLabels.length];
+                loanPacketIndex++;
+            }
+            if (packet2) {
+                packet2.textContent = policyDataLabels[policyPacketIndex % policyDataLabels.length];
+                policyPacketIndex++;
+            }
+            if (packet3) {
+                packet3.textContent = combinedDataLabels[combinedPacketIndex % combinedDataLabels.length];
+                combinedPacketIndex++;
+            }
+        }
+
+        function addLogEntry() {
+            const logEntry = logMessages[logIndex % logMessages.length];
+            const logEntriesDiv = document.getElementById('logEntries');
+            
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${logEntry.type}`;
+            
+            const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });
+            entry.innerHTML = `
+                <div class="log-timestamp">${timestamp}</div>
+                <div class="log-message">${logEntry.msg}</div>
+            `;
+            
+            logEntriesDiv.insertBefore(entry, logEntriesDiv.firstChild);
+            
+            if (logEntriesDiv.children.length > 8) {
+                logEntriesDiv.removeChild(logEntriesDiv.lastChild);
+            }
+            
+            logIndex++;
+        }
+
+        function updateStats() {
+            const increment = Math.floor(Math.random() * 15) + 5;
+            recordCount += increment;
+            replicatedCount += increment;
+            
+            document.getElementById('recordsExtracted').textContent = recordCount.toLocaleString();
+            document.getElementById('recordsReplicated').textContent = replicatedCount.toLocaleString();
+            document.getElementById('loanRecordsApplied').textContent = (recordCount - 17).toLocaleString();
+            document.getElementById('policyRecordsApplied').textContent = (replicatedCount - 5).toLocaleString();
+            
+            const lag1 = (Math.random() * 0.5 + 0.2).toFixed(1);
+            const lag2 = (Math.random() * 0.6 + 0.3).toFixed(1);
+            const lag3 = (Math.random() * 0.5 + 0.3).toFixed(1);
+            const lag4 = (Math.random() * 0.7 + 0.4).toFixed(1);
+            document.getElementById('extractLag').textContent = lag1 + 's';
+            document.getElementById('replicatLag').textContent = lag2 + 's';
+            document.getElementById('loanApplyLag').textContent = lag3 + 's';
+            document.getElementById('policyApplyLag').textContent = lag4 + 's';
+        }
+
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric',
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit',
+                hour12: true 
+            });
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            for(let i = 0; i < 5; i++) {
+                addLogEntry();
+            }
+            
+            updatePacketLabel();
+            
+            setInterval(addLogEntry, 3000);
+            setInterval(updateStats, 3000);
+            setInterval(updatePacketLabel, 3000);
+        });
+
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
