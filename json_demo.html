@@ -1527,7 +1527,7 @@
     </div>
 
     <div class="problem-banner">
-        <span class="problem-text">"Keep every app and report aligned to the same real-time data so your business runs smarter, not slower."</span>
+        <span class="problem-text">"Keep every application aligned to the same real-time data so your business runs smarter, not slower."</span>
     </div>
 
     <div class="container">
@@ -1700,7 +1700,7 @@
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Oracle JSON Duality View let applications and reports access the same live data within the database. JSON data captured by applications is instantly available for relational reporting and analysis, enabling faster, more accurate insights for the business.';
+                'Oracle JSON Duality View lets applications work from the same live data within the database. JSON data captured by applications is immediately available for relational queries and analysis, delivering faster, more accurate insights for the business.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
@@ -1718,7 +1718,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = 
                 '<span>✅</span><span class="results-text">Found ' + results.length + 
-                ' matching customers. The report includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle JSON Duality View ensure every report reflects real-time data for faster, more confident decisions.</span>';
+                ' matching customers. The result includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle JSON Duality View ensure every report reflects real-time data for faster, more confident decisions.</span>';
 
             document.getElementById('sqlOutput').style.display = 'block';
 
