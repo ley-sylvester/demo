@@ -1550,7 +1550,7 @@
 
         <div class="main-grid">
             <div class="panel">
-                <div class="panel-header"><span>▶</span><span>JSON Duality View</span></div>
+                <div class="panel-header"><span>▶</span><span>JSON-Relational Duality View</span></div>
                 <div class="panel-content">
                     <div id="modeIndicator" class="mode-indicator">
                         <div class="mode-title"></div>
@@ -1574,7 +1574,7 @@
             </div>
 
             <div class="panel">
-                <div class="panel-header"><span style="color:#fbbf24">📋</span><span>JSON Duality View & Visual
+                <div class="panel-header"><span style="color:#fbbf24">📋</span><span>JSON-Relational Duality View & Visual
                         Demo</span></div>
                 <div class="panel-content">
                     <div id="explanationBox"
@@ -1690,27 +1690,27 @@
 
         function showVisual(type) {
             const vc = document.getElementById('visualContainer');
-            const baseArchitecture = '<div class="architecture-container"><div class="apps-section"><div class="app-box"><div class="app-icon">📱</div><div class="app-title">Mobile App</div><div class="app-desc">Customer Transactions</div></div><div class="app-box"><div class="app-icon">🌐</div><div class="app-title">Web App</div><div class="app-desc">Online Portal</div></div><div class="app-box"><div class="app-icon">🏢</div><div class="app-title">ERP System</div><div class="app-desc">Business Operations</div></div><div class="app-box"><div class="app-icon">📊</div><div class="app-title">Analytics Tools</div><div class="app-desc">Reporting</div></div></div><div class="middle-section"><div class="dv-box"><div class="dv-title">JSON Duality View</div><div class="dv-subtitle">customers_dv</div></div></div><div class="db-container"><div class="table-box"><div class="table-icon">👥</div><div class="table-name">CUSTOMERS</div></div><div class="table-box"><div class="table-icon">🛒</div><div class="table-name">ORDERS</div></div></div></div>';
+            const baseArchitecture = '<div class="architecture-container"><div class="apps-section"><div class="app-box"><div class="app-icon">📱</div><div class="app-title">Mobile App</div><div class="app-desc">Customer Transactions</div></div><div class="app-box"><div class="app-icon">🌐</div><div class="app-title">Web App</div><div class="app-desc">Online Portal</div></div><div class="app-box"><div class="app-icon">🏢</div><div class="app-title">ERP System</div><div class="app-desc">Business Operations</div></div><div class="app-box"><div class="app-icon">📊</div><div class="app-title">Analytics Tools</div><div class="app-desc">Reporting</div></div></div><div class="middle-section"><div class="dv-box"><div class="dv-title">JSON-Relational Duality View</div><div class="dv-subtitle">customers_dv</div></div></div><div class="db-container"><div class="table-box"><div class="table-icon">👥</div><div class="table-name">CUSTOMERS</div></div><div class="table-box"><div class="table-icon">🛒</div><div class="table-name">ORDERS</div></div></div></div>';
 
             if (type === 'insert') {
-                vc.innerHTML = baseArchitecture + '<div class="data-packet-json" style="left:120px;top:55px">📄 JSON Doc</div><div class="data-packet-split packet-to-customers" style="left:270px;top:100px">👤 Customer</div><div class="data-packet-split packet-to-orders" style="left:270px;top:110px">🛒 Order</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Insert: App → JSON Duality View → Tables</div>';
+                vc.innerHTML = baseArchitecture + '<div class="data-packet-json" style="left:120px;top:55px">📄 JSON Doc</div><div class="data-packet-split packet-to-customers" style="left:270px;top:100px">👤 Customer</div><div class="data-packet-split packet-to-orders" style="left:270px;top:110px">🛒 Order</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Insert: App → JSON-Relational Duality View → Tables</div>';
             } else if (type === 'delete') {
                 vc.innerHTML = baseArchitecture + '<div style="position:absolute;left:270px;top:180px;font-size:80px;filter:drop-shadow(0 4px 12px rgba(239,68,68,.4));z-index:5">🗑️</div><div class="data-packet-delete-request" style="left:120px;top:55px">🗑️ Delete</div><div class="data-packet-delete-cascade" style="left:270px;top:100px">🗑️ Delete</div><div class="data-packet-records-trash" style="left:420px;top:220px">✓ Deleted</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Delete: App → Duality View → Tables → Trash</div>';
             } else if (type === 'update') {
-                vc.innerHTML = baseArchitecture + '<div class="data-packet-update-to-dv" style="left:120px;top:55px">✏️ Update</div><div class="data-packet-update-to-table" style="left:270px;top:100px">✓ Sync</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Update: App → JSON Duality View → CUSTOMERS Table</div>';
+                vc.innerHTML = baseArchitecture + '<div class="data-packet-update-to-dv" style="left:120px;top:55px">✏️ Update</div><div class="data-packet-update-to-table" style="left:270px;top:100px">✓ Sync</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Update: App → JSON-Relational Duality View → CUSTOMERS Table</div>';
             } else if (type === 'query') {
                 vc.innerHTML = baseArchitecture + '<div class="data-packet-doc-mobile" style="left:120px;top:55px">📄 Data</div><div class="data-packet-doc-web" style="left:120px;top:125px">📄 Data</div><div class="data-packet-doc-erp" style="left:120px;top:250px">📊 Data</div><div class="data-packet-doc-analytics" style="left:120px;top:350px">📊 Data</div><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Generate Report: Tables → Duality View | SQL → Applications</div>';
             } else if (type === 'duality') {
-                const baseWithoutDV = '<div class="architecture-container"><div class="apps-section"><div class="app-box"><div class="app-icon">📱</div><div class="app-title">Mobile App</div><div class="app-desc">Customer Transactions</div></div><div class="app-box"><div class="app-icon">🌐</div><div class="app-title">Web App</div><div class="app-desc">Online Portal</div></div><div class="app-box"><div class="app-icon">🏢</div><div class="app-title">ERP System</div><div class="app-desc">Business Operations</div></div><div class="app-box"><div class="app-icon">📊</div><div class="app-title">Analytics Tools</div><div class="app-desc">Reporting</div></div></div><div class="middle-section"><div class="dv-box dv-box-create"><div class="dv-title">JSON Duality View</div><div class="dv-subtitle">customers_dv</div></div></div><div class="db-container"><div class="table-box"><div class="table-icon">👥</div><div class="table-name">CUSTOMERS</div></div><div class="table-box"><div class="table-icon">🛒</div><div class="table-name">ORDERS</div></div></div></div>';
-                vc.innerHTML = baseWithoutDV + '<svg style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1"><line class="dotted-line-customers" x1="460" y1="190" x2="360" y2="100" stroke="#f59e0b" stroke-width="3"/><line class="dotted-line-orders" x1="460" y1="245" x2="360" y2="110" stroke="#f59e0b" stroke-width="3"/></svg><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:14px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Building JSON Duality View from Table Schemas</div>';
+                const baseWithoutDV = '<div class="architecture-container"><div class="apps-section"><div class="app-box"><div class="app-icon">📱</div><div class="app-title">Mobile App</div><div class="app-desc">Customer Transactions</div></div><div class="app-box"><div class="app-icon">🌐</div><div class="app-title">Web App</div><div class="app-desc">Online Portal</div></div><div class="app-box"><div class="app-icon">🏢</div><div class="app-title">ERP System</div><div class="app-desc">Business Operations</div></div><div class="app-box"><div class="app-icon">📊</div><div class="app-title">Analytics Tools</div><div class="app-desc">Reporting</div></div></div><div class="middle-section"><div class="dv-box dv-box-create"><div class="dv-title">JSON-Relational Duality View</div><div class="dv-subtitle">customers_dv</div></div></div><div class="db-container"><div class="table-box"><div class="table-icon">👥</div><div class="table-name">CUSTOMERS</div></div><div class="table-box"><div class="table-icon">🛒</div><div class="table-name">ORDERS</div></div></div></div>';
+                vc.innerHTML = baseWithoutDV + '<svg style="position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:1"><line class="dotted-line-customers" x1="460" y1="190" x2="360" y2="100" stroke="#f59e0b" stroke-width="3"/><line class="dotted-line-orders" x1="460" y1="245" x2="360" y2="110" stroke="#f59e0b" stroke-width="3"/></svg><div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:14px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Building JSON-Relational Duality View from Table Schemas</div>';
             } else {
                 vc.innerHTML = baseArchitecture + '<div style="position:absolute;left:50%;top:20px;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:700;text-shadow:0 2px 4px rgba(0,0,0,.5);white-space:nowrap">Architecture: Apps → Duality View → Database Tables</div>';
             }
         }
 
         function updateRightPanel(mode) {
-            const configs = { query: { bg: '#ccfbf1', border: '#0d9488', color: '#134e4a', title: 'JSON Query Operations', items: ['Filtered Search: Queries JSON documents for relevant customer data', 'Unified Results: Combines JSON and relational data in one report', 'Real-Time Insight: Reflects the most current information instantly'] }, duality: { bg: '#f3e8ff', border: '#9333ea', color: '#581c87', title: 'JSON Duality View Benefits', items: ['Single Definition: Builds a JSON Duality View that links documents and relational tables', 'Unified Access: Lets developers work in JSON while analysts use SQL on the same data', 'Real-Time Sync: Keeps operational updates and business reports automatically aligned'] }, update: { bg: '#ffedd5', border: '#ea580c', color: '#7c2d12', title: 'JSON Update Operations', items: ['Targeted Edits: Updates specific customer fields using JSON_TRANSFORM for precise, efficient changes', 'Automatic Mapping: Reflects updates across relational tables defined in the Duality View', 'Real-Time Consistency: Keeps customer and order information synchronized across all systems'] }, insert: { bg: '#ecfdf5', border: '#10b981', color: '#064e3b', title: 'JSON Insert Operations', items: ['Customer Document: Inserts a complete customer profile with nested order details', 'Auto Mapping: Automatically maps JSON fields to relational tables through the Duality View', 'Instant Availability: Makes new customer data immediately accessible for applications and reporting'] }, delete: { bg: '#fef2f2', border: '#dc2626', color: '#7f1d1d', title: 'JSON Delete Operations', items: ['Document Deletion: Removes the targeted customer document and all nested order details', 'Automatic Cascade: Deletes corresponding relational records through the Duality View', 'Data Integrity: Maintains referential consistency and keeps analytics aligned after deletion'] } };
-            const config = configs[mode] || { bg: '#f0f9ff', border: '#0284c7', color: '#0c4a6e', title: 'JSON Duality View', items: ['JSON Documents: Support fast, modern applications with flexible, business-ready data structures', 'Relational Tables: Deliver trusted analytics and reporting from the same live data', 'Automatic Sync: Ensure every change is reflected instantly across systems for consistency and accuracy'] };
+            const configs = { query: { bg: '#ccfbf1', border: '#0d9488', color: '#134e4a', title: 'JSON Query Operations', items: ['Filtered Search: Queries JSON documents for relevant customer data', 'Unified Results: Combines JSON and relational data in one report', 'Real-Time Insight: Reflects the most current information instantly'] }, duality: { bg: '#f3e8ff', border: '#9333ea', color: '#581c87', title: 'JSON-Relational Duality View Benefits', items: ['Single Definition: Builds a JSON-Relational Duality View that links documents and relational tables', 'Unified Access: Lets developers work in JSON while analysts use SQL on the same data', 'Real-Time Sync: Keeps operational updates and business reports automatically aligned'] }, update: { bg: '#ffedd5', border: '#ea580c', color: '#7c2d12', title: 'JSON Update Operations', items: ['Targeted Edits: Updates specific customer fields using JSON_TRANSFORM for precise, efficient changes', 'Automatic Mapping: Reflects updates across relational tables defined in the Duality View', 'Real-Time Consistency: Keeps customer and order information synchronized across all systems'] }, insert: { bg: '#ecfdf5', border: '#10b981', color: '#064e3b', title: 'JSON Insert Operations', items: ['Customer Document: Inserts a complete customer profile with nested order details', 'Auto Mapping: Automatically maps JSON fields to relational tables through the Duality View', 'Instant Availability: Makes new customer data immediately accessible for applications and reporting'] }, delete: { bg: '#fef2f2', border: '#dc2626', color: '#7f1d1d', title: 'JSON Delete Operations', items: ['Document Deletion: Removes the targeted customer document and all nested order details', 'Automatic Cascade: Deletes corresponding relational records through the Duality View', 'Data Integrity: Maintains referential consistency and keeps analytics aligned after deletion'] } };
+            const config = configs[mode] || { bg: '#f0f9ff', border: '#0284c7', color: '#0c4a6e', title: 'JSON-Relational Duality View', items: ['JSON Documents: Support fast, modern applications with flexible, business-ready data structures', 'Relational Tables: Deliver trusted analytics and reporting from the same live data', 'Automatic Sync: Ensure every change is reflected instantly across systems for consistency and accuracy'] };
             const eb = document.getElementById('explanationBox');
             eb.style.background = config.bg;
             eb.style.borderColor = config.border;
@@ -1732,9 +1732,9 @@
 
         function showIntro() {
             document.getElementById('modeIndicator').className = 'mode-indicator intro active';
-            document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🧩 JSON Duality View';
+            document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🧩 Oracle JSON-Relational Duality View';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Oracle JSON Duality View connects application and analytical data in real time within the same database. It exposes relational data as JSON without duplication, enabling developers to work with JSON and analysts to query the same live data using SQL. In this demo, you will create a Duality View, manage customer records, and generate reports to see how Oracle keeps every system aligned with one consistent view of information.';
+                'JSON-relational duality view connects application and analytical data in real time within the same database. It exposes relational data as JSON without duplication, enabling developers to work with JSON and analysts to query the same live data using SQL. In this demo, you will create a Duality View, manage customer records, and generate reports to see how Oracle keeps every system aligned with one consistent view of information.';
         }
 
         function viewJSONData() {
@@ -1757,14 +1757,14 @@
             document.getElementById('modeIndicator').className = 'mode-indicator query active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔍 Generate Report';
             document.getElementById('modeIndicator').querySelector('.mode-description').innerHTML =
-                'Oracle JSON Duality View lets applications work from the same live data within the database. JSON data captured by applications is immediately available for relational queries and analysis, delivering faster, more accurate insights for the business.';
+                'JSON-relational duality view lets applications work from the same live data within the database. JSON data captured by applications is immediately available for relational queries and analysis, delivering faster, more accurate insights for the business.';
 
             const results = currentData.filter(c => c.status === 'active' && c.orders.length > 0);
 
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = 
                 '<span>✅</span><span class="results-text">Found ' + results.length + 
-                ' matching customers. The result includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, Oracle JSON Duality View ensure every report reflects real-time data for faster, more confident decisions.</span>';
+                ' matching customers. The result includes only active customers with valid orders, providing a clear and accurate view of current business activity. By automatically excluding inactive records, JSON-relational duality view ensure every report reflects real-time data for faster, more confident decisions.</span>';
 
             document.getElementById('sqlOutput').style.display = 'block';
 
@@ -1781,7 +1781,7 @@
             document.getElementById('sampleTitle').textContent = 'Query Operation - JSON Query Code';
             document.getElementById('sampleContent').className = 'code-display';
             document.getElementById('sampleContent').textContent =
-            '-- Query via JSON Duality View using JSON_VALUE and JSON_TABLE\n' +
+            '-- Query via JSON-relational duality view using JSON_VALUE and JSON_TABLE\n' +
             'SELECT \n' +
             '  JSON_VALUE(data, \'$._id\') AS customer_id,\n' +
             '  JSON_VALUE(data, \'$.name\') AS name,\n' +
@@ -1808,8 +1808,8 @@
             hasDualityView = true;
             document.getElementById('modeIndicator').className = 'mode-indicator duality active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🔄 Create Duality View';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Oracle JSON Duality View brings application and analytical data together in a single, consistent model within the database. It eliminates duplication, reduces integration complexity, and keeps every system aligned with real-time information, helping businesses move faster, make better decisions, and maintain complete data consistency.';
-            document.getElementById('sampleTitle').textContent = 'JSON Duality View Code';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'JSON-relational duality view brings application and analytical data together in a single, consistent model within the database. It eliminates duplication, reduces integration complexity, and keeps every system aligned with real-time information, helping businesses move faster, make better decisions, and maintain complete data consistency.';
+            document.getElementById('sampleTitle').textContent = 'JSON-Relational Duality View Code';
             document.getElementById('sampleContent').className = 'code-display';
             document.getElementById('sampleContent').textContent =
             '-- Create JSON Relational Duality View\n' +
@@ -1838,7 +1838,7 @@
             '-- • Combines the flexibility of JSON with the reliability of relational data';
 
             document.getElementById('resultsSummary').style.display = 'block';
-            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">JSON Duality View created successfully! This connects applications and analytics to the same real-time data, eliminating duplication and ensuring accuracy across the business.</span>';
+            document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">JSON-relational duality view created successfully! This connects applications and analytics to the same real-time data, eliminating duplication and ensuring accuracy across the business.</span>';
             
             // Clear data - view is created but no data inserted yet
             currentData = [];
@@ -1913,7 +1913,7 @@
             document.getElementById('resultsSummary').style.display = 'block';
             const summaryMsg = newOrders.length > 0
                 ? 'Added first order for customer #' + customerToUpdate.customer_id + ' (' + customerToUpdate.name + ')'
-                : 'Updated customer ' + ' - ' + customerToUpdate.name + '. Updating customer or order information through a JSON Duality View automatically synchronizes the underlying relational data.';
+                : 'Updated customer ' + ' - ' + customerToUpdate.name + '. Updating customer or order information through a JSON-relational duality view automatically synchronizes the underlying relational data.';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">' + summaryMsg + '.</span>';
 
             updateTableVisibility('update');
@@ -1927,7 +1927,7 @@
             const deletedCustomer = currentData[currentData.length - 1];
             document.getElementById('modeIndicator').className = 'mode-indicator delete active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '🗑️ Remove Record';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Removing a customer or outdated record through a JSON Duality View automatically deletes related records in the relational model. This simplifies data maintenance, ensures integrity, and keeps every application aligned with clean, compliant information.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'Removing a customer or outdated record through a JSON-relational duality view automatically deletes related records in the relational model. This simplifies data maintenance, ensures integrity, and keeps every application aligned with clean, compliant information.';
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Deleted customer ' + ' - ' + deletedCustomer.name + '. All related data has been automatically removed, preserving data integrity and ensuring reports, dashboards, and applications reflect only accurate, up-to-date information.</span>';
             document.getElementById('sqlOutput').style.display = 'none';
@@ -1951,7 +1951,7 @@
             insertIndex++;
             document.getElementById('modeIndicator').className = 'mode-indicator insert active';
             document.getElementById('modeIndicator').querySelector('.mode-title').textContent = '➕ Insert New Customer';
-            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'When new data is added through a JSON Duality View, Oracle automatically maps it to relational tables in real time. This removes the need for manual synchronization and ensures new information is instantly visible across all connected systems.';
+            document.getElementById('modeIndicator').querySelector('.mode-description').textContent = 'When new data is added through a duality View, Oracle automatically maps it to relational tables in real time. This removes the need for manual synchronization and ensures new information is instantly visible across all connected systems.';
             document.getElementById('resultsSummary').style.display = 'block';
             document.getElementById('resultsSummary').innerHTML = '<span>✅</span><span class="results-text">Inserted new customer ' + ' - ' + newCustomer.name + '. The record is instantly available across all connected systems, ensuring immediate visibility, accuracy, and data consistency throughout the business.</span>';
             document.getElementById('sampleTitle').textContent = 'Insert Customer - JSON Insert Code';
