@@ -1173,25 +1173,25 @@
             { type: 'success', msg: 'Replicat POLICY_AI_REP: Applied 89 policy transactions to Oracle DB26ai' },
             { type: 'info', msg: 'Network latency: Azure to Oracle AI Database: 12ms (Excellent)' },
             { type: 'success', msg: 'Table POLICY_HOLDERS: Data synchronized successfully, 0 conflicts' },
-            { type: 'info', msg: 'Table CREDIT_SCORES: Real-time sync completed, 0.4s lag' },
-            { type: 'success', msg: 'Extract IC_EXT: Monitoring interconnect tables for changes (APPLICATIONS, BORROWERS, DOCUMENTS)' },
+            { type: 'info', msg: 'Table GRID_IMPACT: Real-time sync completed, 0.4s lag' },
+            { type: 'success', msg: 'Extract IC_EXT: Monitoring interconnect tables for changes (APPLICATIONS, APPLICANTS, DOCUMENTS)' },
             { type: 'info', msg: 'Heartbeat signal sent: Extract to Replicat communication verified' },
             { type: 'success', msg: 'Both replication paths active: Azure→AI DB and Oracle19c→AI DB' }
         ];
 
         const interconnectDataLabels = [
             'Interconnect Apps',
-            'Borrower Info',
-            'Credit Scores',
+            'Applicant Info',
+            'Grid Impact',
             'Documents',
-            'Payments',
-            'Collateral'
+            'Fees',
+            'Specifications'
         ];
 
         const policyDataLabels = [
             'Policy Data',
             'Policy Holders',
-            'Claims',
+            'Permits',
             'Policy Docs',
             'Premiums',
             'Coverage'
@@ -1200,10 +1200,10 @@
         const combinedDataLabels = [
             'Interconnect Apps',
             'Policy Data',
-            'Borrower Info',
+            'Applicant Info',
             'Policy Holders',
-            'Credit Scores',
-            'Claims',
+            'Grid Impact',
+            'Permits',
             'Documents',
             'Transactions'
         ];
