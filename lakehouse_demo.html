@@ -1153,6 +1153,23 @@
             rafId = requestAnimationFrame(tick);
         }
 
+        function hideAIRoad() {
+            document.getElementById("laneAI").style.display = "none";
+            document.getElementById("roadToAI").style.display = "none";
+            document.querySelectorAll(".road-inner").forEach(r => {
+                r.style.display = "none";
+            });
+        }
+
+        function showAIRoad() {
+            document.getElementById("laneAI").style.display = "";
+            document.getElementById("roadToAI").style.display = "";
+            document.querySelectorAll(".road-inner").forEach(r => {
+                r.style.display = "";
+            });
+        }
+
+
         // Demo functions
         function showProblem() {
             hideIntro();
@@ -1173,6 +1190,7 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
+            showAIRoad();
 
             barrier.classList.add('on');
             ai.classList.remove('on');
@@ -1205,6 +1223,7 @@
             hideIntro();
             setActiveButton('btnCatalog');
             currentDemo = 'catalog';
+            hideAIRoad();
 
             updateModeIndicator('catalog', '🔍 Autonomous AI Database Catalog', 
                 'Provides a unified view of metadata across platforms by connecting to existing catalogs such as Databricks Unity, AWS Glue, and Snowflake Polaris, without replacing them.');
@@ -1231,7 +1250,7 @@
             expressLaneGroup.style.opacity = 0;
             scaleLaneGroup.style.opacity = 0;
             databaseIcon.style.opacity = 0;
-            externalCatalogs.style.opacity = 1;
+            externalCatalogs.style.opacity = 0;
             objectStorage.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
@@ -1241,6 +1260,7 @@
             addCar('A', 'teal', 'Unity', 0.0034, 0.15);
             addCar('B', 'teal', 'Glue', 0.0031, 0.55);
             addCar('C', 'teal', 'Polaris', 0.0030, 0.85);
+            
 
             startAnim();
         }
@@ -1248,6 +1268,7 @@
         function showConnect() {
             hideIntro();
             setActiveButton('btnConnect');
+            showAIRoad();
             currentDemo = 'connect';
 
             updateModeIndicator('connect', '🔗 Apache Iceberg Integration', 
@@ -1291,6 +1312,7 @@
         function showAnalyze() {
             hideIntro();
             setActiveButton('btnAnalyze');
+            showAIRoad();
             currentDemo = 'analyze';
 
             updateModeIndicator('analyze', '📊 AI Inside the Database', 
@@ -1335,6 +1357,7 @@
         function showScale() {
             hideIntro();
             setActiveButton('btnScale');
+            showAIRoad();
             currentDemo = 'scale';
 
             updateModeIndicator('scale', '🚀 Auto Scale: Data Lake Accelerator & Table Cache', 
