@@ -793,9 +793,8 @@
                                 <!-- Barrier (scene 0 only) -->
                                 <g class="barrier" id="barrier">
                                     <rect x="195" y="195" width="50" height="60" fill="#6b7280" stroke="#4b5563" stroke-width="2" rx="6"/>
-                                    <text x="220" y="215" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">SILO</text>
-                                    <text x="220" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="rgba(255,255,255,.85)">BARRIER</text>
-                                    <text x="220" y="243" text-anchor="middle" font-size="8" font-weight="700" fill="rgba(255,255,255,.75)">Blocked</text>
+                                    <text x="220" y="220" text-anchor="middle" font-size="11" font-weight="900" fill="#fff">DATA</text>
+                                    <text x="220" y="235" text-anchor="middle" font-size="11" font-weight="900" fill="rgba(255,255,255,.85)">SILOS</text>
                                 </g>
 
                                 <!-- Data sources (left) -->
@@ -872,20 +871,8 @@
 
                                 <!-- Database icon (right side, for Scale scene) -->
                                 <g id="databaseIcon" style="opacity: 0; transition: opacity 420ms ease;">
-                                    <!-- Database cylinder stack -->
-                                    <ellipse cx="680" cy="205" rx="30" ry="8" fill="#ffffff" opacity="0.3"/>
-                                    <rect x="650" y="205" width="60" height="12" fill="#ffffff" opacity="0.3"/>
-                                    <ellipse cx="680" cy="217" rx="30" ry="8" fill="#ffffff" opacity="0.5"/>
-                                    <rect x="650" y="217" width="60" height="12" fill="#ffffff" opacity="0.5"/>
-                                    <ellipse cx="680" cy="229" rx="30" ry="8" fill="#ffffff" opacity="0.7"/>
-                                    <rect x="650" y="229" width="60" height="12" fill="#ffffff" opacity="0.7"/>
-                                    <ellipse cx="680" cy="241" rx="30" ry="8" fill="#ffffff"/>
                                     
-                                    <!-- Top ellipse -->
-                                    <ellipse cx="680" cy="205" rx="30" ry="8" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-                                    
-                                    <!-- Label -->
-                                    <text x="680" y="257" text-anchor="middle" font-size="10" font-weight="900" fill="#ffffff">Isolated</text>
+
                                 </g>
 
                                 <!-- External Catalogs (for Catalog scene) -->
@@ -1190,7 +1177,7 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
-            showAIRoad();
+            hideAIRoad();
 
             barrier.classList.add('on');
             ai.classList.remove('on');
@@ -1210,11 +1197,6 @@
 
             [laneA, laneB, laneC].forEach(l => l.classList.add('glow-gray'));
 
-            addCar('A', 'gray', 'stuck', 0.0032, 0.05);
-            addCar('B', 'gray', 'stuck', 0.0030, 0.45);
-            addCar('C', 'gray', 'stuck', 0.0028, 0.80);
-            addCar('HUB', 'gray', 'blocked', 0.0040, 0.10);
-            addCar('HUB', 'gray', 'blocked', 0.0046, 0.55);
 
             startAnim();
         }
