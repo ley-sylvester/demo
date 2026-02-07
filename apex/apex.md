@@ -13,7 +13,7 @@ APEX applications are metadata-driven and run directly on Oracle Database, makin
 ## Try the Interactive Demo
 
 ```html
-<iframe src="../apex_ai.html" width="100%" height="1100px" frameborder="0"
+<iframe src="apex_ai.html" width="100%" height="1100px" frameborder="0"
 style="min-width: 100%; min-height: 1100px; height: 1100px !important;"></iframe>
 ```
 
