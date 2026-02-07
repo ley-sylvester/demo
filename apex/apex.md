@@ -29,8 +29,7 @@ style="min-width: 100%; min-height: 1100px; height: 1100px !important;"></iframe
 - Refine and extend applications using standard APEX tools
 - Integrate AI capabilities such as conversational experiences, text generation, vector search, and RAG
 
-
-## Key Benefits:
+### Key Benefits:
 
 - Faster application delivery
 - Reduced development backlogs
