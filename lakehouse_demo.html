@@ -539,6 +539,27 @@
 
         .barrier.on { opacity: 1; }
 
+        .gcpdata {
+            opacity: 0;
+            transition: opacity 420ms ease;
+        }
+
+        .gcpdata.on { opacity: 1; }
+
+        .azuredata {
+            opacity: 0;
+            transition: opacity 420ms ease;
+        }
+
+        .azuredata.on { opacity: 1; }
+
+        .awsdata {
+            opacity: 0;
+            transition: opacity 420ms ease;
+        }
+
+        .awsdata.on { opacity: 1; }
+
         .ai {
             opacity: 0;
             transition: opacity 420ms ease;
@@ -745,7 +766,161 @@
                                         <stop offset="0%" stop-color="#0d9488"/>
                                         <stop offset="100%" stop-color="#0f766e"/>
                                     </linearGradient>
+                                    
+                                    <!-- Animated arrow marker -->
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                                        <polygon points="0 0, 10 3, 0 6" fill="#0d9488" />
+                                    </marker>
                                 </defs>
+
+                                <!-- Open Data Access Diagram -->
+                                <g id="openDataDiagram" style="opacity: 0; transition: opacity 600ms ease;">
+                                    <!-- Oracle Autonomous AI Lakehouse at top -->
+                                    <g transform="translate(400, 80)">
+                                        <!-- Database cylinder -->
+                                        <ellipse cx="0" cy="-15" rx="80" ry="20" fill="#0d9488" opacity="0.9"/>
+                                        <rect x="-80" y="-15" width="160" height="40" fill="#0d9488" opacity="0.9"/>
+                                        <ellipse cx="0" cy="25" rx="80" ry="20" fill="#0f766e"/>
+                                        
+                                        <!-- Label -->
+                                        <text x="0" y="-13" text-anchor="middle" font-size="13" font-weight="bold" fill="white">Oracle Autonomous</text>
+                                        <text x="0" y="1" text-anchor="middle" font-size="13" font-weight="bold" fill="white">AI Lakehouse</text>
+                                    </g>
+                                    
+                                    <!-- Neutral dashed connector line (no arrows) -->
+                                    <line x1="400" y1="120" x2="400" y2="200" stroke="#94a3b8" stroke-width="2" stroke-dasharray="6,4" opacity="0.6">
+                                        <!-- Subtle opacity pulse on connector -->
+                                        <animate attributeName="opacity" values="0.6;0.4;0.6" dur="3s" repeatCount="indefinite"/>
+                                    </line>
+                                    
+                                    <!-- Label for access relationship -->
+                                    <text x="420" y="155" font-size="11" font-weight="600" fill="#cccccc">Direct Access</text>
+                                     <text x="435" y="170" font-size="10" fill="#cccccc">(In-Place)</text>
+                                    
+                                    <!-- Iceberg badge -->
+                                    <g transform="translate(400, 220)">
+                                        <rect x="-65" y="-22" width="130" height="44" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="2" rx="8">
+                                            <!-- Gentle pulsing opacity - like a heartbeat showing active connection -->
+                                            <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
+                                        </rect>
+                                        <text x="0" y="-2" text-anchor="middle" font-size="13" font-weight="bold" fill="#0369a1">APACHE ICEBERG</text>
+                                        <text x="0" y="13" text-anchor="middle" font-size="10" fill="#075985">Open Table Format</text>
+                                    </g>
+                                    
+                                    <!-- Neutral connector lines to storage (no arrows) -->
+                                    <line x1="340" y1="260" x2="220" y2="320" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,3" opacity="0.5">
+                                        <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" begin="0.5s" repeatCount="indefinite"/>
+                                    </line>
+                                    <line x1="400" y1="260" x2="400" y2="320" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,3" opacity="0.5">
+                                        <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" begin="1s" repeatCount="indefinite"/>
+                                    </line>
+                                    <line x1="460" y1="260" x2="580" y2="320" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="4,3" opacity="0.5">
+                                        <animate attributeName="opacity" values="0.5;0.3;0.5" dur="3s" begin="1.5s" repeatCount="indefinite"/>
+                                    </line>
+                                    
+                                    <!-- Object Storage Icons (Data Lake) -->
+                                    <!-- S3 -->
+                                    <g transform="translate(220, 340)">
+                                        <rect x="-40" y="-20" width="80" height="60" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="4"/>
+                                        <rect x="-25" y="-5" width="15" height="15" fill="#f97316" opacity="0.7"/>
+                                        <rect x="-5" y="-5" width="15" height="15" fill="#f97316" opacity="0.5"/>
+                                        <rect x="15" y="-5" width="15" height="15" fill="#f97316" opacity="0.3"/>
+                                        <text x="0" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Amazon S3</text>
+                                    </g>
+                                    
+                                    <!-- Azure Blob -->
+                                    <g transform="translate(400, 340)">
+                                        <rect x="-40" y="-20" width="80" height="60" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="4"/>
+                                        <rect x="-20" y="-8" width="40" height="8" fill="#0078d4" rx="2"/>
+                                        <rect x="-20" y="2" width="40" height="8" fill="#0078d4" rx="2" opacity="0.7"/>
+                                        <rect x="-20" y="12" width="40" height="8" fill="#0078d4" rx="2" opacity="0.4"/>
+                                        <text x="0" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Azure Blob</text>
+                                    </g>
+                                    
+                                    <!-- GCS -->
+                                    <g transform="translate(580, 340)">
+                                        <rect x="-40" y="-20" width="80" height="60" fill="#f8fafc" stroke="#cbd5e1" stroke-width="2" rx="4"/>
+                                        <circle cx="0" cy="0" r="18" fill="none" stroke="#4285f4" stroke-width="3"/>
+                                        <circle cx="0" cy="0" r="10" fill="none" stroke="#ea4335" stroke-width="2"/>
+                                        <text x="0" y="28" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Google Cloud</text>
+                                    </g>
+                                    
+                                    <!-- Annotation at bottom -->
+                                    <rect x="170" y="405" width="460" height="30" fill="#f1f5f9" rx="6"/>
+                                    <text x="400" y="420" text-anchor="middle" font-size="11" font-weight="600" fill="#0f766e">Queries execute in the lakehouse</text>
+                                    <text x="400" y="432" text-anchor="middle" font-size="10" fill="#475569">Data accessed in place • No data movement</text>
+                                </g>
+
+                                <!-- In-Database AI Diagram -->
+                                <g id="inDatabaseAIDiagram" style="opacity: 0; transition: opacity 600ms ease;">
+                                    <!-- Outer boundary - Lakehouse container -->
+                                    <rect x="150" y="80" width="500" height="310" fill="none" stroke="#0d9488" stroke-width="3" stroke-dasharray="8,4" rx="12"/>
+                                    
+                                    <!-- Boundary label -->
+                                    <text x="400" y="65" text-anchor="middle" font-size="15" font-weight="bold" fill="#f3f3f3">AI executes inside the Autonomous AI Lakehouse</text>
+                                    
+                                    <!-- Database cylinder in center -->
+                                    <g transform="translate(400, 220)">
+                                        <ellipse cx="0" cy="-20" rx="60" ry="15" fill="#0d9488" opacity="0.3"/>
+                                        <rect x="-60" y="-20" width="120" height="35" fill="#ffffff" opacity="0.3"/>
+                                        <ellipse cx="0" cy="15" rx="60" ry="15" fill="#0d9488" opacity="0.5"/>
+                                        
+                                        <!-- Pulsing ring around database -->
+                                        <circle cx="0" cy="0" r="70" fill="none" stroke="#0d9488" stroke-width="2" opacity="0.4">
+                                            <animate attributeName="r" values="70;80;70" dur="3s" repeatCount="indefinite"/>
+                                            <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+                                        </circle>
+                                        
+                                        <text x="0" y="2" text-anchor="middle" font-size="11" font-weight="600" fill="#0f766e">SQL & AI Engine</text>
+                                    </g>
+                                    
+                                    <!-- AI Capability Boxes - clearly inside the boundary -->
+                                    <!-- Select AI - Left -->
+                                    <g transform="translate(220, 150)">
+                                        <rect x="-50" y="-30" width="100" height="60" fill="#dbeafe" stroke="#3b82f6" stroke-width="2" rx="8">
+                                            <!-- Gentle pulsing glow -->
+                                            <animate attributeName="stroke-width" values="2;3;2" dur="3s" repeatCount="indefinite"/>
+                                        </rect>
+                                        <!-- Subtle floating effect on the whole group -->
+                                        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="4s" repeatCount="indefinite" additive="sum"/>
+                                        
+                                        <text x="0" y="-8" text-anchor="middle" font-size="13" font-weight="bold" fill="#1e40af">Select AI</text>
+                                        <text x="0" y="8" text-anchor="middle" font-size="10" fill="#3b82f6">Natural Language</text>
+                                        <text x="0" y="20" text-anchor="middle" font-size="10" fill="#3b82f6">to SQL</text>
+                                    </g>
+                                    
+                                    <!-- Vector Search - Top Right -->
+                                    <g transform="translate(580, 150)">
+                                        <rect x="-50" y="-30" width="100" height="60" fill="#f3e8ff" stroke="#a855f7" stroke-width="2" rx="8">
+                                            <!-- Gentle pulsing glow with offset -->
+                                            <animate attributeName="stroke-width" values="2;3;2" dur="3s" begin="1s" repeatCount="indefinite"/>
+                                        </rect>
+                                        <!-- Subtle floating effect with offset timing -->
+                                        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="4s" begin="1.3s" repeatCount="indefinite" additive="sum"/>
+                                        
+                                        <text x="0" y="-8" text-anchor="middle" font-size="13" font-weight="bold" fill="#7e22ce">Vector Search</text>
+                                        <text x="0" y="8" text-anchor="middle" font-size="10" fill="#a855f7">Semantic</text>
+                                        <text x="0" y="20" text-anchor="middle" font-size="10" fill="#a855f7">Similarity</text>
+                                    </g>
+                                    
+                                    <!-- OML - Bottom -->
+                                    <g transform="translate(400, 350)">
+                                        <rect x="-70" y="-30" width="140" height="60" fill="#d1fae5" stroke="#10b981" stroke-width="2" rx="8">
+                                            <!-- Gentle pulsing glow with different offset -->
+                                            <animate attributeName="stroke-width" values="2;3;2" dur="3s" begin="2s" repeatCount="indefinite"/>
+                                        </rect>
+                                        <!-- Subtle floating effect with different offset timing -->
+                                        <animateTransform attributeName="transform" type="translate" values="0,0; 0,-3; 0,0" dur="4s" begin="2.7s" repeatCount="indefinite" additive="sum"/>
+                                        
+                                        <text x="0" y="-8" text-anchor="middle" font-size="13" font-weight="bold" fill="#065f46">In-Database ML</text>
+                                        <text x="0" y="8" text-anchor="middle" font-size="10" fill="#10b981">Train & run ML models</text>
+                                        <text x="0" y="20" text-anchor="middle" font-size="10" fill="#10b981">inside the lakehouse</text>
+                                    </g>
+                                    
+                                    <!-- Governance footer -->
+                                    <rect x="170" y="395" width="460" height="25" fill="#f1f5f9" rx="4"/>
+                                    <text x="400" y="411" text-anchor="middle" font-size="11" font-weight="600" fill="#475569">Unified Governance  •  Same Security  •  Single Audit Trail</text>
+                                </g>
 
                                 <!-- Roads -->
                                 <path class="road" id="roadA" d="M 50,120 C 120,120 120,225 190,225" />
@@ -798,26 +973,26 @@
                                 </g>
 
                                 <!-- Data sources (left) -->
-                                <g>
+                                <g class="awsdata" id="awsdata">
                                     <rect class="node-box" x="10" y="95" width="80" height="50"/>
                                     <text class="node-text-title" x="50" y="115" text-anchor="middle">AWS</text>
                                     <text class="node-text-sub" x="50" y="130" text-anchor="middle">Data Lake</text>
                                 </g>
 
-                                <g>
+                                <g class="azuredata" id="azuredata">
                                     <rect class="node-box" x="10" y="200" width="80" height="50"/>
                                     <text class="node-text-title" x="50" y="220" text-anchor="middle">Azure</text>
                                     <text class="node-text-sub" x="50" y="235" text-anchor="middle">Data Lake</text>
                                 </g>
 
-                                <g>
+                                <g class="gcpdata" id="gcpdata">
                                     <rect class="node-box" x="10" y="305" width="80" height="50"/>
                                     <text class="node-text-title" x="50" y="325" text-anchor="middle">GCP</text>
                                     <text class="node-text-sub" x="50" y="340" text-anchor="middle">Data Lake</text>
                                 </g>
 
                                 <!-- Central HUB (Autonomous AI Database) -->
-                                <g>
+                                <g id="centralHub">
                                     <ellipse class="node-core" cx="320" cy="225" rx="65" ry="65"/>
                                     <text class="node-core-title" x="320" y="215" text-anchor="middle" font-size="15" font-weight="950">Oracle</text>
                                     <text class="node-core-title" x="320" y="230" text-anchor="middle" font-size="14" font-weight="900">Autonomous</text>
@@ -961,6 +1136,9 @@
         const valueList = document.getElementById('valueList');
 
         const barrier = document.getElementById('barrier');
+        const awsdata = document.getElementById('awsdata');
+        const azuredata = document.getElementById('azuredata');
+        const gcpdata = document.getElementById('gcpdata');
         const ai = document.getElementById('ai');
         const catalogSign = document.getElementById('catalogSign');
         const tableLayer = document.getElementById('tableLayer');
@@ -984,6 +1162,9 @@
         const databaseIcon = document.getElementById('databaseIcon');
         const externalCatalogs = document.getElementById('externalCatalogs');
         const objectStorage = document.getElementById('objectStorage');
+        const openDataDiagram = document.getElementById('openDataDiagram');
+        const inDatabaseAIDiagram = document.getElementById('inDatabaseAIDiagram');
+        const centralHub = document.getElementById('centralHub');
 
         const carsLayer = document.getElementById('carsLayer');
         const svg = stage.querySelector('svg');
@@ -1156,6 +1337,22 @@
             });
         }
 
+        function hideTrafficInfrastructure() {
+            // Hide all old traffic metaphor elements (roads, lanes, hub)
+            document.querySelectorAll('.road, .road-inner, .lane').forEach(el => {
+                el.style.opacity = 0;
+            });
+            centralHub.style.opacity = 0;
+        }
+
+        function showTrafficInfrastructure() {
+            // Show traffic metaphor elements
+            document.querySelectorAll('.road, .road-inner, .lane').forEach(el => {
+                el.style.opacity = '';
+            });
+            centralHub.style.opacity = 1;
+        }
+
 
         // Demo functions
         function showProblem() {
@@ -1178,8 +1375,12 @@
             stopAnim();
             clearCars();
             hideAIRoad();
+            showTrafficInfrastructure();  // Show old hub/roads for this scene
 
             barrier.classList.add('on');
+            gcpdata.classList.add('on');
+            azuredata.classList.add('on');
+            awsdata.classList.add('on');
             ai.classList.remove('on');
             catalogSign.style.opacity = 0;
             tableLayer.classList.remove('on');
@@ -1192,6 +1393,8 @@
             databaseIcon.style.opacity = 1;
             externalCatalogs.style.opacity = 0;
             objectStorage.style.opacity = 0;
+            openDataDiagram.style.opacity = 0;
+            inDatabaseAIDiagram.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
 
@@ -1220,8 +1423,12 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
+            showTrafficInfrastructure();  // Show old hub/roads for this scene
 
             barrier.classList.remove('on');
+            gcpdata.classList.add('on');
+            azuredata.classList.add('on');
+            awsdata.classList.add('on');
             ai.classList.remove('on');
             catalogSign.style.opacity = 1;  // Show catalog sign
             tableLayer.classList.remove('on');
@@ -1234,6 +1441,8 @@
             databaseIcon.style.opacity = 0;
             externalCatalogs.style.opacity = 0;
             objectStorage.style.opacity = 0;
+            openDataDiagram.style.opacity = 0;
+            inDatabaseAIDiagram.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
 
@@ -1266,27 +1475,31 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
+            hideAIRoad();
+            hideTrafficInfrastructure();  // Hide old hub, roads, lanes
 
             barrier.classList.remove('on');
+            gcpdata.classList.remove('on');
+            awsdata.classList.remove('on');
+            azuredata.classList.remove('on');
             ai.classList.remove('on');
-            catalogSign.style.opacity = 0;  // HIDE catalog sign - not needed here
-            tableLayer.classList.add('on');
-            iceBadge.classList.add('on');
-            cloudBadge.classList.add('on');
+            catalogSign.style.opacity = 0;
+            tableLayer.classList.remove('on');
+            iceBadge.classList.remove('on');
+            cloudBadge.classList.remove('on');
             rtNodes.style.opacity = 0;
             scaleNodes.style.opacity = 0;
             expressLaneGroup.style.opacity = 0;
             scaleLaneGroup.style.opacity = 0;
             databaseIcon.style.opacity = 0;
             externalCatalogs.style.opacity = 0;
-            objectStorage.style.opacity = 1;
+            objectStorage.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
 
-            [laneA, laneB, laneC].forEach(l => l.classList.add('glow-teal'));
-
-            addCar('HUB', 'purple', 'Iceberg', 0.0046, 0.05);
-            addCar('HUB', 'purple', 'query', 0.0042, 0.55);
+            // Show Open Data Access architectural diagram
+            openDataDiagram.style.opacity = 1;
+            inDatabaseAIDiagram.style.opacity = 0;
 
             startAnim();
         }
@@ -1310,14 +1523,19 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
+            hideAIRoad();
+            hideTrafficInfrastructure();  // Hide old hub, roads, lanes
 
             barrier.classList.remove('on');
-            ai.classList.add('on');
-            catalogSign.style.opacity = 0;  // HIDE catalog sign - not needed here
-            tableLayer.classList.add('on');
-            iceBadge.classList.add('on');
-            cloudBadge.classList.add('on');
-            rtNodes.style.opacity = 1;
+            gcpdata.classList.remove('on');
+            awsdata.classList.remove('on');
+            azuredata.classList.remove('on');
+            ai.classList.remove('on');
+            catalogSign.style.opacity = 0;
+            tableLayer.classList.remove('on');
+            iceBadge.classList.remove('on');
+            cloudBadge.classList.remove('on');
+            rtNodes.style.opacity = 0;
             scaleNodes.style.opacity = 0;
             expressLaneGroup.style.opacity = 0;
             scaleLaneGroup.style.opacity = 0;
@@ -1327,11 +1545,9 @@
             agent.classList.remove('on');
             spark.classList.remove('on');
 
-            [laneA, laneB, laneC].forEach(l => l.classList.add('glow-teal'));
-
-            addCar('A', 'teal', 'data', 0.0034, 0.15);
-            addCar('B', 'teal', 'queries', 0.0031, 0.55);
-            addCar('C', 'teal', 'requests', 0.0030, 0.85);
+            // Show In-Database AI architectural diagram
+            openDataDiagram.style.opacity = 0;
+            inDatabaseAIDiagram.style.opacity = 1;
 
             startAnim();
         }
@@ -1355,8 +1571,12 @@
             clearLaneGlow();
             stopAnim();
             clearCars();
+            showTrafficInfrastructure();  // Show old hub/roads for this scene
 
             barrier.classList.remove('on');
+            gcpdata.classList.add('on');
+            azuredata.classList.add('on');
+            awsdata.classList.add('on');
             ai.classList.remove('on');
             catalogSign.style.opacity = 0;  // HIDE catalog sign - not needed here
             tableLayer.classList.add('on');
@@ -1369,6 +1589,8 @@
             databaseIcon.style.opacity = 0;
             externalCatalogs.style.opacity = 0;
             objectStorage.style.opacity = 0;
+            openDataDiagram.style.opacity = 0;
+            inDatabaseAIDiagram.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
 
@@ -1409,6 +1631,9 @@
             clearCars();
 
             barrier.classList.remove('on');
+            gcpdata.classList.remove('on');
+            azuredata.classList.remove('on');
+            awsdata.classList.remove('on');
             ai.classList.remove('on');
             catalogSign.style.opacity = 0;
             tableLayer.classList.remove('on');
@@ -1421,6 +1646,8 @@
             databaseIcon.style.opacity = 0;
             externalCatalogs.style.opacity = 0;
             objectStorage.style.opacity = 0;
+            openDataDiagram.style.opacity = 0;
+            inDatabaseAIDiagram.style.opacity = 0;
             agent.classList.remove('on');
             spark.classList.remove('on');
         }
