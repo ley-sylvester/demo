@@ -619,28 +619,74 @@
     clearArtifactsPanel();
     $('artifactsPanel').innerHTML = `
       <div style="font-size:14px;font-weight:700;color:#0d9488;margin-bottom:16px">🗣️ Natural Language Input</div>
-      
-      <div style="background:#fff;border:2px solid #0d9488;border-radius:8px;padding:14px;margin-bottom:16px">
-        <div style="font-size:11px;color:#0d9488;font-weight:700;text-transform:uppercase;margin-bottom:8px">💬 User Prompt to APEX Assistant</div>
-        <div style="font-size:13px;color:#374151;font-style:italic;line-height:1.6">
-          "I need a customer management system with contact details, purchase history, and support tickets. It should track customer interactions and generate reports on sales performance."
+
+      <!-- APEX Assistant Dialog -->
+      <div style="background:#3a3a3a;border-radius:8px;overflow:hidden;box-shadow:0 4px 12px rgba(0,0,0,.3)">
+        <!-- Header -->
+        <div style="background:#2d2d2d;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #4a4a4a">
+          <div style="color:#fff;font-size:14px;font-weight:600">APEX Assistant</div>
+          <div style="color:#999;font-size:18px;cursor:pointer">×</div>
         </div>
-      </div>
-      
-      <div style="background:#f0fdfa;padding:12px;border-radius:6px;margin-bottom:16px;display:flex;align-items:center;gap:10px">
-        <div style="font-size:24px;animation:spin 2s linear infinite">🧠</div>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:#0d9488">APEX AI Processing...</div>
-          <div style="font-size:11px;color:#6b7280">Analyzing requirements and identifying data entities</div>
+
+        <!-- Description -->
+        <div style="padding:16px;color:#ccc;font-size:12px;line-height:1.5;border-bottom:1px solid #4a4a4a">
+          Describe what you want to build in plain language. APEX AI interprets your requirements and identifies the data entities needed to get started.
         </div>
-      </div>
-      
-      <div>
-        <div style="font-size:12px;font-weight:600;color:#374151;margin-bottom:8px">Detected Entities:</div>
-        <span style="display:inline-block;background:#ccfbf1;color:#0d9488;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;margin:4px 4px 4px 0">👥 Customers</span>
-        <span style="display:inline-block;background:#ccfbf1;color:#0d9488;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;margin:4px 4px 4px 0">🛒 Purchases</span>
-        <span style="display:inline-block;background:#ccfbf1;color:#0d9488;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;margin:4px 4px 4px 0">🎫 Support Tickets</span>
-        <span style="display:inline-block;background:#ccfbf1;color:#0d9488;padding:6px 12px;border-radius:14px;font-size:11px;font-weight:600;margin:4px 4px 4px 0">📊 Reports</span>
+
+        <!-- Chat Area -->
+        <div style="padding:16px;background:#3a3a3a">
+
+          <!-- AI greeting -->
+          <div class="chat-message" style="display:flex;gap:10px;margin-bottom:16px">
+            <div style="width:28px;height:28px;background:#d32f2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex-shrink:0">AI</div>
+            <div style="flex:1">
+              <div style="color:#e0e0e0;font-size:12px;line-height:1.5">
+                Hi! Tell me what kind of application you want to build. The more detail you give, the better I can structure your data model.
+              </div>
+            </div>
+          </div>
+
+          <!-- User prompt -->
+          <div class="chat-message" style="display:flex;gap:10px;margin-bottom:16px">
+            <div style="width:28px;height:28px;background:#0d9488;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;flex-shrink:0">👤</div>
+            <div style="flex:1">
+              <div style="background:#4a4a4a;color:#fff;padding:10px 14px;border-radius:8px;font-size:12px;line-height:1.5">
+                I need a customer management system with contact details, purchase history, and support tickets. It should track customer interactions and generate reports on sales performance.
+              </div>
+            </div>
+          </div>
+
+          <!-- AI processing -->
+          <div class="chat-message" style="display:flex;gap:10px;margin-bottom:16px">
+            <div style="width:28px;height:28px;background:#d32f2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex-shrink:0">AI</div>
+            <div style="flex:1">
+              <div style="color:#e0e0e0;font-size:12px;line-height:1.5;margin-bottom:8px">
+                Got it! I've analyzed your requirements. Here's what I found:
+              </div>
+              <div style="background:#2d2d2d;padding:10px;border-radius:6px;border-left:3px solid #0d9488">
+                <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:8px">✓ Detected Entities</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <span style="background:#0d9488;color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600">👥 Customers</span>
+                  <span style="background:#0d9488;color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600">🛒 Purchases</span>
+                  <span style="background:#0d9488;color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600">🎫 Support Tickets</span>
+                  <span style="background:#0d9488;color:#fff;padding:4px 10px;border-radius:12px;font-size:10px;font-weight:600">📊 Reports</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI next step suggestion -->
+          <div class="chat-message" style="display:flex;gap:10px;margin-bottom:0">
+            <div style="width:28px;height:28px;background:#d32f2f;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;flex-shrink:0">AI</div>
+            <div style="flex:1">
+              <div style="background:#2d2d2d;padding:10px;border-radius:6px;border-left:3px solid #fff">
+                <div style="color:#fff;font-size:11px;font-weight:700;margin-bottom:4px">✓ Ready to generate your data model</div>
+                <div style="color:#999;font-size:10px;line-height:1.5">I'll create the tables, relationships, and sample data for all detected entities. Click <strong style="color:#ccc">Generate Data Model</strong> to continue.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     `;
   }
@@ -942,35 +988,62 @@
   function loadEnhanceArtifacts() {
     clearArtifactsPanel();
     $('artifactsPanel').innerHTML = `
-      <div style="font-size:14px;font-weight:700;color:#ea580c;margin-bottom:16px">🤖 Available AI Features </div>
-
+      <div style="font-size:14px;font-weight:700;color:#ea580c;margin-bottom:8px">🤖 Available AI Features</div>
       
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px">
-        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:12px">
 
-          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:4px">AI Assistant</div>
-          <div style="font-size:10px;color:#6b7280;line-height:1.4;margin-bottom:8px">Conversational experiences embedded in applications to support user interactions, recommendations, and guided workflows.</div>
-        </div>
-        
-        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:12px">
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:16px">
 
-          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:4px">Text Generation</div>
-          <div style="font-size:10px;color:#6b7280;line-height:1.4;margin-bottom:8px">AI-assisted generation of emails, notifications, and user-facing content to improve consistency and reduce manual effort.</div>
+        <!-- AI Assistant -->
+        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:14px">
+          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:6px"><span style="font-size:18px;margin-bottom:6px">💬 </span>AI Assistant</div>
+          <div style="font-size:10px;color:#6b7280;line-height:1.5;margin-bottom:10px">
+            Embed conversational AI experiences directly into your APEX applications to support guided workflows, recommendations, and contextual assistance.
+          </div>
+          <div style="background:#fff7ed;border-radius:4px;padding:8px">
+            <div style="font-size:10px;font-weight:700;color:#ea580c;margin-bottom:4px">🔧 How to access:</div>
+            <div style="font-size:10px;color:#78716c;line-height:1.5">Workspace Administration → AI Attributes → Configure AI Provider <br>
+Shared Components → AI Configurations → Define Prompts</div>
+          </div>
         </div>
-        
-        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:12px">
 
-          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:4px">Vector Search</div>
-          <div style="font-size:10px;color:#6b7280;line-height:1.4;margin-bottom:8px">Semantic search and similarity matching powered by Oracle AI Database vector capabilities for more intuitive data discovery.</div>
+        <!-- Text Generation -->
+        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:14px">
+          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:6px"><span style="font-size:18px;margin-bottom:6px">✨ </span>Text Generation</div>
+          <div style="font-size:10px;color:#6b7280;line-height:1.5;margin-bottom:10px">
+            Use generative AI to assist with emails, notifications, and user-facing content. Define prompt templates and optionally enrich responses with contextual data.
+          </div>
+          <div style="background:#fff7ed;border-radius:4px;padding:8px">
+            <div style="font-size:10px;font-weight:700;color:#ea580c;margin-bottom:4px">🔧 How to access:</div>
+            <div style="font-size:10px;color:#78716c;line-height:1.5">Shared Components → AI Configurations → Define Prompt</div>
+          </div>
         </div>
-        
-        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:12px">
 
-          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:4px">RAG Architecture</div>
-          <div style="font-size:10px;color:#6b7280;line-height:1.4;margin-bottom:8px">Context-aware responses that combine generative AI with enterprise data and documentation for more accurate results.</div>
+        <!-- Vector Search -->
+        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:14px">
+          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:6px"><span style="font-size:18px;margin-bottom:6px">🔍 </span>Vector Search</div>
+          <div style="font-size:10px;color:#6b7280;line-height:1.5;margin-bottom:10px">
+            Semantic search and similarity matching powered by Oracle AI Database vector capabilities for more intuitive data discovery.
+          </div>
+          <div style="background:#fff7ed;border-radius:4px;padding:8px">
+            <div style="font-size:10px;font-weight:700;color:#ea580c;margin-bottom:4px">🔧 How to access:</div>
+            <div style="font-size:10px;color:#78716c;line-height:1.5">Shared Components → Search Configurations → Create Vector Search</div>
+          </div>
         </div>
+
+        <!-- RAG Architecture -->
+        <div style="background:#fff;border:2px solid #ea580c;border-radius:8px;padding:14px">
+          <div style="font-size:12px;font-weight:700;color:#ea580c;margin-bottom:6px"><span style="font-size:18px;margin-bottom:6px">📚 </span>RAG Architecture</div>
+          <div style="font-size:10px;color:#6b7280;line-height:1.5;margin-bottom:10px">
+            Context-aware responses that combine generative AI with enterprise data and documentation for more accurate results.
+          </div>
+          <div style="background:#fff7ed;border-radius:4px;padding:8px">
+            <div style="font-size:10px;font-weight:700;color:#ea580c;margin-bottom:4px">🔧 How to access:</div>
+            <div style="font-size:10px;color:#78716c;line-height:1.5">Shared Components → AI Configurations → Define RAG Sources</div>
+          </div>
+        </div>
+
       </div>
-      
+
       
     `;
   }
