@@ -15,6 +15,17 @@ In this demo, you explore how Oracle MCP Server:
 - Enables agents to generate accurate SQL with full schema awareness
 - Delivers real business insights while enforcing enterprise-grade security
 
+
+### What You'll Discover:
+
+- Why AI tools traditionally require custom database connectors
+- How MCP standardizes AI-to-database communication
+- How SQLcl runs the MCP Server locally using JSON-RPC over STDIO
+- How agents securely connect without receiving database credentials
+- How the `schema-information` tool improves accuracy and reduces token consumption
+- How AI agents can execute structured SQL queries and generate business reports
+- How Oracle wallet encryption and least-privilege users enforce security by design
+
 Oracle MCP Server works wherever SQLcl is supported, including on-premises environments, Oracle Cloud, and container deployments.
 
 [Video hosted on Oracle Video Hub](videohub:)
@@ -27,16 +38,6 @@ style="min-width: 100%; min-height: 1000px; height: 1000px !important;"></iframe
 
 ### 
 ### 
-
-### What You'll Discover:
-
-- Why AI tools traditionally require custom database connectors
-- How MCP standardizes AI-to-database communication
-- How SQLcl runs the MCP Server locally using JSON-RPC over STDIO
-- How agents securely connect without receiving database credentials
-- How the `schema-information` tool improves accuracy and reduces token consumption
-- How AI agents can execute structured SQL queries and generate business reports
-- How Oracle wallet encryption and least-privilege users enforce security by design
 
 ### Key Benefits:
 
