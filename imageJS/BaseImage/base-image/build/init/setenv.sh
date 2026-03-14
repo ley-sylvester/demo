@@ -15,6 +15,30 @@ COMPOSE_ENV="$POD_ROOT/.env"
 # Ensure the target app directory exists before writing runtime files.
 mkdir -p "$APP_DIR"
 
+# Workshop variables
+
+echo "Checking for workshop package…"
+
+if [[ -z "${workshopfiles:-}" ]]; then
+  workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/ZW-0Y5Dg33OrJ8nfvMPU2iUQ2Tt0aNv6gPiJtn6TOdk52seQm-zbef5m00tR04fS/n/ospatee/b/lab-images/o/agentapp.zip"
+  echo "workshopfiles metadata missing; using fallback bundle."
+fi
+
+if [[ -n "${workshopfiles}" ]]; then
+  echo "Downloading workshop files from ${workshopfiles}"
+  if curl -fL "${workshopfiles}" -o /tmp/workshop_bundle.zip; then
+    mkdir -p /home/opc/ingestion
+    unzip -oq /tmp/workshop_bundle.zip -d /home/opc/ingestion
+    rm -f /tmp/workshop_bundle.zip
+    echo "Workshop files installed under /home/opc/ingestion."
+  else
+    echo "Failed to download workshop bundle from ${workshopfiles}" >&2
+  fi
+else
+  echo "No workshop bundle URL available" >&2
+fi
+
+
 
 # clean up existing things
 sudo rm -rf /home/opc/.oci
@@ -86,8 +110,13 @@ if [[ -z "${ORACLE_PWD_VALUE}" ]]; then
   echo "DBPASSWORD and ORACLE_PWD are empty; cannot start DB/ORDS containers."
   exit 1
 fi
+DB_USER_VALUE="${DB_USER:-hub_user}"
+DB_PASSWORD_VALUE="${DB_PASSWORD:-${ORACLE_PWD_VALUE}}"
+
 printf 'ORACLE_PWD=%s\n' "${ORACLE_PWD_VALUE}" > "${COMPOSE_ENV}"
 printf 'APP_DB_ADMIN_PWD=%s\n' "${ORACLE_PWD_VALUE}" >> "${COMPOSE_ENV}"
+printf 'DB_USER=%s\n' "${DB_USER_VALUE}" >> "${COMPOSE_ENV}"
+printf 'DB_PASSWORD=%s\n' "${DB_PASSWORD_VALUE}" >> "${COMPOSE_ENV}"
 chmod 600 "${COMPOSE_ENV}"
 
 

@@ -86,12 +86,32 @@ mkdir -p /home/opc/.config/systemd/user
 ## update the url to build.zip
 ################################################ 
 ## this should point to the custom service file for your workshop
-# wget -O user-podman.service https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/i-WDpQq_yUvSxLbfCPfYNyvCFyz6Rv7gvQaBPTHeUlvjpPSN_Hvh5_Zyk7pMXWlu/n/c4u04/b/bootstrap/o/aidataplatform/user-podman.service
-# wget -O /home/opc/build_dev.zip "https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/i-WDpQq_yUvSxLbfCPfYNyvCFyz6Rv7gvQaBPTHeUlvjpPSN_Hvh5_Zyk7pMXWlu/n/c4u04/b/bootstrap/o/aiplatformvs/build.zip"
-unzip -oq /home/opc/build_dev.zip -d /home/opc/ && rm /home/opc/build_dev.zip
-cp /home/opc/composescript/scripts/user-podman.service /home/opc/.config/systemd/user/.
+#wget -O /home/opc/build_dev.zip "https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/i-WDpQq_yUvSxLbfCPfYNyvCFyz6Rv7gvQaBPTHeUlvjpPSN_Hvh5_Zyk7pMXWlu/n/c4u04/b/bootstrap/o/aidata_dev_vscode_privai/build.zip"
+
+wget -O /home/opc/build_dev.zip "https://objectstorage.us-ashburn-1.oraclecloud.com/p/5-gW5W7U61I7skk6xdicEjQreeMUdlcBs04gS1tbwPDmLf7V5U2Z4YwyB1zu6mfH/n/ospatee/b/lab-images/o/build.zip"
+
+if [[ -f /home/opc/build_dev.zip ]]; then
+  unzip -oq /home/opc/build_dev.zip -d /home/opc/ && rm /home/opc/build_dev.zip
+else
+  echo "Skipping build archive extraction; /home/opc/build_dev.zip not present"
+fi
+
+if [[ -f /home/opc/init/user-podman.service ]]; then
+  cp /home/opc/init/user-podman.service /home/opc/.config/systemd/user/.
+else
+  echo "Warning: /home/opc/init/user-podman.service missing; user-podman service not staged" >&2
+fi
+
 ##########
 ##########
+
+mkdir -p /home/opc/ingestion/oradata
+mkdir -p /home/opc/ingestion/dmdump
+
+chmod 700 /home/opc/ingestion/oradata
+chmod 700 /home/opc/ingestion/dmdump
+
+
 
 sudo systemctl daemon-reload
 export XDG_RUNTIME_DIR=/run/user/$UID

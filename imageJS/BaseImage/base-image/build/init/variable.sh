@@ -99,8 +99,13 @@ fi
 #workshopfiles must be a URL pointing to a zip file
 export workshopfiles=$(curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/workshopfiles)
 
+# Ley - Commenting temporarily until terrafoam works.
+#if [[ ${#workshopfiles} -ne 10 ]]; then
+# export workshopfiles="https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/EcTjWk2IuZPZeNnD_fYMcgUhdNDIDA6rt9gaFj_WZMiL7VvxPBNMY60837hu5hga/n/c4u04/b/livelabsfiles/o/labfiles/vec_chunk.zip"
+#fi
+# Ley - Simulating missing metadata for testing
 if [[ ${#workshopfiles} -ne 10 ]]; then
- export workshopfiles="https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/EcTjWk2IuZPZeNnD_fYMcgUhdNDIDA6rt9gaFj_WZMiL7VvxPBNMY60837hu5hga/n/c4u04/b/livelabsfiles/o/labfiles/vec_chunk.zip"
+ export workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/ZW-0Y5Dg33OrJ8nfvMPU2iUQ2Tt0aNv6gPiJtn6TOdk52seQm-zbef5m00tR04fS/n/ospatee/b/lab-images/o/agentapp.zip"
 fi
 
 export ENDPOINT="https://inference.generativeai.${AI_ENDPOINT_REGION}.oci.oraclecloud.com"
