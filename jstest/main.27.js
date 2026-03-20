@@ -134,6 +134,37 @@ let main = function () {
     /** @type {Object|null} Global manifest file reference */
     let manifest_global;
 
+    /** @type {Object|null} Quiz module reference */
+    let quizModule = null;
+    const quizModuleDeferred = $.Deferred();
+
+    (function loadQuizModule() {
+        const scriptSource = resolveCurrentMainScriptSource();
+        let quizModuleUrl = "modules/quiz.js";
+
+        if (scriptSource) {
+            quizModuleUrl = scriptSource.replace(/main(?:\.[0-9.]+)?(?:\.min)?\.js(?:[?#].*)?$/, "modules/quiz.js");
+        }
+
+        const initializeQuizModule = function () {
+            quizModule = window.LiveLabsQuiz || null;
+            quizModuleDeferred.resolve(quizModule);
+        };
+
+        if (window.LiveLabsQuiz && typeof window.LiveLabsQuiz.convertQuizBlocks === "function") {
+            initializeQuizModule();
+            return;
+        }
+
+        $.getScript(quizModuleUrl)
+            .done(initializeQuizModule)
+            .fail(function (err) {
+                console.error("Failed to load quiz module:", err);
+                quizModule = null;
+                quizModuleDeferred.resolve(quizModule);
+            });
+    })();
+
     /*
      * ============================================
      * SECTION 2: INITIALIZATION
@@ -233,7 +264,8 @@ let main = function () {
             $.getScript(highlight, function () {
                 console.log("Highlight.js loaded!");
             }),
-            freeSqlLoaderReady.promise()
+            freeSqlLoaderReady.promise(),
+            quizModuleDeferred.promise()
         ).done(function () {
             init();
             let selectedTutorial = setupTutorialNav(manifestFileContent); //populate side navigation based on content in the manifestFile            
