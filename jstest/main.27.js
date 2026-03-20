@@ -134,41 +134,6 @@ let main = function () {
     /** @type {Object|null} Global manifest file reference */
     let manifest_global;
 
-    /** @type {Object|null} Quiz module API */
-    let quizModule = null;
-
-    const quizModuleDeferred = $.Deferred();
-
-    (function loadQuizModule() {
-        const scriptSource = resolveCurrentMainScriptSource();
-        let quizModuleUrl = "modules/quiz.js";
-
-        if (scriptSource) {
-            quizModuleUrl = scriptSource.replace(/js\/[^\/]+$/, "modules/quiz.js");
-        }
-
-        const initializeModule = function () {
-            if (typeof initQuiz === "function") {
-                quizModule = initQuiz();
-            } else {
-                quizModule = null;
-            }
-            quizModuleDeferred.resolve(quizModule);
-        };
-
-        if (typeof initQuiz === "function") {
-            initializeModule();
-            return;
-        }
-
-        $.getScript(quizModuleUrl)
-            .done(initializeModule)
-            .fail(function () {
-                quizModule = null;
-                quizModuleDeferred.resolve(quizModule);
-            });
-    })();
-
     /*
      * ============================================
      * SECTION 2: INITIALIZATION
@@ -268,8 +233,7 @@ let main = function () {
             $.getScript(highlight, function () {
                 console.log("Highlight.js loaded!");
             }),
-            freeSqlLoaderReady.promise(),
-            quizModuleDeferred.promise()
+            freeSqlLoaderReady.promise()
         ).done(function () {
             init();
             let selectedTutorial = setupTutorialNav(manifestFileContent); //populate side navigation based on content in the manifestFile            
@@ -423,9 +387,7 @@ let main = function () {
             markdownContent = addPathToImageSrc(markdownContent, tut_fname); //adding the path for the image based on the filename in manifest
             markdownContent = addPathToTypeHrefs(markdownContent); // if type is specified in the markdown, then add absolute path for it.
             markdownContent = convertSingleLineCode(markdownContent);
-            if (quizModule && typeof quizModule.convertMarkdown === "function") {
-                markdownContent = quizModule.convertMarkdown(markdownContent, tut_fname); // converts ```quiz blocks to interactive quiz HTML
-            }
+            markdownContent = window.LiveLabsQuiz.convertQuizBlocks(markdownContent, tut_fname); // converts ```quiz blocks to interactive quiz HTML
             markdownContent = convertCodeBlocks(markdownContent); // codeblock with multiple breaks don't render correctly, so I convert to codeblock here itself
 
             $(articleElement).html(new showdown.Converter({
@@ -2285,7 +2247,6 @@ let main = function () {
     }
 
 }();
-
 let download = function () {
 
     //enables download of files

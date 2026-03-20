@@ -1,8 +1,8 @@
-(function (global) {
-    "use strict";
+"use strict";
 
-    function resolveRelativeAssetPath(assetPath, sourceUrl) {
-        if (!assetPath || assetPath.startsWith("http") || assetPath.startsWith("/")) {
+window.LiveLabsQuiz = (function () {
+    let resolveRelativeAssetPath = function (assetPath, sourceUrl) {
+        if (!assetPath || assetPath.startsWith('http') || assetPath.startsWith('/')) {
             return assetPath;
         }
 
@@ -13,19 +13,20 @@
         return sourceUrl.replace(/\/[^\/]+$/, "/") + assetPath;
     }
 
-    function convertQuizConfig(markdown, sourceUrl) {
-        const configRegex = /`{3,}quiz-config\s*\n([\s\S]*?)`{3,}/g;
+    let convertQuizConfig = function (markdown, sourceUrl = "") {
+        let configRegex = /`{3,}quiz-config\s*\n([\s\S]*?)`{3,}/g;
 
-        return markdown.replace(configRegex, function (_match, content) {
-            const config = {
+        return markdown.replace(configRegex, function (match, content) {
+            let config = {
                 passing: 80,
                 badge: null
             };
 
-            const lines = content.trim().split("\n");
+            let lines = content.trim().split('\n');
             lines.forEach(function (line) {
-                const passingMatch = line.match(/^\s*passing:\s*(\d+)/i);
-                const badgeMatch = line.match(/^\s*badge:\s*(.+)/i);
+                // Allow optional whitespace at start of line
+                let passingMatch = line.match(/^\s*passing:\s*(\d+)/i);
+                let badgeMatch = line.match(/^\s*badge:\s*(.+)/i);
 
                 if (passingMatch) {
                     config.passing = parseInt(passingMatch[1], 10);
@@ -35,67 +36,75 @@
                 }
             });
 
-            return '<div id="ll-quiz-config" data-passing="' + config.passing + '" data-badge="' + (config.badge || "") + '" style="display:none;"></div>';
+            // Return a hidden div with config data
+            return '<div id="ll-quiz-config" data-passing="' + config.passing + '" data-badge="' + (config.badge || '') + '" style="display:none;"></div>';
         });
     }
 
-    function convertQuizBlocks(markdown, sourceUrl) {
-        const moduleSource = sourceUrl || "";
-        let processed = convertQuizConfig(markdown, moduleSource);
+    let convertQuizBlocks = function (markdown, sourceUrl = "") {
+        // First process quiz-config blocks
+        markdown = convertQuizConfig(markdown, sourceUrl);
 
-        const quizRegex = /`{3,}quiz(\s+score)?\s*\n([\s\S]*?)`{3,}/g;
+        let quizRegex = /`{3,}quiz(\s+score)?\s*\n([\s\S]*?)`{3,}/g;
         let quizId = 0;
         let scoredQuizCount = 0;
 
-        processed = processed.replace(quizRegex, function (_match, scoreFlag, content) {
-            let html = "";
-            const isScored = scoreFlag && scoreFlag.trim() === "score";
-            const lines = content.trim().split("\n");
+        let result = markdown.replace(quizRegex, function (match, scoreFlag, content) {
+            let html = '';
+            let isScored = scoreFlag && scoreFlag.trim() === 'score';
+            let lines = content.trim().split('\n');
             let currentQuestion = null;
-            const questions = [];
+            let questions = [];
 
-            lines.forEach(function (rawLine) {
-                const line = rawLine.trim();
+            // Parse quiz content
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
 
-                if (/^Q:\s*/i.test(line)) {
+                if (line.match(/^Q:\s*/i)) {
+                    // New question
                     if (currentQuestion) {
                         questions.push(currentQuestion);
                     }
                     currentQuestion = {
-                        text: line.replace(/^Q:\s*/i, ""),
+                        text: line.replace(/^Q:\s*/i, ''),
                         options: [],
                         explanation: null
                     };
-                } else if (/^\*\s+/.test(line)) {
+                } else if (line.match(/^\*\s+/)) {
+                    // Correct answer
                     if (currentQuestion) {
                         currentQuestion.options.push({
-                            text: line.replace(/^\*\s+/, ""),
+                            text: line.replace(/^\*\s+/, ''),
                             correct: true
                         });
                     }
-                } else if (/^-\s+/.test(line)) {
+                } else if (line.match(/^-\s+/)) {
+                    // Incorrect answer
                     if (currentQuestion) {
                         currentQuestion.options.push({
-                            text: line.replace(/^-\s+/, ""),
+                            text: line.replace(/^-\s+/, ''),
                             correct: false
                         });
                     }
-                } else if (/^>\s*/.test(line)) {
+                } else if (line.match(/^>\s*/)) {
+                    // Explanation
                     if (currentQuestion) {
-                        currentQuestion.explanation = line.replace(/^>\s*/, "");
+                        currentQuestion.explanation = line.replace(/^>\s*/, '');
                     }
                 }
-            });
+            }
 
+            // Don't forget the last question
             if (currentQuestion) {
                 questions.push(currentQuestion);
             }
 
-            questions.forEach(function (question, qIndex) {
-                const qId = "quiz-" + quizId + "-q" + qIndex;
-                const correctCount = question.options.filter(function (opt) { return opt.correct; }).length;
-                const inputType = correctCount > 1 ? "checkbox" : "radio";
-                const inputName = qId + "-options";
+            // Generate HTML for each question
+            questions.forEach(function (q, qIndex) {
+                let qId = 'quiz-' + quizId + '-q' + qIndex;
+                let correctCount = q.options.filter(o => o.correct).length;
+                let inputType = correctCount > 1 ? 'checkbox' : 'radio';
+                let inputName = qId + '-options';
 
                 if (isScored) {
                     scoredQuizCount++;
@@ -103,32 +112,33 @@
 
                 html += '<div class="ll-quiz' + (isScored ? ' ll-quiz-scored' : '') + '" data-quiz-id="' + qId + '" data-scored="' + isScored + '" data-answered="false" data-correct="false">';
 
+                // Add header with score display for scored quizzes
                 if (isScored) {
                     html += '<div class="ll-quiz-header"><span class="ll-quiz-badge-label">Scored Quiz</span><span class="ll-quiz-score-display"></span></div>';
                 }
 
-                html += '<div class="ll-quiz-question">' + question.text + '</div>';
+                html += '<div class="ll-quiz-question">' + q.text + '</div>';
                 html += '<div class="ll-quiz-options">';
 
-                question.options.forEach(function (opt, optIndex) {
-                    const optId = qId + "-opt" + optIndex;
+                q.options.forEach(function (opt, optIndex) {
+                    let optId = qId + '-opt' + optIndex;
                     html += '<label class="ll-quiz-option" data-correct="' + opt.correct + '">';
                     html += '<input type="' + inputType + '" name="' + inputName + '" id="' + optId + '" value="' + optIndex + '">';
                     html += '<span class="ll-quiz-option-text">' + opt.text + '</span>';
                     html += '<span class="ll-quiz-feedback"></span>';
-                    html += "</label>";
+                    html += '</label>';
                 });
 
-                html += "</div>";
+                html += '</div>';
 
-                if (question.explanation) {
-                    html += '<div class="ll-quiz-explanation" style="display:none;">' + question.explanation + "</div>";
+                if (q.explanation) {
+                    html += '<div class="ll-quiz-explanation" style="display:none;">' + q.explanation + '</div>';
                 }
 
-                html += '<button type="button" class="ll-quiz-check" onclick="checkQuizAnswer(\'' + qId + '\', ' + (inputType === "checkbox") + ')">Check Answer</button>';
+                html += '<button type="button" class="ll-quiz-check" onclick="checkQuizAnswer(\'' + qId + '\', ' + (inputType === 'checkbox') + ')">Check Answer</button>';
                 html += '<button type="button" class="ll-quiz-retry" style="display:none;" onclick="retryQuiz(\'' + qId + '\')">Try Again</button>';
                 html += '<div class="ll-quiz-result"></div>';
-                html += "</div>";
+                html += '</div>';
 
                 quizId++;
             });
@@ -136,252 +146,252 @@
             return html;
         });
 
+        // If there are scored quizzes, add a hidden tracker for state and badge container
         if (scoredQuizCount > 0) {
-            processed += '<div id="ll-quiz-score-tracker" data-total="' + scoredQuizCount + '" data-correct="0" data-answered="0">';
-            processed += '<div class="ll-quiz-badge-container" style="display:none;"></div>';
-            processed += "</div>";
+            result += '<div id="ll-quiz-score-tracker" data-total="' + scoredQuizCount + '" data-correct="0" data-answered="0">';
+            result += '<div class="ll-quiz-badge-container" style="display:none;"></div>';
+            result += '</div>';
         }
 
-        return processed;
+        return result;
     }
 
     function checkQuizAnswer(quizId, isMultiple) {
-        const quiz = document.querySelector('[data-quiz-id="' + quizId + '"]');
-        if (!quiz) {
-            return;
-        }
+        let quiz = document.querySelector('[data-quiz-id="' + quizId + '"]');
+        if (!quiz) return;
 
-        const options = quiz.querySelectorAll(".ll-quiz-option");
-        const resultDiv = quiz.querySelector(".ll-quiz-result");
-        const explanationDiv = quiz.querySelector(".ll-quiz-explanation");
-        const checkBtn = quiz.querySelector(".ll-quiz-check");
-        const retryBtn = quiz.querySelector(".ll-quiz-retry");
+        let options = quiz.querySelectorAll('.ll-quiz-option');
+        let resultDiv = quiz.querySelector('.ll-quiz-result');
+        let explanationDiv = quiz.querySelector('.ll-quiz-explanation');
+        let checkBtn = quiz.querySelector('.ll-quiz-check');
+        let retryBtn = quiz.querySelector('.ll-quiz-retry');
         let allCorrect = true;
         let anySelected = false;
-        const isScored = quiz.getAttribute("data-scored") === "true";
-        const wasAnswered = quiz.getAttribute("data-answered") === "true";
-        const wasCorrect = quiz.getAttribute("data-correct") === "true";
+        let isScored = quiz.getAttribute('data-scored') === 'true';
+        let wasAnswered = quiz.getAttribute('data-answered') === 'true';
+        let wasCorrect = quiz.getAttribute('data-correct') === 'true';
 
         options.forEach(function (option) {
-            const input = option.querySelector("input");
-            const feedback = option.querySelector(".ll-quiz-feedback");
-            const isCorrect = option.getAttribute("data-correct") === "true";
-            const isSelected = input.checked;
+            let input = option.querySelector('input');
+            let feedback = option.querySelector('.ll-quiz-feedback');
+            let isCorrect = option.getAttribute('data-correct') === 'true';
+            let isSelected = input.checked;
 
-            if (isSelected) {
-                anySelected = true;
-            }
+            if (isSelected) anySelected = true;
 
-            option.classList.remove("correct", "incorrect", "missed");
-            feedback.textContent = "";
+            // Reset previous state
+            option.classList.remove('correct', 'incorrect', 'missed');
+            feedback.textContent = '';
 
             if (isSelected && isCorrect) {
-                option.classList.add("correct");
-                feedback.textContent = "\u2713";
+                option.classList.add('correct');
+                feedback.textContent = '✓';
             } else if (isSelected && !isCorrect) {
-                option.classList.add("incorrect");
-                feedback.textContent = "\u2717";
+                option.classList.add('incorrect');
+                feedback.textContent = '✗';
                 allCorrect = false;
             } else if (!isSelected && isCorrect) {
-                option.classList.add("missed");
+                option.classList.add('missed');
                 allCorrect = false;
             }
 
+            // Disable input after checking
             input.disabled = true;
         });
 
         if (!anySelected) {
-            resultDiv.textContent = "Please select an answer.";
-            resultDiv.className = "ll-quiz-result warning";
+            resultDiv.textContent = 'Please select an answer.';
+            resultDiv.className = 'll-quiz-result warning';
+            // Re-enable inputs
             options.forEach(function (option) {
-                option.querySelector("input").disabled = false;
+                option.querySelector('input').disabled = false;
             });
             return;
         }
 
+        // Show result
         if (allCorrect) {
-            resultDiv.textContent = "Correct!";
-            resultDiv.className = "ll-quiz-result success";
+            resultDiv.textContent = 'Correct!';
+            resultDiv.className = 'll-quiz-result success';
         } else {
-            resultDiv.textContent = "Not quite. The correct answer" + (isMultiple ? "s are" : " is") + " highlighted.";
-            resultDiv.className = "ll-quiz-result error";
+            resultDiv.textContent = 'Not quite. The correct answer' + (isMultiple ? 's are' : ' is') + ' highlighted.';
+            resultDiv.className = 'll-quiz-result error';
         }
 
+        // Show explanation if present
         if (explanationDiv) {
-            explanationDiv.style.display = "block";
+            explanationDiv.style.display = 'block';
         }
 
-        checkBtn.style.display = "none";
+        // Hide check button, show retry button
+        checkBtn.style.display = 'none';
         if (retryBtn) {
-            retryBtn.style.display = "inline-block";
+            retryBtn.style.display = 'inline-block';
         }
 
-        quiz.setAttribute("data-answered", "true");
-        quiz.setAttribute("data-correct", allCorrect.toString());
+        // Update quiz state
+        quiz.setAttribute('data-answered', 'true');
+        quiz.setAttribute('data-correct', allCorrect.toString());
 
+        // Update score tracker if this is a scored quiz
         if (isScored) {
             updateQuizScore(wasAnswered, wasCorrect, allCorrect);
         }
     }
 
     function retryQuiz(quizId) {
-        const quiz = document.querySelector('[data-quiz-id="' + quizId + '"]');
-        if (!quiz) {
-            return;
-        }
+        let quiz = document.querySelector('[data-quiz-id="' + quizId + '"]');
+        if (!quiz) return;
 
-        const options = quiz.querySelectorAll(".ll-quiz-option");
-        const resultDiv = quiz.querySelector(".ll-quiz-result");
-        const explanationDiv = quiz.querySelector(".ll-quiz-explanation");
-        const checkBtn = quiz.querySelector(".ll-quiz-check");
-        const retryBtn = quiz.querySelector(".ll-quiz-retry");
-        const isScored = quiz.getAttribute("data-scored") === "true";
-        const wasCorrect = quiz.getAttribute("data-correct") === "true";
+        let options = quiz.querySelectorAll('.ll-quiz-option');
+        let resultDiv = quiz.querySelector('.ll-quiz-result');
+        let explanationDiv = quiz.querySelector('.ll-quiz-explanation');
+        let checkBtn = quiz.querySelector('.ll-quiz-check');
+        let retryBtn = quiz.querySelector('.ll-quiz-retry');
+        let isScored = quiz.getAttribute('data-scored') === 'true';
+        let wasCorrect = quiz.getAttribute('data-correct') === 'true';
 
+        // Reset all options
         options.forEach(function (option) {
-            const input = option.querySelector("input");
-            const feedback = option.querySelector(".ll-quiz-feedback");
+            let input = option.querySelector('input');
+            let feedback = option.querySelector('.ll-quiz-feedback');
 
-            option.classList.remove("correct", "incorrect", "missed");
-            feedback.textContent = "";
+            option.classList.remove('correct', 'incorrect', 'missed');
+            feedback.textContent = '';
             input.checked = false;
             input.disabled = false;
         });
 
-        resultDiv.textContent = "";
-        resultDiv.className = "ll-quiz-result";
+        // Reset result and explanation
+        resultDiv.textContent = '';
+        resultDiv.className = 'll-quiz-result';
         if (explanationDiv) {
-            explanationDiv.style.display = "none";
+            explanationDiv.style.display = 'none';
         }
 
-        checkBtn.style.display = "inline-block";
+        // Show check button, hide retry button
+        checkBtn.style.display = 'inline-block';
         if (retryBtn) {
-            retryBtn.style.display = "none";
+            retryBtn.style.display = 'none';
         }
 
-        quiz.setAttribute("data-answered", "false");
-        quiz.setAttribute("data-correct", "false");
+        // Update quiz state - mark as not answered for retry
+        quiz.setAttribute('data-answered', 'false');
+        quiz.setAttribute('data-correct', 'false');
 
+        // Update score tracker if this is a scored quiz (remove from answered count)
         if (isScored) {
             updateQuizScore(true, wasCorrect, false, true);
         }
     }
 
     function updateQuizScore(wasAnswered, wasCorrect, isCorrect, isRetry) {
-        const tracker = document.getElementById("ll-quiz-score-tracker");
-        if (!tracker) {
-            return;
-        }
+        let tracker = document.getElementById('ll-quiz-score-tracker');
+        if (!tracker) return;
 
-        const total = parseInt(tracker.getAttribute("data-total"), 10);
-        let correct = parseInt(tracker.getAttribute("data-correct"), 10);
-        let answered = parseInt(tracker.getAttribute("data-answered"), 10);
+        let total = parseInt(tracker.getAttribute('data-total'), 10);
+        let correct = parseInt(tracker.getAttribute('data-correct'), 10);
+        let answered = parseInt(tracker.getAttribute('data-answered'), 10);
 
         if (isRetry) {
+            // Removing an answer (retry)
             answered--;
-            if (wasCorrect) {
-                correct--;
-            }
+            if (wasCorrect) correct--;
         } else if (wasAnswered) {
-            if (wasCorrect && !isCorrect) {
-                correct--;
-            } else if (!wasCorrect && isCorrect) {
-                correct++;
-            }
+            // Updating an existing answer
+            if (wasCorrect && !isCorrect) correct--;
+            else if (!wasCorrect && isCorrect) correct++;
         } else {
+            // New answer
             answered++;
-            if (isCorrect) {
-                correct++;
-            }
+            if (isCorrect) correct++;
         }
 
-        tracker.setAttribute("data-correct", correct);
-        tracker.setAttribute("data-answered", answered);
+        tracker.setAttribute('data-correct', correct);
+        tracker.setAttribute('data-answered', answered);
 
-        const percentage = answered > 0 ? Math.round((correct / total) * 100) : 0;
-        const scoreDisplays = document.querySelectorAll(".ll-quiz-score-display");
-        let scoreText = "";
+        // Calculate percentage
+        let percentage = answered > 0 ? Math.round((correct / total) * 100) : 0;
+
+        // Update all inline score displays next to "Scored Quiz" labels
+        let scoreDisplays = document.querySelectorAll('.ll-quiz-score-display');
+        let scoreText = '';
 
         if (answered < total) {
-            scoreText = correct + "/" + total + " correct (" + percentage + "%) - " + (total - answered) + " remaining";
+            scoreText = correct + '/' + total + ' correct (' + percentage + '%) - ' + (total - answered) + ' remaining';
         } else {
-            scoreText = correct + "/" + total + " correct (" + percentage + "%)";
+            scoreText = correct + '/' + total + ' correct (' + percentage + '%)';
         }
 
         scoreDisplays.forEach(function (display) {
             display.textContent = scoreText;
-            display.classList.remove("passing", "failing");
 
+            // Update styling based on current performance
+            display.classList.remove('passing', 'failing');
             if (answered === total) {
-                const config = document.getElementById("ll-quiz-config");
-                const passingScore = config ? parseInt(config.getAttribute("data-passing"), 10) : 80;
+                let config = document.getElementById('ll-quiz-config');
+                let passingScore = config ? parseInt(config.getAttribute('data-passing'), 10) : 80;
                 if (percentage >= passingScore) {
-                    display.classList.add("passing");
+                    display.classList.add('passing');
                 } else {
-                    display.classList.add("failing");
+                    display.classList.add('failing');
                 }
             }
         });
 
-        const badgeContainer = tracker.querySelector(".ll-quiz-badge-container");
-        if (!badgeContainer) {
-            return;
-        }
+        // Handle badge container when all answered
+        let badgeContainer = tracker.querySelector('.ll-quiz-badge-container');
 
         if (answered >= total) {
-            const config = document.getElementById("ll-quiz-config");
-            const passingScore = config ? parseInt(config.getAttribute("data-passing"), 10) : 80;
-            const badgePath = config ? config.getAttribute("data-badge") : null;
+            let config = document.getElementById('ll-quiz-config');
+            let passingScore = config ? parseInt(config.getAttribute('data-passing'), 10) : 80;
+            let badgePath = config ? config.getAttribute('data-badge') : null;
 
             if (percentage >= passingScore && badgePath) {
-                const fullBadgePath = badgePath;
+                let fullBadgePath = badgePath;
                 badgeContainer.innerHTML = '<div class="ll-quiz-badge-message">Congratulations! You passed with ' + percentage + '%!</div>' +
                     '<div class="ll-quiz-badge-content">' +
                     '<img src="' + fullBadgePath + '" alt="Achievement Badge" class="ll-quiz-badge-preview">' +
                     '<a href="' + fullBadgePath + '" download class="ll-quiz-badge-download">Download Your Badge</a>' +
                     '</div>' +
                     '<p class="ll-quiz-badge-disclaimer">Disclaimer: This badge is not an official Oracle Certification. We do not track or store any user data.</p>';
-                badgeContainer.style.display = "block";
-
-                const scoredQuizzes = document.querySelectorAll(".ll-quiz-scored");
+                badgeContainer.style.display = 'block';
+                // Move badge container to appear right after the last scored quiz
+                let scoredQuizzes = document.querySelectorAll('.ll-quiz-scored');
                 if (scoredQuizzes.length > 0) {
-                    const lastScoredQuiz = scoredQuizzes[scoredQuizzes.length - 1];
+                    let lastScoredQuiz = scoredQuizzes[scoredQuizzes.length - 1];
                     lastScoredQuiz.parentNode.insertBefore(badgeContainer, lastScoredQuiz.nextSibling);
                 }
-
-                setTimeout(function () {
-                    badgeContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+                // Scroll badge into view with smooth animation
+                setTimeout(function() {
+                    badgeContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             } else if (percentage < passingScore) {
                 badgeContainer.innerHTML = '<div class="ll-quiz-badge-message ll-quiz-not-passed">Score: ' + percentage + '%. You need ' + passingScore + '% to pass. Click "Try Again" on any quiz to retry.</div>';
-                badgeContainer.style.display = "block";
-
-                const scoredQuizzes = document.querySelectorAll(".ll-quiz-scored");
+                badgeContainer.style.display = 'block';
+                // Move badge container to appear right after the last scored quiz
+                let scoredQuizzes = document.querySelectorAll('.ll-quiz-scored');
                 if (scoredQuizzes.length > 0) {
-                    const lastScoredQuiz = scoredQuizzes[scoredQuizzes.length - 1];
+                    let lastScoredQuiz = scoredQuizzes[scoredQuizzes.length - 1];
                     lastScoredQuiz.parentNode.insertBefore(badgeContainer, lastScoredQuiz.nextSibling);
                 }
-
-                setTimeout(function () {
-                    badgeContainer.scrollIntoView({ behavior: "smooth", block: "center" });
+                // Scroll into view so user sees they didn't pass
+                setTimeout(function() {
+                    badgeContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }, 300);
             } else {
-                badgeContainer.style.display = "none";
+                badgeContainer.style.display = 'none';
             }
         } else {
-            badgeContainer.style.display = "none";
+            badgeContainer.style.display = 'none';
         }
     }
 
-    function initQuiz() {
-        global.checkQuizAnswer = checkQuizAnswer;
-        global.retryQuiz = retryQuiz;
-        global.updateQuizScore = updateQuizScore;
+    window.checkQuizAnswer = checkQuizAnswer;
+    window.retryQuiz = retryQuiz;
+    window.updateQuizScore = updateQuizScore;
 
-        return {
-            convertMarkdown: convertQuizBlocks
-        };
-    }
-
-    global.initQuiz = initQuiz;
-})(typeof window !== "undefined" ? window : globalThis);
+    return {
+        convertQuizBlocks: convertQuizBlocks
+    };
+})();
