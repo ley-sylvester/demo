@@ -135,7 +135,39 @@ let main = function () {
     let manifest_global;
 
     /** @type {Object|null} Quiz module API */
-    const quizModule = (typeof initQuiz === "function") ? initQuiz() : null;
+    let quizModule = null;
+
+    const quizModuleDeferred = $.Deferred();
+
+    (function loadQuizModule() {
+        const scriptSource = resolveCurrentMainScriptSource();
+        let quizModuleUrl = "modules/quiz.js";
+
+        if (scriptSource) {
+            quizModuleUrl = scriptSource.replace(/js\/[^\/]+$/, "modules/quiz.js");
+        }
+
+        const initializeModule = function () {
+            if (typeof initQuiz === "function") {
+                quizModule = initQuiz();
+            } else {
+                quizModule = null;
+            }
+            quizModuleDeferred.resolve(quizModule);
+        };
+
+        if (typeof initQuiz === "function") {
+            initializeModule();
+            return;
+        }
+
+        $.getScript(quizModuleUrl)
+            .done(initializeModule)
+            .fail(function () {
+                quizModule = null;
+                quizModuleDeferred.resolve(quizModule);
+            });
+    })();
 
     /*
      * ============================================
@@ -236,7 +268,8 @@ let main = function () {
             $.getScript(highlight, function () {
                 console.log("Highlight.js loaded!");
             }),
-            freeSqlLoaderReady.promise()
+            freeSqlLoaderReady.promise(),
+            quizModuleDeferred.promise()
         ).done(function () {
             init();
             let selectedTutorial = setupTutorialNav(manifestFileContent); //populate side navigation based on content in the manifestFile            
