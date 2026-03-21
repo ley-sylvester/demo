@@ -199,7 +199,7 @@ window.LiveLabsNav = (function () {
         setTimeout(function () {
             let hashValue = location.hash.slice(1);
             if (hashValue) {
-                callExpandSectionBasedOnHash(hashValue);
+                callExpandSectionBasedOnHash($("li[data-unique='" + hashValue + "']"));
             }
 
             if ($('#leftNav-toc').hasClass('scroll') && $('.selected')[0]) {
