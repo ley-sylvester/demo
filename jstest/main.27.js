@@ -1047,14 +1047,9 @@ let main = function () {
         return file_name.split('/')[file_name.split('/').length - 1].replace('.md', '');
     }
 
-    let getLabNavID = function (file_name, prefix = 'tut-') {
-        return prefix + (
-            getFileNameSafe(file_name.toString())
-        ).replace(/[\(\)]+?/g, '').replace('.md', '');
-    }
 
     let selectTutorial = function (manifestFileContent, position = 0) {
-        $('#' + getLabNavID(getParam(queryParam))).addClass('selected'); //add class selected to the tutorial that is selected by using the ID
+        $('#' + navigationModule.getLabNavID(getParam(queryParam))).addClass('selected'); //add class selected to the tutorial that is selected by using the ID
         $('.selected').find('a').contents().unwrap(); // remove hyperlink from "selected" lab
         $('.selected').unbind('keydown');
 
