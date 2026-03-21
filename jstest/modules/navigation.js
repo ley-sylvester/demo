@@ -8,7 +8,7 @@ window.LiveLabsNavigation = (function () {
     }
 
     function getMDFileName(url) {
-        return url.substring(url.lastIndexOf('/') + 1);
+        return url.split('/').pop().replace('.md', '');
     }
 
     function getLabNavID(file_name) {
@@ -31,7 +31,7 @@ window.LiveLabsNavigation = (function () {
         let tutorialIndex = 0;
 
         for (let i = 0; i < manifest.tutorials.length; i++) {
-            if (manifest.tutorials[i].file === deps.getParam(window.location.href, deps.queryParam)) {
+            if (manifest.tutorials[i].filename === deps.getParam(window.location.href, deps.queryParam)) {
                 tutorialIndex = i;
                 break;
             }
@@ -40,7 +40,7 @@ window.LiveLabsNavigation = (function () {
         let nextIndex = tutorialIndex + direction;
 
         if (nextIndex >= 0 && nextIndex < manifest.tutorials.length) {
-            changeTutorial(manifest.tutorials[nextIndex].file);
+            changeTutorial(manifest.tutorials[nextIndex].filename);
         }
     }
 
