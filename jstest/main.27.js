@@ -188,8 +188,6 @@ let main = function () {
             initializeNavigationModule();
             return;
         }
-        //Ley testing console log to verify if the navigation module is being loaded
-        console.log("Navigation file loaded!");
         
         $.getScript(navigationModuleUrl)
             .done(initializeNavigationModule)
@@ -956,8 +954,6 @@ let main = function () {
                                     ? navigationModule.getMDFileName(tutorial.filename)
                                     : getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
                             }
-                        // Ley test
-                        console.log("get file for change tutorial navigation worked")
                         });
 
                         // fix added for LLAPEX-400
@@ -970,8 +966,6 @@ let main = function () {
                             }
                         });
                         $(ul).appendTo(div);
-                        // Ley test
-                        console.log("get file for change 2 tutorial navigation worked")
                     }
                 } while (matches);
 
@@ -1050,8 +1044,6 @@ let main = function () {
                     ? navigationModule.getMDFileName(tutorial.filename)
                     : getMDFileName(tutorial.filename))) + "\"><div></div></a>");
                 $(this).appendTo(ul);
-                // Ley test
-                        console.log("get file for change 3 tutorial navigation worked")
 
                 /* for accessibility */
                 $(this).keydown(function (e) {
