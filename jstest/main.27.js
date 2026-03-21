@@ -1074,7 +1074,11 @@ let main = function () {
     }
 
     let getLabNavID = function (file_name, prefix = 'tut-') {
-        return prefix + getMDFileName(file_name.toString()).replace(/[\(\)]+?/g, '').replace('.md', '');
+        return prefix + (
+            navigationModule
+                ? navigationModule.getMDFileName(file_name.toString())
+                : getMDFileName(file_name.toString())
+        ).replace(/[\(\)]+?/g, '').replace('.md', '');
     }
 
     let selectTutorial = function (manifestFileContent, position = 0) {
