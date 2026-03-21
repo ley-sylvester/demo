@@ -1087,7 +1087,11 @@ let main = function () {
 
         //find which tutorial in the manifest file is selected
         for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
-            if (getParam(queryParam) === getMDFileName(manifestFileContent.tutorials[i].filename))
+            if (getParam(queryParam) === (
+                navigationModule
+                    ? navigationModule.getMDFileName(manifestFileContent.tutorials[i].filename)
+                    : getMDFileName(manifestFileContent.tutorials[i].filename)
+            ))
                 return manifestFileContent.tutorials[i + position];
         }
 
@@ -1095,7 +1099,12 @@ let main = function () {
         // remove this condition after old style link is removed
         for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
             if (getParam(queryParam) === createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
-                changeTutorial(getMDFileName(manifestFileContent.tutorials[i].filename), window.location.hash.substr(1));
+                changeTutorial(
+                    navigationModule
+                        ? navigationModule.getMDFileName(manifestFileContent.tutorials[i].filename)
+                        : getMDFileName(manifestFileContent.tutorials[i].filename),
+                    window.location.hash.substr(1)
+                );
                 return;
             }
         }
