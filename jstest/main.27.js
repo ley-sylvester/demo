@@ -311,7 +311,8 @@ let main = function () {
                 navigationModule.init({
                     setParam: setParam,
                     getParam: getParam,
-                    queryParam: queryParam
+                    queryParam: queryParam,
+                    manifest: manifest_global
                 });
             }
             init();
@@ -983,7 +984,7 @@ let main = function () {
 
         $(".hol-Nav-list>li>div").prepend($(document.createElement('div')).addClass('arrow').text('+'));
 
-        $('.hol-Nav-list > li > div .arrow').click(arrowClick);
+        $('.hol-Nav-list > li > div .arrow').click(navigationModule.arrowClick);
 
         $('.selected div.arrow').text('-');
         $('.hol-Nav-list > li:not(.selected) .toc').hide();

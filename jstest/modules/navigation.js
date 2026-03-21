@@ -27,11 +27,21 @@ window.LiveLabsNavigation = (function () {
         );
     }
 
-    function arrowClick(element, direction, manifest) {
+    function arrowClick(e) {
+        const direction = $(this).hasClass('right') ? 1 : -1;
+
+        let currentFile = deps.getParam(window.location.href, deps.queryParam);
+
+        if (currentFile && currentFile.indexOf('/') !== -1) {
+            currentFile = currentFile.split('/').pop();
+        }
+
         let tutorialIndex = 0;
 
-        for (let i = 0; i < manifest.tutorials.length; i++) {
-            if (manifest.tutorials[i].filename === deps.getParam(window.location.href, deps.queryParam)) {
+        for (let i = 0; i < deps.manifest.tutorials.length; i++) {
+            let file = deps.manifest.tutorials[i].filename;
+
+            if (file === currentFile) {
                 tutorialIndex = i;
                 break;
             }
@@ -39,8 +49,8 @@ window.LiveLabsNavigation = (function () {
 
         let nextIndex = tutorialIndex + direction;
 
-        if (nextIndex >= 0 && nextIndex < manifest.tutorials.length) {
-            changeTutorial(manifest.tutorials[nextIndex].filename);
+        if (nextIndex >= 0 && nextIndex < deps.manifest.tutorials.length) {
+            changeTutorial(deps.manifest.tutorials[nextIndex].filename);
         }
     }
 
