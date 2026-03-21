@@ -188,7 +188,7 @@ let main = function () {
             initializeNavigationModule();
             return;
         }
-
+        console.log("Navigation file loaded!");
         $.getScript(navigationModuleUrl)
             .done(initializeNavigationModule)
             .fail(function (err) {
