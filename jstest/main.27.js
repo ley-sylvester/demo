@@ -165,6 +165,39 @@ let main = function () {
             });
     })();
 
+    let navigationModule = null;
+    const navigationModuleDeferred = $.Deferred();
+
+    (function loadNavigationModule() {
+        const scriptSource = resolveCurrentMainScriptSource();
+        let navigationModuleUrl = "modules/navigation.js";
+
+        if (scriptSource) {
+            navigationModuleUrl = scriptSource.replace(
+                /main(?:\.[0-9.]+)?(?:\.min)?\.js(?:[?#].*)?$/,
+                "modules/navigation.js"
+            );
+        }
+
+        const initializeNavigationModule = function () {
+            navigationModule = window.LiveLabsNavigation || null;
+            navigationModuleDeferred.resolve(navigationModule);
+        };
+
+        if (window.LiveLabsNavigation && typeof window.LiveLabsNavigation.init === "function") {
+            initializeNavigationModule();
+            return;
+        }
+
+        $.getScript(navigationModuleUrl)
+            .done(initializeNavigationModule)
+            .fail(function (err) {
+                console.error("Failed to load navigation module:", err);
+                navigationModule = null;
+                navigationModuleDeferred.resolve(null);
+            });
+    })();
+
     /*
      * ============================================
      * SECTION 2: INITIALIZATION
@@ -265,8 +298,16 @@ let main = function () {
                 console.log("Highlight.js loaded!");
             }),
             freeSqlLoaderReady.promise(),
-            quizModuleDeferred.promise()
+            quizModuleDeferred.promise(),
+            navigationModuleDeferred.promise()
         ).done(function () {
+            if (navigationModule && typeof navigationModule.init === "function") {
+                navigationModule.init({
+                    setParam: setParam,
+                    getParam: getParam,
+                    queryParam: queryParam
+                });
+            }
             init();
             let selectedTutorial = setupTutorialNav(manifestFileContent); //populate side navigation based on content in the manifestFile            
             let articleElement = document.createElement('article'); //creating an article that would contain MD to HTML converted content
