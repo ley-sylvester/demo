@@ -172,8 +172,6 @@ let main = function () {
         const initializeNavigationModule = function () {
             navigationModule = window.LiveLabsNavigation || null;
 
-            console.log("manifest at init:", manifest);  // 
-
             if (navigationModule && typeof navigationModule.initNavigation === "function") {
                 navigationModule.initNavigation({
                     manifest: manifest,
