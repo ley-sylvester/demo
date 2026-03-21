@@ -863,21 +863,6 @@ let main = function () {
     }
     /* Expands section on page load based on the hash. Expands section when the leftnav item is clicked */
     let expandSectionBasedOnHash = function (itemName) {
-        if (itemName && itemName.jquery) {
-            if (itemName.length) {
-                let derivedName = itemName.attr('data-unique') || itemName.attr('name');
-                if (derivedName) {
-                    itemName = derivedName;
-                } else {
-                    itemName = "";
-                }
-            } else {
-                itemName = "";
-            }
-        }
-        if (!itemName) {
-            return;
-        }
         let anchorElement = $('div[name="' + itemName + '"]').next(); //anchor element is always the next of div (eg. h2 or h3)
         if ($(anchorElement).hasClass('hol-ToggleRegions')) //if the next element is the collpase/expand button
             anchorElement = $(anchorElement).next();
