@@ -63,11 +63,18 @@ window.LiveLabsNavigation = (function () {
 
         for (let i = 0; i < tutorials.length; i++) {
             if (currentLab === getMDFileName(tutorials[i].filename)) {
-                return tutorials[i + position];
+
+                let newIndex = i + position;
+
+                if (newIndex < 0 || newIndex >= tutorials.length) {
+                    return null; 
+                }
+
+                return tutorials[newIndex];
             }
         }
 
-        return tutorials[0 + position];
+        return tutorials[0];
     }
 
     return {

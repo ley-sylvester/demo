@@ -1063,7 +1063,9 @@ let main = function () {
             position
         );
 
-        if (selected) return selected;
+        if (selected !== null && selected !== undefined) {
+            return selected;
+        }
 
         // if old link style URL is used (for example: ?labs=short-tutorial-title)
         // remove this condition after old style link is removed
