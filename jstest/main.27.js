@@ -198,6 +198,12 @@ let main = function () {
             });
     })();
 
+    const getFileNameSafe = function (file) {
+        return navigationModule
+            ? navigationModule.getMDFileName(file)
+            : getMDFileName(file);
+    };
+
     /*
      * ============================================
      * SECTION 2: INITIALIZATION
@@ -1021,9 +1027,7 @@ let main = function () {
         let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
 
         $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let file_name = navigationModule
-                ? navigationModule.getMDFileName(tutorial.filename)
-                : getMDFileName(tutorial.filename);
+            let file_name = getFileNameSafe(tutorial.filename);
 
             $(document.createElement('li')).each(function () {
                 $(this).click(function (e) {
