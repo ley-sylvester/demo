@@ -199,9 +199,7 @@ let main = function () {
     })();
 
     const getFileNameSafe = function (file) {
-        return navigationModule
-            ? navigationModule.getMDFileName(file)
-            : getMDFileName(file);
+        return getFileNameSafe(file);
     };
 
     /*
@@ -371,9 +369,7 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                changeTutorial(navigationModule
-                ? navigationModule.getMDFileName(selectTutorial(manifest_global, position).filename)
-                : getMDFileName(selectTutorial(manifest_global, position).filename));
+                changeTutorial(getFileNameSafe(selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
@@ -956,9 +952,7 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                                changeTutorial(navigationModule
-                                    ? navigationModule.getMDFileName(tutorial.filename)
-                                    : getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
+                                changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
                             }
                         });
 
