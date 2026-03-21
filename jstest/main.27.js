@@ -282,7 +282,7 @@ let main = function () {
                     })
                 }
 
-                manifest_global = manifestFileContent = manifestFile; //reading the manifest file and storing content in manifestFileContent variable                
+                manifestFileContent = manifestFile; //reading the manifest file and storing content in manifestFileContent variable                
             }),
             $.getScript(highlight, function () {
                 console.log("Highlight.js loaded!");
