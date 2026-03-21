@@ -369,7 +369,9 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                changeTutorial(getFileNameSafe(selectTutorial(manifest_global, position).filename));
+                changeTutorial(navigationModule
+                ? navigationModule.getMDFileName(selectTutorial(manifest_global, position).filename)
+                : getMDFileName(selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
