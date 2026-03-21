@@ -862,7 +862,25 @@ let main = function () {
         }
     }
     /* Expands section on page load based on the hash. Expands section when the leftnav item is clicked */
-    let expandSectionBasedOnHash = function (itemName) {
+    let expandSectionBasedOnHash = function (item) {
+        let itemName = item;
+
+        if (item && item.jquery) {
+            if (!item.length) {
+                return;
+            }
+            itemName = item.attr('data-unique') || item.attr('name');
+            if (!itemName && item[0]) {
+                itemName = item[0].getAttribute('data-unique') || item[0].getAttribute('name');
+            }
+        } else if (item && typeof item === 'object' && item.getAttribute) {
+            itemName = item.getAttribute('data-unique') || item.getAttribute('name');
+        }
+
+        if (!itemName || typeof itemName !== 'string') {
+            return;
+        }
+
         let anchorElement = $('div[name="' + itemName + '"]').next(); //anchor element is always the next of div (eg. h2 or h3)
         if ($(anchorElement).hasClass('hol-ToggleRegions')) //if the next element is the collpase/expand button
             anchorElement = $(anchorElement).next();
