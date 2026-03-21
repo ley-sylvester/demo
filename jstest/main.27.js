@@ -2038,16 +2038,6 @@ let main = function () {
     let setH2Name = function (articleElement) {
 
         $(articleElement).find('h2').each(function () {
-                    ? navigationModule.getMDFileName(prev_page.filename)
-                    : getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
-        }
-        return articleElement;
-        
-    }
-
-    let setH2Name = function (articleElement) {
-
-        $(articleElement).find('h2').each(function () {
             $(this).before($(document.createElement('div')).attr({
                 'name': alphaNumOnly($(this).text()),
                 'data-unique': alphaNumOnly($(this).text())
