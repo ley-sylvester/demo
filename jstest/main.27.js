@@ -172,24 +172,36 @@ let main = function () {
         const initializeNavigationModule = function () {
             navigationModule = window.LiveLabsNavigation || null;
 
-            if (navigationModule && typeof navigationModule.initNavigation === "function") {
-                navigationModule.initNavigation({
-                    manifest: manifest,
-                    getParam: getParam,
-                    setParam: setParam,
-                    alphaNumOnly: alphaNumOnly,
-                    include: include,
-                    singlesource: singlesource,
-                    createShortNameFromTitle: createShortNameFromTitle,
-                    expandSection: expandSection,
-                    changeButtonState: changeButtonState,
-                    expandSectionBasedOnHash: expandSectionBasedOnHash
-                });
-            } else {
-                console.error("Navigation module failed to initialize");
+            if (!navigationModule || typeof navigationModule.initNavigation !== "function") {
+                console.error("Navigation module failed to load properly");
+                navigationModuleDeferred.resolve(null);
+                return;
             }
 
-            navigationModuleDeferred.resolve(navigationModule);
+            // WAIT until manifest is ready
+            const tryInit = function () {
+                if (typeof manifest !== "undefined" && manifest) {
+                    navigationModule.initNavigation({
+                        manifest: manifest,
+                        getParam: getParam,
+                        setParam: setParam,
+                        alphaNumOnly: alphaNumOnly,
+                        include: include,
+                        singlesource: singlesource,
+                        createShortNameFromTitle: createShortNameFromTitle,
+                        expandSection: expandSection,
+                        changeButtonState: changeButtonState,
+                        expandSectionBasedOnHash: expandSectionBasedOnHash
+                    });
+
+                    navigationModuleDeferred.resolve(navigationModule);
+                } else {
+                    // try again shortly
+                    setTimeout(tryInit, 50);
+                }
+            };
+
+            tryInit();
         };
 
         if (window.LiveLabsNavigation && typeof window.LiveLabsNavigation.initNavigation === "function") {
