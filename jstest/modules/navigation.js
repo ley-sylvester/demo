@@ -59,14 +59,24 @@ window.LiveLabsNavigation = (function () {
     }
 
     function findSelectedTutorial(manifestFileContent, currentLab, position = 0) {
-    for (let i = 0; i < manifestFileContent.tutorials.length; i++) {
-        if (currentLab === getMDFileName(manifestFileContent.tutorials[i].filename)) {
-            return manifestFileContent.tutorials[i + position];
-        }
-    }
+        let tutorials = manifestFileContent.tutorials;
 
-    return manifestFileContent.tutorials[0 + position];
-}
+        for (let i = 0; i < tutorials.length; i++) {
+            if (currentLab === getMDFileName(tutorials[i].filename)) {
+
+                let newIndex = i + position;
+
+                // 🔒 boundary protection
+                if (newIndex < 0 || newIndex >= tutorials.length) {
+                    return tutorials[i]; // stay on current
+                }
+
+                return tutorials[newIndex];
+            }
+        }
+
+        return tutorials[0]; // safe fallback
+    }
 
     return {
         init: init,
