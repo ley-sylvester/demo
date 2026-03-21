@@ -367,7 +367,9 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                changeTutorial(getMDFileName(selectTutorial(manifest_global, position).filename));
+                changeTutorial(navigationModule
+                ? navigationModule.getMDFileName(selectTutorial(manifest_global, position).filename)
+                : getMDFileName(selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
@@ -950,19 +952,26 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                                changeTutorial(getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
+                                changeTutorial(navigationModule
+                                    ? navigationModule.getMDFileName(tutorial.filename)
+                                    : getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
                             }
-
+                        // Ley test
+                        console.log("get file for change tutorial navigation worked")
                         });
 
                         // fix added for LLAPEX-400
                         $(ul).each(function () {
                             if (tutorial !== selectTutorial(manifestFileContent)) {
                                 let li = $(this).find('li')[0];
-                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
+                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, navigationModule
+                                    ? navigationModule.getMDFileName(tutorial.filename)
+                                    : getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
                             }
                         });
                         $(ul).appendTo(div);
+                        // Ley test
+                        console.log("get file for change 2 tutorial navigation worked")
                     }
                 } while (matches);
 
@@ -1022,9 +1031,6 @@ let main = function () {
                 ? navigationModule.getMDFileName(tutorial.filename)
                 : getMDFileName(tutorial.filename);
 
-            //Ley testing
-            console.log("getMDFileName for navigation works")
-
             $(document.createElement('li')).each(function () {
                 $(this).click(function (e) {
                     if (!$(e.target).hasClass('arrow') && !$(e.target).hasClass('toc-item') && !$(e.target).hasClass('toc-item active')) {
@@ -1040,8 +1046,12 @@ let main = function () {
                 $(this).attr('id', getLabNavID(file_name));
                 //The title specified in the manifest appears in the side nav as navigation
                 // $(this).text(tutorial.title).wrapInner("<span></span>");
-                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, getMDFileName(tutorial.filename))) + "\"><div></div></a>");
+                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, navigationModule
+                    ? navigationModule.getMDFileName(tutorial.filename)
+                    : getMDFileName(tutorial.filename))) + "\"><div></div></a>");
                 $(this).appendTo(ul);
+                // Ley test
+                        console.log("get file for change 3 tutorial navigation worked")
 
                 /* for accessibility */
                 $(this).keydown(function (e) {
@@ -2021,12 +2031,17 @@ let main = function () {
 
 
         if (next_page !== undefined) {
-            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getMDFileName(next_page.filename))), 'title': 'Next' }).text('Next');
+            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule
+                    ? navigationModule.getMDFileName(next_page.filename)
+                    : getMDFileName(next_page.filename))), 'title': 'Next' }).text('Next');
         }
         if (prev_page !== undefined) {
-            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
+            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule
+                    ? navigationModule.getMDFileName(prev_page.filename)
+                    : getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
         }
         return articleElement;
+        
     }
 
     let setH2Name = function (articleElement) {
