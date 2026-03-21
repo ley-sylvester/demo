@@ -1021,7 +1021,7 @@ let main = function () {
                         }
                     }
                 });
-                $(this).attr('id', getLabNavID(file_name));
+                $(this).attr('id', navigationModule.getLabNavID(file_name));
                 //The title specified in the manifest appears in the side nav as navigation
                 // $(this).text(tutorial.title).wrapInner("<span></span>");
                 $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + "\"><div></div></a>");

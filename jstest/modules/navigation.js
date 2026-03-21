@@ -11,8 +11,12 @@ window.LiveLabsNavigation = (function () {
         return url.split('/').pop().replace('.md', '');
     }
 
-    function getLabNavID(file_name) {
-        return file_name.replace(".md", "").replace(/\./g, "");
+    function getLabNavID(file_name, prefix = 'tut-') {
+        let clean = getMDFileName(file_name.toString())
+            .replace(/[\(\)]+?/g, '')
+            .replace('.md', '');
+
+        return prefix + clean;
     }
 
     function changeTutorial(file_name, anchor = "") {
