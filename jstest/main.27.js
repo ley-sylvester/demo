@@ -120,23 +120,19 @@ let main = function () {
         }
     ];
 
-    /** @constant {string} Query parameter name for navigation state */
-    const nav_param_name = 'nav';
-
     /** @constant {string} Query parameter name for header visibility */
     const header_param_name = 'header';
 
-    /** @constant {Object} Extended navigation hash mappings */
-    const extendedNav = { '#last': 2, '#next': 1, '#prev': -1, "#first": -2 };
-
     $.ajaxSetup({ cache: true });
-
-    /** @type {Object|null} Global manifest file reference */
-    let manifest_global;
 
     /** @type {Object|null} Quiz module reference */
     let quizModule = null;
     const quizModuleDeferred = $.Deferred();
+    /** @type {Object|null} Navigation module reference */
+    let navigationModule = null;
+    const navigationModuleDeferred = $.Deferred();
+    /** @type {Object|null} Navigation API reference */
+    let navApi = null;
 
     (function loadQuizModule() {
         const scriptSource = resolveCurrentMainScriptSource();
@@ -162,6 +158,51 @@ let main = function () {
                 console.error("Failed to load quiz module:", err);
                 quizModule = null;
                 quizModuleDeferred.resolve(quizModule);
+            });
+    })();
+
+    (function loadNavigationModule() {
+        const scriptSource = resolveCurrentMainScriptSource();
+        let navigationModuleUrl = "modules/navigation.js";
+
+        if (scriptSource) {
+            navigationModuleUrl = scriptSource.replace(/main(?:\.[0-9.]+)?(?:\.min)?\.js(?:[?#].*)?$/, "modules/navigation.js");
+        }
+
+        const initializeNavigationModule = function () {
+            navigationModule = window.LiveLabsNavigation || null;
+
+            if (navigationModule && typeof navigationModule.initNavigation === "function") {
+                navigationModule.initNavigation({
+                    manifest: manifest,
+                    getParam: getParam,
+                    setParam: setParam,
+                    alphaNumOnly: alphaNumOnly,
+                    include: include,
+                    singlesource: singlesource,
+                    createShortNameFromTitle: createShortNameFromTitle,
+                    expandSection: expandSection,
+                    changeButtonState: changeButtonState,
+                    expandSectionBasedOnHash: expandSectionBasedOnHash
+                });
+            } else {
+                console.error("Navigation module failed to initialize");
+            }
+
+            navigationModuleDeferred.resolve(navigationModule);
+        };
+
+        if (window.LiveLabsNavigation && typeof window.LiveLabsNavigation.initNavigation === "function") {
+            initializeNavigationModule();
+            return;
+        }
+
+        $.getScript(navigationModuleUrl)
+            .done(initializeNavigationModule)
+            .fail(function (err) {
+                console.error("Failed to load navigation module:", err);
+                navigationModule = null;
+                navigationModuleDeferred.resolve(navigationModule);
             });
     })();
 
@@ -265,87 +306,41 @@ let main = function () {
                 console.log("Highlight.js loaded!");
             }),
             freeSqlLoaderReady.promise(),
-            quizModuleDeferred.promise()
+            quizModuleDeferred.promise(),
+            navigationModuleDeferred.promise()
         ).done(function () {
             init();
-            let selectedTutorial = setupTutorialNav(manifestFileContent); //populate side navigation based on content in the manifestFile            
+            if (navigationModule && typeof navigationModule.initNavigation === "function") {
+                navApi = navigationModule.initNavigation({
+                    manifest: manifestFileContent,
+                    getParam,
+                    setParam,
+                    alphaNumOnly,
+                    include,
+                    singlesource,
+                    queryParam,
+                    navParamName: 'nav',
+                    relatedPath: related_path,
+                    createShortNameFromTitle,
+                    expandSection,
+                    changeButtonState,
+                    expandSectionBasedOnHash
+                });
+            } else {
+                navApi = null;
+            }
+
+            let selectedTutorial = navApi && typeof navApi.getInitialTutorial === "function"
+                ? navApi.getInitialTutorial()
+                : (manifestFileContent.tutorials ? manifestFileContent.tutorials[0] : null);
             let articleElement = document.createElement('article'); //creating an article that would contain MD to HTML converted content
 
-            loadTutorial(articleElement, selectedTutorial, manifestFileContent, toggleTutorialNav);
+            let toggleNavHandler = navApi && typeof navApi.getToggleHandler === "function"
+                ? navApi.getToggleHandler()
+                : function () { };
 
-            prepareToc(manifestFileContent);
-            setupRelatedSection(manifestFileContent);
-
-            setTimeout(function () {
-                if (location.hash.slice(1))
-                    expandSectionBasedOnHash($("li[data-unique='" + location.hash.slice(1) + "']"));
-
-                if ($('#leftNav-toc').hasClass('scroll'))
-                    $('.selected')[0].scrollIntoView(true);
-            }, 1000);
+            loadTutorial(articleElement, selectedTutorial, manifestFileContent, toggleNavHandler);
         });
-    });
-
-    // specifies when to do when window is scrolled
-    $(window).scroll(function () {
-        // if ($('#contentBox').height() > $('#leftNav-toc').height() || ($('#leftNav-toc').height() + $('header').height()) > $(window).height()) {
-        if (($('#contentBox').outerHeight() + $('header').outerHeight() + $('footer').outerHeight()) > $(window).outerHeight()) {
-            $('#leftNav-toc').addClass("scroll");
-
-            if (($(window).scrollTop() + $(window).height()) > $('footer').offset().top) { //if footer is seen
-                $('#leftNav-toc').css('max-height', $('footer').offset().top - $('#leftNav-toc').offset().top);
-            } else {
-                $('#leftNav-toc').css('max-height', $(window).height() - $('header').height());
-            }
-        } else {
-            $('#leftNav-toc').removeClass("scroll");
-        }
-
-        try {
-            let activeTocItem = document.querySelector('.selected .active');
-            if (activeTocItem &&
-                (activeTocItem.getBoundingClientRect().y + activeTocItem.clientHeight) > $(window).height() &&
-                $('#leftNav-toc').hasClass("scroll")) {
-                activeTocItem.scrollIntoView(false);
-            }
-        } catch (e) { console.debug('TOC scroll error:', e); }
-
-        let active = $('#contentBox').find('[data-unique]').first();
-        $('#contentBox').find('[data-unique]').each(function () {
-            if (($(this).offset().top - $(window).scrollTop() - $('header').height()) < Math.abs($(active).offset().top - $(window).scrollTop())) {
-                active = $(this);
-            }
-        });
-        $('.selected .toc .toc-item').removeClass('active');
-        $('.selected .toc').find('[data-unique="' + $(active).attr('data-unique') + '"]').addClass('active');
-    });
-
-    $(window).on('hashchange load', function (e) {
-        try { // if next or previous is not available then it raises exception
-            let position = extendedNav[e.target.location.hash]
-            if (position !== undefined)
-                changeTutorial(getMDFileName(selectTutorial(manifest_global, position).filename));
-
-            setTimeout(function () {
-                // Cause a subtle change in the parent page to trigger Google Translate
-                // if (window.parent && window.parent.document) {
-                    let body = window.parent.document.body;
-            
-                    // Find or create a subtle trigger element
-                    let triggerElement = window.parent.document.getElementById("translation-trigger");
-                    if (!triggerElement) {
-                        triggerElement = window.parent.document.createElement("span");
-                        triggerElement.id = "translation-trigger";
-                        triggerElement.style.display = "none"; // Keep it invisible
-                        body.appendChild(triggerElement);
-                    }
-            
-                    // Toggle text content to force translation detection
-                    triggerElement.textContent = triggerElement.textContent === "." ? " " : ".";
-                    console.log("Translation trigger updated:", triggerElement);
-                // }
-            }, 500); // Adjust delay as needed
-        } catch (e) { console.debug('Hash change error:', e); }
     });
 
     let init = function () {
@@ -358,16 +353,6 @@ let main = function () {
         // $('.hol-Header-actions').prependTo('.hol-Header-wrap').show();
         $('.hol-Header-actions').prependTo('.hol-Header-wrap');
         $('<div id="tutorial-title"></div>').appendTo(".hol-Header-logo")[0];
-
-        $('#openNav').click(function () {
-            let nav_param = getParam(nav_param_name);
-            if (!nav_param || nav_param === 'open') {
-                window.history.pushState('', '', setParam(window.location.href, nav_param_name, 'close'));
-            } else if (nav_param === 'close') {
-                window.history.pushState('', '', setParam(window.location.href, nav_param_name, 'open'));
-            }
-            toggleTutorialNav();
-        });
 
         $('.hol-Footer-topLink').after($(document.createElement('a')).addClass('hol-Footer-rightLink hide'));
         $('.hol-Footer-topLink').before($(document.createElement('a')).addClass('hol-Footer-leftLink hide'));
@@ -431,7 +416,9 @@ let main = function () {
             }).makeHtml(markdownContent)); //converting markdownContent to HTML by using showdown plugin
 
             articleElement = updateOpenCloseButtonText(articleElement, manifestFileContent); // in the manifest file, you can specify task_type to specify different text
-            articleElement = showRightAndLeftArrow(articleElement, manifestFileContent);
+            if (navApi && typeof navApi.showRightAndLeftArrow === "function") {
+                articleElement = navApi.showRightAndLeftArrow(articleElement, manifestFileContent);
+            }
             articleElement = renderVideoHubVideos(articleElement); //adds iframe to Oracle Video Hub videos
             articleElement = renderYouTubeVideos(articleElement); //adds iframe to YouTube videos
             articleElement = renderDirectVideos(articleElement); //adds HTML5 video element for direct video URLs
@@ -778,313 +765,6 @@ let main = function () {
 
         return markdown;
     }
-
-    let arrowClick = function () {
-        if ($(this).text() === '-') {
-            $(this).next().next().fadeOut('fast', function () {
-                $(window).scroll();
-            });
-            $(this).text('+');
-        } else {
-            $(this).next().next().fadeIn('fast', function () {
-                $(window).scroll();
-            });
-            $(this).text('-');
-        }
-    }
-
-    let setupRelatedSection = function (manifestFileContent) {
-        // this part has been added for LLAPEX-448
-        const max_related = 5;
-        let related_li = [];
-        if ('show_related' in manifestFileContent) {
-            let related_content;
-            let tut_titles = [];
-
-            for (let i = 0; i < manifestFileContent.tutorials.length; i++) {
-                tut_titles[i] = manifestFileContent.tutorials[i].title.toLowerCase();
-            }
-
-            for (let i = 0; i < manifestFileContent.show_related.length; i++) {
-                if (!('filename' in manifestFileContent.show_related[i]) || !('tags' in manifestFileContent.show_related[i]) || !('title' in manifestFileContent.show_related[i])) {
-                    continue;
-                }
-                $.getJSON(related_path + manifestFileContent.show_related[i]['filename'], function (content) {
-                    related_content = content;
-                }).done(function () {
-                    related_li[i] = $(document.createElement('li')).attr('id', 'related-content-' + i).css({ 'border-bottom': '0px', 'padding-left': '36px', 'cursor': 'default', 'background-color': 'rgb(0,0,0,0.06)' });
-
-                    let div_main = $(document.createElement('div'));
-                    let a = $(document.createElement('a')).css('cursor', 'pointer');
-                    let arrow, div;
-
-                    $(a).click(function () {
-                        $(this).prev().click();
-                    });
-                    $(a).append($(document.createElement('div')).text(manifestFileContent.show_related[i]['title']).css({ 'font-weight': '600' }));
-                    $(div_main).append(a);
-                    $(related_li[i]).append(div_main);
-                    div = $(document.createElement('div')).attr('id', 'toc-related-' + i).addClass('toc');
-                    $(div_main).append(div);
-
-                    if ('state' in manifestFileContent.show_related[i] && manifestFileContent.show_related[i]['state'] === "collapsed") {
-                        $(div).hide();
-                        arrow = $(document.createElement('div')).addClass('arrow').text('+');
-                    } else {
-                        arrow = $(document.createElement('div')).addClass('arrow').text('-');
-                    }
-
-                    $(arrow).css('cursor', 'pointer').click(arrowClick);
-                    $(div_main).prepend(arrow);
-                    $("#leftNav-toc ul.hol-Nav-list:first-of-type").append(related_li[i]);
-
-                    // for each related workshop
-                    let related_workshops = {};
-                    let tags = manifestFileContent.show_related[i]['tags'];
-                    $(tags).each(function (_, tag) {
-                        related_workshops = { ...related_workshops, ...related_content[tag] };
-                    });
-
-                    let filtered_workshops = {};
-
-                    for (let j = 0; j < Object.keys(related_workshops).length; j++) {
-                        if (manifestFileContent.workshoptitle.toLowerCase() === Object.keys(related_workshops)[j].toLowerCase()) continue;
-                        if ($.inArray(Object.keys(related_workshops)[j].toLowerCase(), tut_titles) != -1) continue;
-
-                        filtered_workshops[Object.keys(related_workshops)[j]] = related_workshops[Object.keys(related_workshops)[j]];
-                    }
-
-                    let filter = Object.keys(filtered_workshops).sort(() => Math.random() - Math.random()).slice(0, max_related);
-
-                    $(filter).each(function (_, f) {
-                        let ul = document.createElement('ul');
-                        let li = $(document.createElement('li')).addClass('toc-item').text(f);
-                        $(li).wrapInner('<a href="' + filtered_workshops[f] + '"></a>');
-                        $(ul).append(li);
-                        $(ul).appendTo(div);
-                    });
-                });
-            }
-        }
-    }
-    let prepareToc = function (manifestFileContent) {
-        let h2_regex = new RegExp(/^##\s(.+)*/gm);
-        let h2s_list = [];
-        let matches;
-        let tut_fname;
-
-        // const currentDomain = window.location.origin; // e.g., "https://livelabs.oracle.com"
-
-        $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let ul;
-            let div = document.createElement('div');
-            $(div).attr('id', 'toc' + i).addClass('toc');
-
-            // Modify tut_fname based on the current domain
-            if (tutorial.filename.startsWith("/") && currentDomain.includes("livelabs.oracle.com")) {
-                tut_fname = "/cdn/" + tutorial.filename.replace(/^\/+/, ""); // Ensure correct path
-            } else if (tutorial.filename.startsWith("/") && currentDomain.includes("apexapps-stage.oracle.com")) {
-                tut_fname = "/livelabs/cdn/" + tutorial.filename.replace(/^\/+/, ""); // Ensure correct path
-            } else {
-                tut_fname = tutorial.filename;
-            }
-
-            $.get(tut_fname, function (markdownContent) { //reading MD file in the manifest and storing content in markdownContent variable
-                if (tutorial.filename == 'preview' && markdownContent == "None") {
-                    markdownContent = window.localStorage.getItem("mdValue");
-                }
-                markdownContent = include(markdownContent, manifestFileContent.include);
-                markdownContent = singlesource(markdownContent, tutorial.type);
-
-                do {
-                    matches = h2_regex.exec(markdownContent);
-
-                    if (matches !== null) {
-                        ul = document.createElement('ul');
-                        $(ul).append($(document.createElement('li')).addClass('toc-item').text(matches[1].replace(/\**/g, '').replace(/\##/g, '')).attr('data-unique', alphaNumOnly(matches[1])));
-                        $(ul).click(function () {
-                            if ($(this).parent().parent().parent().hasClass('selected')) {
-                                location.hash = alphaNumOnly($(this).text());
-                                expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
-                            } else {
-                                changeTutorial(getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
-                            }
-
-                        });
-
-                        // fix added for LLAPEX-400
-                        $(ul).each(function () {
-                            if (tutorial !== selectTutorial(manifestFileContent)) {
-                                let li = $(this).find('li')[0];
-                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
-                            }
-                        });
-                        $(ul).appendTo(div);
-                    }
-                } while (matches);
-
-            });
-
-            $('.hol-Nav-list li')[i].append(div);
-        });
-
-        setTimeout(function () {
-            let anchorItem = $('.selected li[data-unique="' + location.hash.slice(1) + '"]');
-            if (anchorItem.length !== 0)
-                $(anchorItem)[0].click();
-        }, 1000);
-        $(".hol-Nav-list>li").wrapInner("<div></div>")
-
-        $(".hol-Nav-list>li>div").prepend($(document.createElement('div')).addClass('arrow').text('+'));
-
-        $('.hol-Nav-list > li > div .arrow').click(arrowClick);
-
-        $('.selected div.arrow').text('-');
-        $('.hol-Nav-list > li:not(.selected) .toc').hide();
-
-    }
-
-    let toggleTutorialNav = function () {
-        let nav_param = getParam(nav_param_name);
-
-        if (!nav_param || nav_param === 'open') {
-            $('.hol-Nav-list > li:not(.selected)').attr('tabindex', '0');
-            $('#leftNav-toc, #leftNav, #contentBox').addClass('open').removeClass('close');
-        } else if (nav_param === 'close') {
-            $('.hol-Nav-list > li:not(.selected)').attr('tabindex', '-1');
-            $('#leftNav-toc, #leftNav, #contentBox').addClass('close').removeClass('open');
-        }
-        setTimeout(function () {
-            $(window).scroll();
-        }, 100);
-    }
-
-    /*
-     * ============================================
-     * SECTION 4: NAVIGATION
-     * ============================================
-     */
-
-    /**
-     * Creates and populates the tutorial navigation sidebar
-     * @param {Object} manifestFileContent - The manifest file content
-     * @returns {Object} The selected tutorial object
-     */
-    const setupTutorialNav = function (manifestFileContent) {
-        let div = $(document.createElement('div')).attr('id', 'leftNav-toc');
-        let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
-
-        $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let file_name = getMDFileName(tutorial.filename);
-
-            $(document.createElement('li')).each(function () {
-                $(this).click(function (e) {
-                    if (!$(e.target).hasClass('arrow') && !$(e.target).hasClass('toc-item') && !$(e.target).hasClass('toc-item active')) {
-                        if ($(e.target).parent().parent().hasClass('selected') || $(e.target).hasClass('selected')) {
-                            try {
-                                $('.selected .arrow').click();
-                            } catch (err) { console.debug('Nav click error:', err); }
-                        } else {
-                            changeTutorial(file_name);
-                        }
-                    }
-                });
-                $(this).attr('id', getLabNavID(file_name));
-                //The title specified in the manifest appears in the side nav as navigation
-                // $(this).text(tutorial.title).wrapInner("<span></span>");
-                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, getMDFileName(tutorial.filename))) + "\"><div></div></a>");
-                $(this).appendTo(ul);
-
-                /* for accessibility */
-                $(this).keydown(function (e) {
-                    if (e.keyCode === 13 || e.keyCode === 32) { //means enter and space
-                        e.preventDefault();
-                        changeTutorial(file_name);
-                    }
-                });
-                /* accessibility code ends here */
-            });
-        });
-
-        $(ul).appendTo(div);
-        $(div).appendTo('#leftNav');
-        return selectTutorial(manifestFileContent);
-    }
-
-    let getMDFileName = function (file_name) {
-        return file_name.split('/')[file_name.split('/').length - 1].replace('.md', '');
-    }
-
-    let getLabNavID = function (file_name, prefix = 'tut-') {
-        return prefix + getMDFileName(file_name.toString()).replace(/[\(\)]+?/g, '').replace('.md', '');
-    }
-
-    let selectTutorial = function (manifestFileContent, position = 0) {
-        $('#' + getLabNavID(getParam(queryParam))).addClass('selected'); //add class selected to the tutorial that is selected by using the ID
-        $('.selected').find('a').contents().unwrap(); // remove hyperlink from "selected" lab
-        $('.selected').unbind('keydown');
-
-        if (position === -2) return manifestFileContent.tutorials[0];
-        if (position === 2) return manifestFileContent.tutorials[manifestFileContent.tutorials.length - 1];
-
-        //find which tutorial in the manifest file is selected
-        for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
-            if (getParam(queryParam) === getMDFileName(manifestFileContent.tutorials[i].filename))
-                return manifestFileContent.tutorials[i + position];
-        }
-
-        // if old link style URL is used (for example: ?labs=short-tutorial-title)
-        // remove this condition after old style link is removed
-        for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
-            if (getParam(queryParam) === createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
-                changeTutorial(getMDFileName(manifestFileContent.tutorials[i].filename), window.location.hash.substr(1));
-                return;
-            }
-        }
-        // until here
-
-        //if no title has selected class, selected class is added to the first class
-        $('.hol-Nav-list').find('li:eq(0)').addClass("selected");
-        return manifestFileContent.tutorials[0 + position]; //return the first tutorial is no tutorial is matches
-    }
-
-    /* Setup toc navigation and tocify */
-    let setupTocNav = function () {
-        $(".hol-Nav-list .selected").wrapInner("<div tabindex='0'></div>")
-        $(".hol-Nav-list .selected div").prepend($(document.createElement('div')).addClass('arrow').text('+'));
-        $(".hol-Nav-list .selected").unbind('click');
-
-        $(".hol-Nav-list .selected > div").click(function (e) {
-            if ($('.selected div.arrow').text() === '-') {
-                $('#toc').fadeOut('fast');
-                $('.selected div.arrow').text('+');
-            } else {
-                $('#toc').fadeIn('fast');
-                $('.selected div.arrow').text('-');
-            }
-        });
-
-        /* for accessibility */
-        $(".hol-Nav-list .selected > div").keydown(function (e) {
-            if (e.keyCode === 13 || e.keyCode === 32) { //means enter and space
-                e.preventDefault();
-                $(this).click()
-            }
-        });
-        /* accessibility code ends here */
-
-        $(window).scroll();
-        $('#toc').appendTo(".hol-Nav-list .selected");
-        $('.selected div.arrow').click();
-    }
-    
-    /* The following function performs the event that must happen when the lab links in the navigation is clicked */
-    let changeTutorial = function (file_name, anchor = "") {
-
-        if (anchor !== "") anchor = '#' + anchor;
-        location.href = unescape(setParam(window.location.href, queryParam, file_name) + anchor);
-    }
-
     /*the following function changes the path of images as per the path of the MD file.
     This ensures that the images are picked up from the same location as the MD file.
     The manifest file can be in any location.*/
@@ -1500,7 +1180,13 @@ let main = function () {
         /* accessibility code ends here */
 
         // code to hide expand/collapse button
-        let hide_expand_button = selectTutorial(manifestFileContent).hide_button || manifestFileContent.hide_button;
+        let currentNavTutorial = null;
+        if (navApi && typeof navApi.selectTutorial === "function") {
+            currentNavTutorial = navApi.selectTutorial(manifestFileContent);
+        } else if (manifestFileContent.tutorials && manifestFileContent.tutorials.length) {
+            currentNavTutorial = manifestFileContent.tutorials[0];
+        }
+        let hide_expand_button = (currentNavTutorial && currentNavTutorial.hide_button) || manifestFileContent.hide_button;
         if (hide_expand_button == "true" || hide_expand_button == "yes") {
             $('#btn_toggle').hide();
         }
@@ -1957,7 +1643,13 @@ let main = function () {
 
 
     let updateOpenCloseButtonText = function (articleElement, manifestFileContent) {
-        let task_type = selectTutorial(manifestFileContent).task_type || manifestFileContent.task_type;
+        let currentNavTutorial = null;
+        if (navApi && typeof navApi.selectTutorial === "function") {
+            currentNavTutorial = navApi.selectTutorial(manifestFileContent);
+        } else if (manifestFileContent.tutorials && manifestFileContent.tutorials.length) {
+            currentNavTutorial = manifestFileContent.tutorials[0];
+        }
+        let task_type = (currentNavTutorial && currentNavTutorial.task_type) || manifestFileContent.task_type;
         if (task_type) {
             const default_task_type = "Tasks";
             task_type = task_type.trim();
@@ -1966,21 +1658,6 @@ let main = function () {
         }
         return articleElement;
     }
-
-    let showRightAndLeftArrow = function (articleElement, manifestFileContent) {
-        let next_page = selectTutorial(manifestFileContent, extendedNav['#next']);
-        let prev_page = selectTutorial(manifestFileContent, extendedNav['#prev']);
-
-
-        if (next_page !== undefined) {
-            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getMDFileName(next_page.filename))), 'title': 'Next' }).text('Next');
-        }
-        if (prev_page !== undefined) {
-            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
-        }
-        return articleElement;
-    }
-
     let setH2Name = function (articleElement) {
 
         $(articleElement).find('h2').each(function () {
