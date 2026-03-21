@@ -371,7 +371,7 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                changeTutorial(getFileNameSafe(selectTutorial(manifest_global, position).filename));
+                navigationModule.changeTutorial(getFileNameSafe(selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
@@ -954,7 +954,7 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                                changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
+                               navigationModule.changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
                             }
                         });
 
@@ -1031,7 +1031,7 @@ let main = function () {
                                 $('.selected .arrow').click();
                             } catch (err) { console.debug('Nav click error:', err); }
                         } else {
-                            changeTutorial(file_name);
+                           navigationModule.changeTutorial(file_name);
                         }
                     }
                 });
@@ -1045,7 +1045,7 @@ let main = function () {
                 $(this).keydown(function (e) {
                     if (e.keyCode === 13 || e.keyCode === 32) { //means enter and space
                         e.preventDefault();
-                        changeTutorial(file_name);
+                       navigationModule.changeTutorial(file_name);
                     }
                 });
                 /* accessibility code ends here */
@@ -1087,7 +1087,7 @@ let main = function () {
         // remove this condition after old style link is removed
         for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
             if (getParam(queryParam) === createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
-                changeTutorial(
+                navigationModule.changeTutorial(
                     getFileNameSafe(manifestFileContent.tutorials[i].filename),
                     window.location.hash.substr(1)
                 );
