@@ -188,7 +188,9 @@ let main = function () {
             initializeNavigationModule();
             return;
         }
+        //Ley testing console log to verify if the navigation module is being loaded
         console.log("Navigation file loaded!");
+        
         $.getScript(navigationModuleUrl)
             .done(initializeNavigationModule)
             .fail(function (err) {
@@ -1016,7 +1018,12 @@ let main = function () {
         let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
 
         $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let file_name = getMDFileName(tutorial.filename);
+            let file_name = navigationModule
+                ? navigationModule.getMDFileName(tutorial.filename)
+                : getMDFileName(tutorial.filename);
+
+            //Ley testing
+            console.log("getMDFileName for navigation works")
 
             $(document.createElement('li')).each(function () {
                 $(this).click(function (e) {
