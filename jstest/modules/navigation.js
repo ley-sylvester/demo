@@ -58,11 +58,22 @@ window.LiveLabsNavigation = (function () {
         }
     }
 
+    function findSelectedTutorial(manifestFileContent, currentLab, position = 0) {
+    for (let i = 0; i < manifestFileContent.tutorials.length; i++) {
+        if (currentLab === getMDFileName(manifestFileContent.tutorials[i].filename)) {
+            return manifestFileContent.tutorials[i + position];
+        }
+    }
+
+    return manifestFileContent.tutorials[0 + position];
+}
+
     return {
         init: init,
         getMDFileName: getMDFileName,
         getLabNavID: getLabNavID,
         changeTutorial: changeTutorial,
-        arrowClick: arrowClick
+        arrowClick: arrowClick,
+        findSelectedTutorial: findSelectedTutorial
     };
 })();
