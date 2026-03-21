@@ -199,7 +199,9 @@ let main = function () {
     })();
 
     const getFileNameSafe = function (file) {
-        return getFileNameSafe(file);
+        return navigationModule
+            ? navigationModule.getMDFileName(file)
+            : getMDFileName(file);
     };
 
     /*
@@ -369,9 +371,7 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                changeTutorial(navigationModule
-                ? navigationModule.getMDFileName(selectTutorial(manifest_global, position).filename)
-                : getMDFileName(selectTutorial(manifest_global, position).filename));
+                changeTutorial(getFileNameSafe(selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
@@ -954,9 +954,7 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                                changeTutorial(navigationModule
-                                    ? navigationModule.getMDFileName(tutorial.filename)
-                                    : getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
+                                changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
                             }
                         });
 
@@ -964,9 +962,7 @@ let main = function () {
                         $(ul).each(function () {
                             if (tutorial !== selectTutorial(manifestFileContent)) {
                                 let li = $(this).find('li')[0];
-                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, navigationModule
-                                    ? navigationModule.getMDFileName(tutorial.filename)
-                                    : getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
+                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
                             }
                         });
                         $(ul).appendTo(div);
@@ -1067,9 +1063,7 @@ let main = function () {
 
     let getLabNavID = function (file_name, prefix = 'tut-') {
         return prefix + (
-            navigationModule
-                ? navigationModule.getMDFileName(file_name.toString())
-                : getMDFileName(file_name.toString())
+            getFileNameSafe(file_name.toString())
         ).replace(/[\(\)]+?/g, '').replace('.md', '');
     }
 
@@ -1084,9 +1078,7 @@ let main = function () {
         //find which tutorial in the manifest file is selected
         for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
             if (getParam(queryParam) === (
-                navigationModule
-                    ? navigationModule.getMDFileName(manifestFileContent.tutorials[i].filename)
-                    : getMDFileName(manifestFileContent.tutorials[i].filename)
+                getFileNameSafe(manifestFileContent.tutorials[i].filename)
             ))
                 return manifestFileContent.tutorials[i + position];
         }
@@ -1096,9 +1088,7 @@ let main = function () {
         for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
             if (getParam(queryParam) === createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
                 changeTutorial(
-                    navigationModule
-                        ? navigationModule.getMDFileName(manifestFileContent.tutorials[i].filename)
-                        : getMDFileName(manifestFileContent.tutorials[i].filename),
+                    getFileNameSafe(manifestFileContent.tutorials[i].filename),
                     window.location.hash.substr(1)
                 );
                 return;
@@ -2036,12 +2026,18 @@ let main = function () {
 
 
         if (next_page !== undefined) {
-            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule
-                    ? navigationModule.getMDFileName(next_page.filename)
-                    : getMDFileName(next_page.filename))), 'title': 'Next' }).text('Next');
+            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getFileNameSafe(next_page.filename))), 'title': 'Next' }).text('Next');
         }
         if (prev_page !== undefined) {
-            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule
+            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getFileNameSafe(prev_page.filename))), 'title': 'Previous' }).text('Previous');
+        }
+        return articleElement;
+        
+    }
+
+    let setH2Name = function (articleElement) {
+
+        $(articleElement).find('h2').each(function () {
                     ? navigationModule.getMDFileName(prev_page.filename)
                     : getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
         }
