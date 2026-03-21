@@ -171,6 +171,7 @@ let main = function () {
 
         const initializeNavigationModule = function () {
             navigationModule = window.LiveLabsNavigation || null;
+            window.manifest_global = manifest;
 
             if (!navigationModule || typeof navigationModule.initNavigation !== "function") {
                 console.error("Navigation module failed to load properly");
