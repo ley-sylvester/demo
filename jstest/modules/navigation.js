@@ -62,7 +62,7 @@ window.LiveLabsNavigation = (function () {
                 return toggleTutorialNav;
             },
             showRightAndLeftArrow: function (articleElement, manifestFileContent) {
-                return showRightAndLeftArrow(articleElement, manifestFileContent || deps.manifest);
+                return _showRightAndLeftArrow(articleElement, manifestFileContent || deps.manifest);
             },
             selectTutorial: function (manifestFileContent, position) {
                 return selectTutorial(manifestFileContent || deps.manifest, position);
@@ -343,7 +343,7 @@ window.LiveLabsNavigation = (function () {
         $('.hol-Nav-list > li:not(.selected) .toc').hide();
     }
 
-    function showRightAndLeftArrow(articleElement, manifestFileContent) {
+    function _showRightAndLeftArrow(articleElement, manifestFileContent) {
         if (!manifestFileContent) {
             return articleElement;
         }
