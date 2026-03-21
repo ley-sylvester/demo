@@ -232,7 +232,6 @@ let main = function () {
                 if (manifestFile.workshoptitle !== undefined) { // if manifest file contains a field for workshop title
                     document.getElementsByClassName("hol-Header-logo")[0].innerText = manifestFile.workshoptitle; // set title in the HTML output (DBDOC-2392)
                 }
-                console.log("Manifest file loaded!");
 
 
                 if (getParam("manifest")) {
@@ -827,20 +826,6 @@ let main = function () {
         return markdown;
     }
 
-    let arrowClick = function () {
-        if ($(this).text() === '-') {
-            $(this).next().next().fadeOut('fast', function () {
-                $(window).scroll();
-            });
-            $(this).text('+');
-        } else {
-            $(this).next().next().fadeIn('fast', function () {
-                $(window).scroll();
-            });
-            $(this).text('-');
-        }
-    }
-
     let setupRelatedSection = function (manifestFileContent) {
         // this part has been added for LLAPEX-448
         const max_related = 5;
@@ -882,7 +867,7 @@ let main = function () {
                         arrow = $(document.createElement('div')).addClass('arrow').text('-');
                     }
 
-                    $(arrow).css('cursor', 'pointer').click(arrowClick);
+                    $(arrow).css('cursor', 'pointer').click(navigationModule.arrowClick);
                     $(div_main).prepend(arrow);
                     $("#leftNav-toc ul.hol-Nav-list:first-of-type").append(related_li[i]);
 
