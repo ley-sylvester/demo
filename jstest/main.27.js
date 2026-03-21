@@ -416,7 +416,7 @@ let main = function () {
             markdownContent = addPathToImageSrc(markdownContent, tut_fname); //adding the path for the image based on the filename in manifest
             markdownContent = addPathToTypeHrefs(markdownContent); // if type is specified in the markdown, then add absolute path for it.
             markdownContent = convertSingleLineCode(markdownContent);
-            markdownContent = window.LiveLabsQuiz.convertQuizBlocks(markdownContent, tut_fname); // converts ```quiz blocks to interactive quiz HTML
+            //markdownContent = window.LiveLabsQuiz.convertQuizBlocks(markdownContent, tut_fname); // converts ```quiz blocks to interactive quiz HTML
             markdownContent = convertCodeBlocks(markdownContent); // codeblock with multiple breaks don't render correctly, so I convert to codeblock here itself
 
             $(articleElement).html(new showdown.Converter({
