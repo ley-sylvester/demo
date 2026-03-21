@@ -952,7 +952,9 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                                changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
+                                changeTutorial(navigationModule
+                                    ? navigationModule.getMDFileName(tutorial.filename)
+                                    : getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
                             }
                         });
 
