@@ -947,7 +947,7 @@ let main = function () {
 
                         // fix added for LLAPEX-400
                         $(ul).each(function () {
-                            if (tutorial !== selectTutorial(manifestFileContent)) {
+                            if (tutorial !== navigationModule.selectTutorial(manifestFileContent)) {
                                 let li = $(this).find('li')[0];
                                 $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
                             }
@@ -1993,7 +1993,7 @@ let main = function () {
 
 
     let updateOpenCloseButtonText = function (articleElement, manifestFileContent) {
-        let task_type = selectTutorial(manifestFileContent).task_type || manifestFileContent.task_type;
+        let task_type = navigationModule.selectTutorial(manifestFileContent).task_type || manifestFileContent.task_type;
         if (task_type) {
             const default_task_type = "Tasks";
             task_type = task_type.trim();
@@ -2004,8 +2004,8 @@ let main = function () {
     }
 
     let showRightAndLeftArrow = function (articleElement, manifestFileContent) {
-        let next_page = selectTutorial(manifestFileContent, extendedNav['#next']);
-        let prev_page = selectTutorial(manifestFileContent, extendedNav['#prev']);
+        let next_page = navigationModule.selectTutorial(manifestFileContent, extendedNav['#next']);
+        let prev_page = navigationModule.selectTutorial(manifestFileContent, extendedNav['#prev']);
 
 
         if (next_page !== undefined) {
