@@ -1005,7 +1005,8 @@ let main = function () {
         let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
 
         $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let file_name = navigationModule.getMDFileName(tutorial.filename);
+            let item = navigationModule.buildTutorialItem(tutorial);
+            let file_name = item.fileName;
 
             $(document.createElement('li')).each(function () {
                 $(this).click(function (e) {
@@ -1019,9 +1020,8 @@ let main = function () {
                         }
                     }
                 });
-                $(this).attr('id', navigationModule.getLabNavID(file_name));
+                $(this).attr('id', item.id);
                 //The title specified in the manifest appears in the side nav as navigation
-                // $(this).text(tutorial.title).wrapInner("<span></span>");
                 $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + "\"><div></div></a>");
                 $(this).appendTo(ul);
 

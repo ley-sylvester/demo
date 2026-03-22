@@ -113,6 +113,17 @@ window.LiveLabsNavigation = (function () {
         return manifestFileContent.tutorials[0 + position];
     }
 
+    function buildTutorialItem(tutorial) {
+        let fileName = getMDFileName(tutorial.filename);
+        let id = getLabNavID(fileName);
+
+        return {
+            fileName,
+            id,
+            title: tutorial.title
+        };
+    }
+
     return {
         init: init,
         getMDFileName: getMDFileName,
@@ -120,6 +131,7 @@ window.LiveLabsNavigation = (function () {
         changeTutorial: changeTutorial,
         arrowClick: arrowClick,
         findSelectedTutorial: findSelectedTutorial,
-        selectTutorial: selectTutorial
+        selectTutorial: selectTutorial,
+        buildTutorialItem: buildTutorialItem
     };
 })();
