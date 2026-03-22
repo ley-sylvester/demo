@@ -1536,7 +1536,7 @@ let main = function () {
         /* accessibility code ends here */
 
         // code to hide expand/collapse button
-        let hide_expand_button = selectTutorial(manifestFileContent).hide_button || manifestFileContent.hide_button;
+        let hide_expand_button = navigationModule.selectTutorial(manifestFileContent).hide_button || manifestFileContent.hide_button;
         if (hide_expand_button == "true" || hide_expand_button == "yes") {
             $('#btn_toggle').hide();
         }
