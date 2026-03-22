@@ -1042,11 +1042,11 @@ let main = function () {
         $(div).appendTo('#leftNav');
         return selectTutorial(manifestFileContent);
     }
-
+/*
     let getMDFileName = function (file_name) {
         return file_name.split('/')[file_name.split('/').length - 1].replace('.md', '');
     }
-
+*/
 
     let selectTutorial = function (manifestFileContent, position = 0) {
         $('#' + navigationModule.getLabNavID(getParam(queryParam))).addClass('selected'); //add class selected to the tutorial that is selected by using the ID
