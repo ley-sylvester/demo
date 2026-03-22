@@ -123,6 +123,9 @@ window.LiveLabsNavigation = (function () {
             title: tutorial.title
         };
     }
+    function handleTutorialClick(fileName) {
+        changeTutorial(fileName);
+    }
 
     return {
         init: init,
@@ -132,6 +135,7 @@ window.LiveLabsNavigation = (function () {
         arrowClick: arrowClick,
         findSelectedTutorial: findSelectedTutorial,
         selectTutorial: selectTutorial,
-        buildTutorialItem: buildTutorialItem
+        buildTutorialItem: buildTutorialItem,
+        handleTutorialClick: handleTutorialClick
     };
 })();

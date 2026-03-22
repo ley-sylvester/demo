@@ -1029,7 +1029,7 @@ let main = function () {
                 $(this).keydown(function (e) {
                     if (e.keyCode === 13 || e.keyCode === 32) { //means enter and space
                         e.preventDefault();
-                       navigationModule.changeTutorial(file_name);
+                       navigationModule.handleTutorialClick(file_name);
                     }
                 });
                 /* accessibility code ends here */
