@@ -1051,46 +1051,6 @@ let main = function () {
     }
 */
 
-    let selectTutorial = function (manifestFileContent, position = 0) {
-        $('#' + navigationModule.getLabNavID(getParam(queryParam))).addClass('selected'); //add class selected to the tutorial that is selected by using the ID
-        $('.selected').find('a').contents().unwrap(); // remove hyperlink from "selected" lab
-        $('.selected').unbind('keydown');
-
-        if (position === -2) return manifestFileContent.tutorials[0];
-        if (position === 2) return manifestFileContent.tutorials[manifestFileContent.tutorials.length - 1];
-
-        //find which tutorial in the manifest file is selected
-        let selectedResult = navigationModule.findSelectedTutorial(
-            manifestFileContent,
-            getParam(queryParam),
-            position
-        );
-
-        if (selectedResult.matched) {
-            return selectedResult.tutorial;
-        }
-
-        if (selectedResult.tutorial !== undefined) {
-            return selectedResult.tutorial;
-        }
-
-        // if old link style URL is used (for example: ?labs=short-tutorial-title)
-        // remove this condition after old style link is removed
-        for (var i = 0; i < manifestFileContent.tutorials.length; i++) {
-            if (getParam(queryParam) === createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
-                navigationModule.changeTutorial(
-                    getFileNameSafe(manifestFileContent.tutorials[i].filename),
-                    window.location.hash.substr(1)
-                );
-                return;
-            }
-        }
-        // until here
-
-        //if no title has selected class, selected class is added to the first class
-        $('.hol-Nav-list').find('li:eq(0)').addClass("selected");
-        return manifestFileContent.tutorials[0 + position]; //return the first tutorial is no tutorial is matches
-    }
 
     /* Setup toc navigation and tocify */
     let setupTocNav = function () {
