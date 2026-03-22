@@ -1057,14 +1057,18 @@ let main = function () {
         if (position === 2) return manifestFileContent.tutorials[manifestFileContent.tutorials.length - 1];
 
         //find which tutorial in the manifest file is selected
-        let selected = navigationModule.findSelectedTutorial(
+        let selectedResult = navigationModule.findSelectedTutorial(
             manifestFileContent,
             getParam(queryParam),
             position
         );
 
-        if (selected !== null && selected !== undefined) {
-            return selected;
+        if (selectedResult.matched) {
+            return selectedResult.tutorial;
+        }
+
+        if (selectedResult.tutorial !== undefined) {
+            return selectedResult.tutorial;
         }
 
         // if old link style URL is used (for example: ?labs=short-tutorial-title)
