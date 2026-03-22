@@ -311,7 +311,8 @@ let main = function () {
                     setParam: setParam,
                     getParam: getParam,
                     queryParam: queryParam,
-                    manifest: manifest_global
+                    manifest: manifest_global,
+                    createShortNameFromTitle: createShortNameFromTitle
                 });
             }
             init();
@@ -1118,13 +1119,7 @@ let main = function () {
         $('#toc').appendTo(".hol-Nav-list .selected");
         $('.selected div.arrow').click();
     }
-    
-    /* Ley The following function performs the event that must happen when the lab links in the navigation is clicked 
-    let changeTutorial = function (file_name, anchor = "") {
 
-        if (anchor !== "") anchor = '#' + anchor;
-        location.href = unescape(setParam(window.location.href, queryParam, file_name) + anchor);
-    }*/
 
     /*the following function changes the path of images as per the path of the MD file.
     This ensures that the images are picked up from the same location as the MD file.

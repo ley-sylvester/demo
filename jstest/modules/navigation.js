@@ -76,12 +76,50 @@ window.LiveLabsNavigation = (function () {
         };
     }
 
+    function selectTutorial(manifestFileContent, position = 0) {
+        let currentLab = deps.getParam(deps.queryParam);
+
+        // Apply selected class
+        $('#' + getLabNavID(currentLab)).addClass('selected');
+        $('.selected').find('a').contents().unwrap();
+        $('.selected').unbind('keydown');
+
+        if (position === -2) return manifestFileContent.tutorials[0];
+        if (position === 2) return manifestFileContent.tutorials[manifestFileContent.tutorials.length - 1];
+
+        // Use helper
+        let result = findSelectedTutorial(manifestFileContent, currentLab, position);
+
+        if (result.matched) {
+            return result.tutorial;
+        }
+
+        if (result.tutorial !== undefined) {
+            return result.tutorial;
+        }
+
+        // old link fallback
+        for (let i = 0; i < manifestFileContent.tutorials.length; i++) {
+            if (currentLab === deps.createShortNameFromTitle(manifestFileContent.tutorials[i].title)) {
+                changeTutorial(
+                    getMDFileName(manifestFileContent.tutorials[i].filename),
+                    window.location.hash.substr(1)
+                );
+                return;
+            }
+        }
+
+        $('.hol-Nav-list').find('li:eq(0)').addClass("selected");
+        return manifestFileContent.tutorials[0 + position];
+    }
+
     return {
         init: init,
         getMDFileName: getMDFileName,
         getLabNavID: getLabNavID,
         changeTutorial: changeTutorial,
         arrowClick: arrowClick,
-        findSelectedTutorial: findSelectedTutorial
+        findSelectedTutorial: findSelectedTutorial,
+        selectTutorial: selectTutorial
     };
 })();
