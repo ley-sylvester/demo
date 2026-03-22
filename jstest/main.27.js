@@ -2006,8 +2006,22 @@ let main = function () {
     }
 
     let showRightAndLeftArrow = function (articleElement, manifestFileContent) {
-        let next_page = navigationModule.selectTutorial(manifestFileContent, extendedNav['#next']);
-        let prev_page = navigationModule.selectTutorial(manifestFileContent, extendedNav['#prev']);
+        let currentLab = getParam(queryParam);
+
+        let nextResult = navigationModule.findSelectedTutorial(
+            manifestFileContent,
+            currentLab,
+            extendedNav['#next']
+        );
+
+        let prevResult = navigationModule.findSelectedTutorial(
+            manifestFileContent,
+            currentLab,
+            extendedNav['#prev']
+        );
+
+        let next_page = nextResult.tutorial;
+        let prev_page = prevResult.tutorial;
 
 
         if (next_page !== undefined) {
