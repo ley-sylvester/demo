@@ -947,7 +947,9 @@ let main = function () {
 
                         // fix added for LLAPEX-400
                         $(ul).each(function () {
-                            if (tutorial !== navigationModule.selectTutorial(manifestFileContent)) {
+                            let selectedTutorial = navigationModule.selectTutorial(manifestFileContent);
+
+                            if (tutorial !== selectedTutorial) {
                                 let li = $(this).find('li')[0];
                                 $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
                             }
