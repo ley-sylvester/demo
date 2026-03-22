@@ -925,33 +925,13 @@ let main = function () {
                 markdownContent = include(markdownContent, manifestFileContent.include);
                 markdownContent = singlesource(markdownContent, tutorial.type);
 
-                do {
-                    matches = h2_regex.exec(markdownContent);
+                const tocItems = navigationModule.buildTocItem(
+                    tutorial,
+                    manifestFileContent,
+                    markdownContent
+                );
 
-                    if (matches !== null) {
-                        ul = document.createElement('ul');
-                        $(ul).append($(document.createElement('li')).addClass('toc-item').text(matches[1].replace(/\**/g, '').replace(/\##/g, '')).attr('data-unique', alphaNumOnly(matches[1])));
-                        $(ul).click(function () {
-                            if ($(this).parent().parent().parent().hasClass('selected')) {
-                                location.hash = alphaNumOnly($(this).text());
-                                expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
-                            } else {
-                               navigationModule.changeTutorial(navigationModule.getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
-                            }
-                        });
-
-                        // fix added for LLAPEX-400
-                        $(ul).each(function () {
-                            let selectedTutorial = navigationModule.selectTutorial(manifestFileContent);
-
-                            if (tutorial !== selectedTutorial) {
-                                let li = $(this).find('li')[0];
-                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
-                            }
-                        });
-                        $(ul).appendTo(div);
-                    }
-                } while (matches);
+                tocItems.forEach(item => $(item).appendTo(div));
 
             });
 

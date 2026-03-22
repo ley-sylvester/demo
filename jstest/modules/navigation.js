@@ -188,6 +188,46 @@ window.LiveLabsNavigation = (function () {
         return selectTutorial(manifestFileContent);
     }
 
+    function buildTocItem(tutorial, manifestFileContent, markdownContent) {
+        let h2_regex = new RegExp(/^##\s(.+)*/gm);
+        let matches;
+        let elements = [];
+
+        do {
+            matches = h2_regex.exec(markdownContent);
+
+            if (matches !== null) {
+                let ul = document.createElement('ul');
+
+                $(ul).append(
+                    $(document.createElement('li'))
+                        .addClass('toc-item')
+                        .text(matches[1].replace(/\**/g, '').replace(/\##/g, ''))
+                        .attr('data-unique', deps.alphaNumOnly(matches[1]))
+                );
+
+                $(ul).click(function () {
+                    if ($(this).parent().parent().parent().hasClass('selected')) {
+                        location.hash = deps.alphaNumOnly($(this).text());
+                        deps.expandSectionBasedOnHash(
+                            $(this).find('li').attr('data-unique')
+                        );
+                    } else {
+                        changeTutorial(
+                            getMDFileName(tutorial.filename),
+                            deps.alphaNumOnly($(this).text())
+                        );
+                    }
+                });
+
+                elements.push(ul);
+            }
+
+        } while (matches);
+
+        return elements;
+    }
+
     return {
         init: init,
         getMDFileName: getMDFileName,
@@ -198,7 +238,8 @@ window.LiveLabsNavigation = (function () {
         selectTutorial: selectTutorial,
         buildTutorialItem: buildTutorialItem,
         handleTutorialClick: handleTutorialClick,
-        renderTutorialNav: renderTutorialNav
+        renderTutorialNav: renderTutorialNav,
+        buildTocItem: buildTocItem
     };
 
 })();
