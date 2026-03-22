@@ -1001,44 +1001,7 @@ let main = function () {
      * @returns {Object} The selected tutorial object
      */
     const setupTutorialNav = function (manifestFileContent) {
-        let div = $(document.createElement('div')).attr('id', 'leftNav-toc');
-        let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
-
-        $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let item = navigationModule.buildTutorialItem(tutorial);
-            let file_name = item.fileName;
-
-            $(document.createElement('li')).each(function () {
-                $(this).click(function (e) {
-                    if (!$(e.target).hasClass('arrow') && !$(e.target).hasClass('toc-item') && !$(e.target).hasClass('toc-item active')) {
-                        if ($(e.target).parent().parent().hasClass('selected') || $(e.target).hasClass('selected')) {
-                            try {
-                                $('.selected .arrow').click();
-                            } catch (err) { console.debug('Nav click error:', err); }
-                        } else {
-                           navigationModule.changeTutorial(file_name);
-                        }
-                    }
-                });
-                $(this).attr('id', item.id);
-                //The title specified in the manifest appears in the side nav as navigation
-                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + "\"><div></div></a>");
-                $(this).appendTo(ul);
-
-                /* for accessibility */
-                $(this).keydown(function (e) {
-                    if (e.keyCode === 13 || e.keyCode === 32) { //means enter and space
-                        e.preventDefault();
-                       navigationModule.handleTutorialClick(file_name);
-                    }
-                });
-                /* accessibility code ends here */
-            });
-        });
-
-        $(ul).appendTo(div);
-        $(div).appendTo('#leftNav');
-        return navigationModule.selectTutorial(manifestFileContent);
+        return navigationModule.renderTutorialNav(manifestFileContent);
     }
 
 

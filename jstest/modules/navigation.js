@@ -127,6 +127,67 @@ window.LiveLabsNavigation = (function () {
         changeTutorial(fileName);
     }
 
+    function renderTutorialNav(manifestFileContent) {
+        let div = $(document.createElement('div')).attr('id', 'leftNav-toc');
+        let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
+
+        $(manifestFileContent.tutorials).each(function (i, tutorial) {
+            let file_name = getMDFileName(tutorial.filename);
+
+            $(document.createElement('li')).each(function () {
+
+                $(this).click(function (e) {
+                    if (
+                        !$(e.target).hasClass('arrow') &&
+                        !$(e.target).hasClass('toc-item') &&
+                        !$(e.target).hasClass('toc-item active')
+                    ) {
+                        if (
+                            $(e.target).parent().parent().hasClass('selected') ||
+                            $(e.target).hasClass('selected')
+                        ) {
+                            try {
+                                $('.selected .arrow').click();
+                            } catch (err) {}
+                        } else {
+                            changeTutorial(file_name);
+                        }
+                    }
+                });
+
+                $(this).attr('id', getLabNavID(file_name));
+
+                $(this)
+                    .text(tutorial.title)
+                    .wrapInner(
+                        "<a href=\"" +
+                            unescape(
+                                deps.setParam(
+                                    window.location.href,
+                                    deps.queryParam,
+                                    file_name
+                                )
+                            ) +
+                            "\"><div></div></a>"
+                    );
+
+                $(this).appendTo(ul);
+
+                $(this).keydown(function (e) {
+                    if (e.keyCode === 13 || e.keyCode === 32) {
+                        e.preventDefault();
+                        changeTutorial(file_name);
+                    }
+                });
+            });
+        });
+
+        $(ul).appendTo(div);
+        $(div).appendTo('#leftNav');
+
+        return selectTutorial(manifestFileContent);
+    }
+
     return {
         init: init,
         getMDFileName: getMDFileName,
@@ -136,6 +197,8 @@ window.LiveLabsNavigation = (function () {
         findSelectedTutorial: findSelectedTutorial,
         selectTutorial: selectTutorial,
         buildTutorialItem: buildTutorialItem,
-        handleTutorialClick: handleTutorialClick
+        handleTutorialClick: handleTutorialClick,
+        renderTutorialNav: renderTutorialNav
     };
+
 })();
