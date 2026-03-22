@@ -925,13 +925,19 @@ let main = function () {
                 markdownContent = include(markdownContent, manifestFileContent.include);
                 markdownContent = singlesource(markdownContent, tutorial.type);
 
-                const tocItems = navigationModule.buildTocItem(
-                    tutorial,
-                    manifestFileContent,
-                    markdownContent
-                );
+                do {
+                    matches = h2_regex.exec(markdownContent);
 
-                tocItems.forEach(item => $(item).appendTo(div));
+                    if (matches !== null) {
+                        ul = navigationModule.buildSingleTocItem(
+                            tutorial,
+                            matches[1]
+                        );
+
+                        $(ul).appendTo(div);
+                    }
+                    
+                } while (matches);
 
             });
 

@@ -188,44 +188,35 @@ window.LiveLabsNavigation = (function () {
         return selectTutorial(manifestFileContent);
     }
 
-    function buildTocItem(tutorial, manifestFileContent, markdownContent) {
-        let h2_regex = new RegExp(/^##\s(.+)*/gm);
-        let matches;
-        let elements = [];
+    function buildSingleTocItem(tutorial, headingText) {
+        let ul = document.createElement('ul');
 
-        do {
-            matches = h2_regex.exec(markdownContent);
+        let cleanText = headingText
+            .replace(/\**/g, '')
+            .replace(/\##/g, '');
 
-            if (matches !== null) {
-                let ul = document.createElement('ul');
+        $(ul).append(
+            $(document.createElement('li'))
+                .addClass('toc-item')
+                .text(cleanText)
+                .attr('data-unique', deps.alphaNumOnly(headingText))
+        );
 
-                $(ul).append(
-                    $(document.createElement('li'))
-                        .addClass('toc-item')
-                        .text(matches[1].replace(/\**/g, '').replace(/\##/g, ''))
-                        .attr('data-unique', deps.alphaNumOnly(matches[1]))
+        $(ul).click(function () {
+            if ($(this).parent().parent().parent().hasClass('selected')) {
+                location.hash = deps.alphaNumOnly($(this).text());
+                deps.expandSectionBasedOnHash(
+                    $(this).find('li').attr('data-unique')
                 );
-
-                $(ul).click(function () {
-                    if ($(this).parent().parent().parent().hasClass('selected')) {
-                        location.hash = deps.alphaNumOnly($(this).text());
-                        deps.expandSectionBasedOnHash(
-                            $(this).find('li').attr('data-unique')
-                        );
-                    } else {
-                        changeTutorial(
-                            getMDFileName(tutorial.filename),
-                            deps.alphaNumOnly($(this).text())
-                        );
-                    }
-                });
-
-                elements.push(ul);
+            } else {
+                changeTutorial(
+                    getMDFileName(tutorial.filename),
+                    deps.alphaNumOnly($(this).text())
+                );
             }
+        });
 
-        } while (matches);
-
-        return elements;
+        return ul;
     }
 
     return {
@@ -239,7 +230,7 @@ window.LiveLabsNavigation = (function () {
         buildTutorialItem: buildTutorialItem,
         handleTutorialClick: handleTutorialClick,
         renderTutorialNav: renderTutorialNav,
-        buildTocItem: buildTocItem
+        buildSingleTocItem: buildSingleTocItem
     };
 
 })();
