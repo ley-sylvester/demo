@@ -1041,7 +1041,7 @@ let main = function () {
 
         $(ul).appendTo(div);
         $(div).appendTo('#leftNav');
-        return selectTutorial(manifestFileContent);
+        return navigationModule.selectTutorial(manifestFileContent);
     }
 /*
     let getMDFileName = function (file_name) {
