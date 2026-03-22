@@ -929,14 +929,28 @@ let main = function () {
                     matches = h2_regex.exec(markdownContent);
 
                     if (matches !== null) {
-                        ul = navigationModule.buildSingleTocItem(
-                            tutorial,
-                            matches[1]
-                        );
+                        ul = document.createElement('ul');
+                        $(ul).append($(document.createElement('li')).addClass('toc-item').text(matches[1].replace(/\**/g, '').replace(/\##/g, '')).attr('data-unique', alphaNumOnly(matches[1])));
+                        $(ul).click(function () {
+                            if ($(this).parent().parent().parent().hasClass('selected')) {
+                                location.hash = alphaNumOnly($(this).text());
+                                expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
+                            } else {
+                               navigationModule.changeTutorial(navigationModule.getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
+                            }
+                        });
 
+                        // fix added for LLAPEX-400
+                        $(ul).each(function () {
+                            let selectedTutorial = navigationModule.selectTutorial(manifestFileContent);
+
+                            if (tutorial !== selectedTutorial) {
+                                let li = $(this).find('li')[0];
+                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
+                            }
+                        });
                         $(ul).appendTo(div);
                     }
-                    
                 } while (matches);
 
             });

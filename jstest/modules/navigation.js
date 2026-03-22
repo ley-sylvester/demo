@@ -187,37 +187,7 @@ window.LiveLabsNavigation = (function () {
 
         return selectTutorial(manifestFileContent);
     }
-
-    function buildSingleTocItem(tutorial, headingText) {
-        let ul = document.createElement('ul');
-
-        let cleanText = headingText
-            .replace(/\**/g, '')
-            .replace(/\##/g, '');
-
-        $(ul).append(
-            $(document.createElement('li'))
-                .addClass('toc-item')
-                .text(cleanText)
-                .attr('data-unique', deps.alphaNumOnly(headingText))
-        );
-
-        $(ul).click(function () {
-            if ($(this).parent().parent().parent().hasClass('selected')) {
-                location.hash = deps.alphaNumOnly($(this).text());
-                deps.expandSectionBasedOnHash(
-                    $(this).find('li').attr('data-unique')
-                );
-            } else {
-                changeTutorial(
-                    getMDFileName(tutorial.filename),
-                    deps.alphaNumOnly($(this).text())
-                );
-            }
-        });
-
-        return ul;
-    }
+    
 
     return {
         init: init,
@@ -229,8 +199,7 @@ window.LiveLabsNavigation = (function () {
         selectTutorial: selectTutorial,
         buildTutorialItem: buildTutorialItem,
         handleTutorialClick: handleTutorialClick,
-        renderTutorialNav: renderTutorialNav,
-        buildSingleTocItem: buildSingleTocItem
+        renderTutorialNav: renderTutorialNav
     };
 
 })();
