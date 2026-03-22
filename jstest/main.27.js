@@ -198,11 +198,6 @@ let main = function () {
             });
     })();
 
-    const getFileNameSafe = function (file) {
-        return navigationModule
-            ? navigationModule.getMDFileName(file)
-            : getMDFileName(file);
-    };
 
     /*
      * ============================================
@@ -372,7 +367,7 @@ let main = function () {
         try { // if next or previous is not available then it raises exception
             let position = extendedNav[e.target.location.hash]
             if (position !== undefined)
-                navigationModule.changeTutorial(getFileNameSafe(navigationModule.selectTutorial(manifest_global, position).filename));
+                navigationModule.changeTutorial(navigationModule.getMDFileName(navigationModule.selectTutorial(manifest_global, position).filename));
 
             setTimeout(function () {
                 // Cause a subtle change in the parent page to trigger Google Translate
@@ -941,7 +936,7 @@ let main = function () {
                                 location.hash = alphaNumOnly($(this).text());
                                 expandSectionBasedOnHash($(this).find('li').attr('data-unique'));
                             } else {
-                               navigationModule.changeTutorial(getFileNameSafe(tutorial.filename), alphaNumOnly($(this).text()));
+                               navigationModule.changeTutorial(navigationModule.getMDFileName(tutorial.filename), alphaNumOnly($(this).text()));
                             }
                         });
 
@@ -951,7 +946,7 @@ let main = function () {
 
                             if (tutorial !== selectedTutorial) {
                                 let li = $(this).find('li')[0];
-                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
+                                $(li).wrapInner('<a href="' + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + '#' + $(li).attr('data-unique') + '"></a>');
                             }
                         });
                         $(ul).appendTo(div);
@@ -1010,7 +1005,7 @@ let main = function () {
         let ul = $(document.createElement('ul')).addClass('hol-Nav-list');
 
         $(manifestFileContent.tutorials).each(function (i, tutorial) {
-            let file_name = getFileNameSafe(tutorial.filename);
+            let file_name = navigationModule.getMDFileName(tutorial.filename);
 
             $(document.createElement('li')).each(function () {
                 $(this).click(function (e) {
@@ -1027,7 +1022,7 @@ let main = function () {
                 $(this).attr('id', navigationModule.getLabNavID(file_name));
                 //The title specified in the manifest appears in the side nav as navigation
                 // $(this).text(tutorial.title).wrapInner("<span></span>");
-                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, getFileNameSafe(tutorial.filename))) + "\"><div></div></a>");
+                $(this).text(tutorial.title).wrapInner("<a href=\"" + unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(tutorial.filename))) + "\"><div></div></a>");
                 $(this).appendTo(ul);
 
                 /* for accessibility */
@@ -1045,11 +1040,6 @@ let main = function () {
         $(div).appendTo('#leftNav');
         return navigationModule.selectTutorial(manifestFileContent);
     }
-/*
-    let getMDFileName = function (file_name) {
-        return file_name.split('/')[file_name.split('/').length - 1].replace('.md', '');
-    }
-*/
 
 
     /* Setup toc navigation and tocify */
@@ -1985,10 +1975,10 @@ let main = function () {
 
 
         if (next_page !== undefined) {
-            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getFileNameSafe(next_page.filename))), 'title': 'Next' }).text('Next');
+            $('.hol-Footer-rightLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(next_page.filename))), 'title': 'Next' }).text('Next');
         }
         if (prev_page !== undefined) {
-            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, getFileNameSafe(prev_page.filename))), 'title': 'Previous' }).text('Previous');
+            $('.hol-Footer-leftLink').removeClass('hide').addClass('show').attr({ 'href': unescape(setParam(window.location.href, queryParam, navigationModule.getMDFileName(prev_page.filename))), 'title': 'Previous' }).text('Previous');
         }
         return articleElement;
         
