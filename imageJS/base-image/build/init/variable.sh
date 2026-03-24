@@ -109,7 +109,7 @@ export workshopfiles=$(curl -s -H "Authorization: Bearer Oracle" -L http://169.2
 
 if [[ -z "${workshopfiles}" || "${workshopfiles}" == *"<html>"* ]]; then
   echo "ERROR: Terrafoam metadata missing or is not accessible. Using fallback workshop"
-  export workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/ZW-0Y5Dg33OrJ8nfvMPU2iUQ2Tt0aNv6gPiJtn6TOdk52seQm-zbef5m00tR04fS/n/ospatee/b/lab-images/o/agentapp.zip"
+  export workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/dYkMDom1qydiWbNNpYEsjpN5YGDt_aRcfLRefFZHkpMj6c1eD013EYoAz9o-8Dub/n/c4u02/b/livestackbucket/o/agentapp.zip"
 fi
 
 export ENDPOINT="https://inference.generativeai.${AI_ENDPOINT_REGION}.oci.oraclecloud.com"

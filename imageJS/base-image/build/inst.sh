@@ -88,7 +88,7 @@ mkdir -p /home/opc/.config/systemd/user
 ## this should point to the custom service file for your workshop
 #wget -O /home/opc/build_dev.zip "https://c4u04.objectstorage.us-ashburn-1.oci.customer-oci.com/p/i-WDpQq_yUvSxLbfCPfYNyvCFyz6Rv7gvQaBPTHeUlvjpPSN_Hvh5_Zyk7pMXWlu/n/c4u04/b/bootstrap/o/aidata_dev_vscode_privai/build.zip"
 
-wget -O /home/opc/build_dev.zip "https://objectstorage.us-ashburn-1.oraclecloud.com/p/hXgJapyh6NM8u0452tDYty38eMVzY6MBCgdh4dqvA06U4noNOvA3VoO3cw_M77ZO/n/ospatee/b/lab-images/o/build.zip"
+wget -O /home/opc/build_dev.zip "https://objectstorage.us-ashburn-1.oraclecloud.com/p/94NjqlPEzYG_LTgOFZ-KWMGyftV2t3_11CByBvLRMioSWu5_HSUJ9WwKmbBcHSh_/n/c4u02/b/livestackbucket/o/build.zip"
 
 if [[ -f /home/opc/build_dev.zip ]]; then
   unzip -oq /home/opc/build_dev.zip -d /home/opc/ && rm /home/opc/build_dev.zip
