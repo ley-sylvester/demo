@@ -1,10 +1,10 @@
-shape               = "VM.Standard.E4.Flex"
-custom_image_ocid   = "ocid1.image.oc1.iad.aaaaaaaa7ocu3cnhlinayh56kw57ytq5kmproazsanskth2vd2u7bfai73ia"
-subnet_id           = "ocid1.subnet.oc1.iad.aaaaaaaal2ykd4lxnu7pvlqdgvorcj2mu7xzkjvcndrr5chkxte2pyq34anq"
-availability_domain = "Uocm:US-ASHBURN-AD-1"
-compartment_ocid    = "ocid1.compartment.oc1..aaaaaaaarpe3ohrzzkor4vf7iziuyzbi7yfh3lkum7hxsrk7ekmwnuzkagda"
-ociTenancyOcid      = "ocid1.tenancy.oc1..aaaaaaaa4jbkwc4jal7ydsvwohnrrq6hyxb2thgqazxv43olgwyboav5defq"
 
+#custom_image_ocid   = "ocid1.image.oc1.iad.aaaaaaaa7ocu3cnhlinayh56kw57ytq5kmproazsanskth2vd2u7bfai73ia"
+ociPublicSubnetOcid           = "ocid1.subnet.oc1.iad.aaaaaaaal2ykd4lxnu7pvlqdgvorcj2mu7xzkjvcndrr5chkxte2pyq34anq"
+availability_domain_name = "oesT:US-ASHBURN-AD-1"  # replace with your tenancy’s AD
+ociCompartmentOcid    = "ocid1.compartment.oc1..aaaaaaaarpe3ohrzzkor4vf7iziuyzbi7yfh3lkum7hxsrk7ekmwnuzkagda"
+ociTenancyOcid      = "ocid1.tenancy.oc1..aaaaaaaa4jbkwc4jal7ydsvwohnrrq6hyxb2thgqazxv43olgwyboav5defq"
+tenancy_ocid = "ocid1.tenancy.oc1..aaaaaaaa4jbkwc4jal7ydsvwohnrrq6hyxb2thgqazxv43olgwyboav5defq"
 
 region              = "us-ashburn-1"
 

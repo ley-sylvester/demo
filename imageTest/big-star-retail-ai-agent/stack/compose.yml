@@ -1,0 +1,121 @@
+# =============================================================================
+# Big Star Collectibles — Course Companion App
+# Single compose stack. No parent PinC wrapper.
+#
+# Run:  podman compose up -d
+# Stop: podman compose down
+# =============================================================================
+
+volumes:
+  oracle-data:
+  ords-config:
+  ollama-models:
+
+services:
+  db:
+    image: container-registry.oracle.com/database/free:latest
+    env_file: .env
+    environment:
+      ORACLE_PWD: ${ORACLE_PWD}
+      ORACLE_CHARACTERSET: AL32UTF8
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+      - ./init.sql:/opt/oracle/scripts/startup/init.sql:ro,Z
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'SELECT 1 FROM dual;' | sqlplus -s system/${ORACLE_PWD}@localhost:1521/FREEPDB1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 20
+      start_period: 120s
+    restart: unless-stopped
+
+  ords:
+    image: container-registry.oracle.com/database/ords:latest
+    environment:
+      CONN_STRING: db:1521/FREEPDB1
+      DBHOST: db
+      DBPORT: 1521
+      DBSERVICENAME: FREEPDB1
+      ORACLE_PWD: ${ORACLE_PWD}
+    ports:
+      - "8181:8080"
+    volumes:
+      - ords-config:/etc/ords/config
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/ords/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 60s
+    restart: unless-stopped
+
+  ollama:
+    image: docker.io/ollama/ollama:latest
+    volumes:
+      - ollama-models:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list > /dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+
+  init-brain:
+    image: docker.io/curlimages/curl:latest
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        echo ">>> Waiting for Ollama API..."
+        until curl -sf http://ollama:11434/api/tags > /dev/null 2>&1; do
+          sleep 2
+        done
+        echo ">>> Ollama ready. Pulling gemma:2b..."
+        curl -sfS http://ollama:11434/api/pull \
+          -H 'Content-Type: application/json' \
+          -d '{"name":"gemma:2b","stream":false}' > /dev/null
+        curl -sfS http://ollama:11434/api/tags | grep -q '"name":"gemma:2b"'
+        echo ">>> Warming up gemma:2b..."
+        curl -sfS http://ollama:11434/api/chat \
+          -H 'Content-Type: application/json' \
+          -d '{"model":"gemma:2b","messages":[{"role":"user","content":"ping"}],"stream":false,"keep_alive":"30m"}' > /dev/null
+        echo ">>> Model pull complete."
+    depends_on:
+      ollama:
+        condition: service_healthy
+    restart: "no"
+
+  app:
+    build:
+      context: .
+      dockerfile: Containerfile
+    env_file: .env
+    environment:
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DSN: ${DB_DSN:-db:1521/FREEPDB1}
+      OLLAMA_HOST: ${OLLAMA_HOST:-http://ollama:11434}
+      ORDS_HOST: ${ORDS_HOST:-http://ords:8080}
+    ports:
+      - "5500:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      ords:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+      init-brain:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/api/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: unless-stopped

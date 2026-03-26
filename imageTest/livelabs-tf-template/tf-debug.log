@@ -1,0 +1,826 @@
+2026-03-25T19:39:03.580-0500 [INFO]  Terraform version: 1.5.7
+2026-03-25T19:39:03.581-0500 [DEBUG] using github.com/hashicorp/go-tfe v1.26.0
+2026-03-25T19:39:03.581-0500 [DEBUG] using github.com/hashicorp/hcl/v2 v2.16.2
+2026-03-25T19:39:03.581-0500 [DEBUG] using github.com/hashicorp/terraform-svchost v0.1.0
+2026-03-25T19:39:03.581-0500 [DEBUG] using github.com/zclconf/go-cty v1.12.2
+2026-03-25T19:39:03.581-0500 [INFO]  Go runtime version: go1.23.1
+2026-03-25T19:39:03.581-0500 [INFO]  CLI args: []string{"terraform", "apply", "-auto-approve"}
+2026-03-25T19:39:03.581-0500 [DEBUG] Attempting to open CLI config file: /Users/leysylvester/.terraformrc
+2026-03-25T19:39:03.581-0500 [DEBUG] File doesn't exist, but doesn't need to. Ignoring.
+2026-03-25T19:39:03.581-0500 [DEBUG] ignoring non-existing provider search directory terraform.d/plugins
+2026-03-25T19:39:03.581-0500 [DEBUG] ignoring non-existing provider search directory /Users/leysylvester/.terraform.d/plugins
+2026-03-25T19:39:03.581-0500 [DEBUG] ignoring non-existing provider search directory /Users/leysylvester/Library/Application Support/io.terraform/plugins
+2026-03-25T19:39:03.581-0500 [DEBUG] ignoring non-existing provider search directory /Library/Application Support/io.terraform/plugins
+2026-03-25T19:39:03.582-0500 [INFO]  CLI command args: []string{"apply", "-auto-approve"}
+2026-03-25T19:39:03.586-0500 [DEBUG] New state was assigned lineage "cd391a5c-9cd8-f009-8bcc-a32be08c97f4"
+2026-03-25T19:39:03.707-0500 [DEBUG] checking for provisioner in "."
+2026-03-25T19:39:03.708-0500 [DEBUG] checking for provisioner in "/opt/homebrew/bin"
+2026-03-25T19:39:03.709-0500 [INFO]  backend/local: starting Apply operation
+2026-03-25T19:39:03.713-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:03.713-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:03.717-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 args=[.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0]
+2026-03-25T19:39:03.721-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5399
+2026-03-25T19:39:03.721-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0
+2026-03-25T19:39:03.776-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:03 [INFO] terraform-provider-oci 8.6.0
+2026-03-25T19:39:03.776-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:03 === Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.
+2026-03-25T19:39:03.776-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:03 Initializing Mux server....
+2026-03-25T19:39:03.776-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:03 Starting Mux server....
+2026-03-25T19:39:03.776-0500 [INFO]  provider.terraform-provider-oci_v8.7.0: configuring server automatic mTLS: timestamp=2026-03-25T19:39:03.776-0500
+2026-03-25T19:39:03.780-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin113832117 network=unix timestamp=2026-03-25T19:39:03.780-0500
+2026-03-25T19:39:03.780-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.044-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.044-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Started Mux server....
+2026-03-25T19:39:04.048-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5399
+2026-03-25T19:39:04.048-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.049-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.049-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.050-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5]
+2026-03-25T19:39:04.052-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5400
+2026-03-25T19:39:04.052-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5
+2026-03-25T19:39:04.061-0500 [INFO]  provider.terraform-provider-random_v3.8.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.061-0500
+2026-03-25T19:39:04.065-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin2216882302 network=unix timestamp=2026-03-25T19:39:04.065-0500
+2026-03-25T19:39:04.065-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.069-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.070-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.070-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5400
+2026-03-25T19:39:04.070-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.071-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.071-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.072-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5]
+2026-03-25T19:39:04.073-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5401
+2026-03-25T19:39:04.074-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5
+2026-03-25T19:39:04.095-0500 [INFO]  provider.terraform-provider-time_v0.13.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.093-0500
+2026-03-25T19:39:04.101-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.101-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin785601376 network=unix timestamp=2026-03-25T19:39:04.101-0500
+2026-03-25T19:39:04.105-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.106-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.107-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5401
+2026-03-25T19:39:04.107-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.107-0500 [DEBUG] Building and walking validate graph
+2026-03-25T19:39:04.107-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/time"], implied first by time_sleep.wait
+2026-03-25T19:39:04.107-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/random"], implied first by random_string.vncpwd
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad_local" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_subscription.mp_image_subscription" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "random_string.vncpwd" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/random"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "time_sleep.wait" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.107-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement" (*terraform.NodeValidatableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.is_flex_shape (expand)" references: [var.shape_use_flex var.instance_shape_config_ocpus]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.tenancy_ocid (expand)" references: [local.tenancy_candidates (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "output.remote_desktop (expand)" references: [oci_core_instance.llw-hol random_string.vncpwd]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.shape_use_flex" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_id (expand)" references: [var.instance_image_id]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.normalized_industry (expand)" references: [var.industry]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.flex_instance_shape" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ssh_public_key" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociPrivateSubnetOcid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.computed_availability_domain (expand)" references: [local.availability_domain_override (expand) local.availability_domain_override (expand) data.oci_identity_availability_domain.ad_local]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.use_mp_listing (expand)" references: [var.use_marketplace_image local.mp_listing_id (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.provider_region (expand)" references: [local.region_candidates (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.compartment_candidates (expand)" references: [var.compartment_ocid var.ociCompartmentOcid]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "random_string.vncpwd" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.desktop_app1_url" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.timestamp (expand)" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociPublicSubnetOcid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.novnc_delay_sec" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.compartment_ocid (expand)" references: [local.compartment_candidates (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociRegionIdentifier" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.availability_domain_override (expand)" references: [var.availability_domain_name]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.resolved_default (expand)" references: [local.industry_supported (expand) local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_ocid (expand)" references: [local.public_subnet_candidates (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/time\"]" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.instance_image_id" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.region" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociUserOcid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.workshop_map (expand)" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/oci\"]" references: [local.tenancy_ocid (expand) local.provider_region (expand) local.provider_region (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription" references: [local.use_mp_listing (expand) local.mp_listing_id (expand) local.compartment_ocid (expand) local.mp_listing_resource_version (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.compartment_ocid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.custom_workshopfiles" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_id (expand)" references: [var.mp_listing_id]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "output.instances (expand)" references: [oci_core_instance.llw-hol oci_core_instance.llw-hol]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/random\"]" references: []
+2026-03-25T19:39:04.108-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.108-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.108-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol" references: [oci_core_app_catalog_subscription.mp_image_subscription var.instance_count local.computed_availability_domain (expand) local.instance_shape (expand) local.timestamp (expand) local.ssh_authorized_keys (expand) local.selected_workshop (expand) random_string.vncpwd var.desktop_guide_url var.desktop_app1_url var.desktop_app2_url var.ociCompartmentOcid local.is_flex_shape (expand) var.instance_shape_config_ocpus local.timestamp (expand) local.timestamp (expand) local.public_subnet_ocid (expand) var.instance_image_id]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.instance_count" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.use_marketplace_image" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociCompartmentOcid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.desktop_app2_url" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.vcn_existing" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait" references: [oci_core_instance.llw-hol var.novnc_delay_sec]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.fixed_instance_shape" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.desktop_guide_url" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_version (expand)" references: [var.mp_listing_resource_version]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.industry_supported (expand)" references: [local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.resId" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "output.workshop_desc (expand)" references: [var.instance_count local.instance_shape (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad" references: [var.ociTenancyOcid]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.selected_source (expand)" references: [var.custom_workshopfiles]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.ssh_authorized_keys (expand)" references: [local.ssh_key_candidates (expand)]
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.ociVcnOcid" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_resource_version" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "var.resUserPublicKey" references: []
+2026-03-25T19:39:04.108-0500 [DEBUG] ReferenceTransformer: "local.region_candidates (expand)" references: [var.region var.ociRegionIdentifier]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement" references: [local.use_mp_listing (expand) local.mp_listing_id (expand) local.mp_listing_resource_version (expand)]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_id" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.industry" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "local.ssh_key_candidates (expand)" references: [var.ssh_public_key var.resUserPublicKey]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_candidates (expand)" references: [var.ociPublicSubnetOcid var.subnet_public_existing]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad_local" references: [local.availability_domain_override (expand) local.tenancy_ocid (expand)]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.availability_domain_name" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.ociUserPassword" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "local.tenancy_candidates (expand)" references: [var.tenancy_ocid var.ociTenancyOcid]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "local.instance_shape (expand)" references: [var.shape_use_flex var.flex_instance_shape var.fixed_instance_shape]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "local.selected_workshop (expand)" references: [local.selected_source (expand) local.selected_source (expand) local.resolved_default (expand)]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.tenancy_ocid" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.subnet_public_existing" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_subscription.mp_image_subscription" references: [local.use_mp_listing (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement local.compartment_ocid (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement]
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.ociTenancyOcid" references: []
+2026-03-25T19:39:04.109-0500 [DEBUG] ReferenceTransformer: "var.instance_shape_config_ocpus" references: []
+2026-03-25T19:39:04.110-0500 [DEBUG] Starting graph walk: walkValidate
+2026-03-25T19:39:04.111-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.111-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.113-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5]
+2026-03-25T19:39:04.114-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5402
+2026-03-25T19:39:04.114-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5
+2026-03-25T19:39:04.124-0500 [INFO]  provider.terraform-provider-time_v0.13.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.124-0500
+2026-03-25T19:39:04.128-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.128-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin3358662284 network=unix timestamp=2026-03-25T19:39:04.128-0500
+2026-03-25T19:39:04.132-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.132-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.134-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5]
+2026-03-25T19:39:04.135-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5403
+2026-03-25T19:39:04.135-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5
+2026-03-25T19:39:04.145-0500 [INFO]  provider.terraform-provider-random_v3.8.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.145-0500
+2026-03-25T19:39:04.149-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.149-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin2979372120 network=unix timestamp=2026-03-25T19:39:04.149-0500
+2026-03-25T19:39:04.153-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.153-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.155-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 args=[.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0]
+2026-03-25T19:39:04.158-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5404
+2026-03-25T19:39:04.158-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0
+2026-03-25T19:39:04.218-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 [INFO] terraform-provider-oci 8.6.0
+2026-03-25T19:39:04.218-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 === Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.
+2026-03-25T19:39:04.218-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Initializing Mux server....
+2026-03-25T19:39:04.218-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Starting Mux server....
+2026-03-25T19:39:04.219-0500 [INFO]  provider.terraform-provider-oci_v8.7.0: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.219-0500
+2026-03-25T19:39:04.223-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.223-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin1166895535 network=unix timestamp=2026-03-25T19:39:04.223-0500
+2026-03-25T19:39:04.228-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.230-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.231-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5403
+2026-03-25T19:39:04.231-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.516-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.516-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Started Mux server....
+2026-03-25T19:39:04.517-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.521-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5404
+2026-03-25T19:39:04.521-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.522-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.524-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5402
+2026-03-25T19:39:04.524-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:04.524-0500 [INFO]  backend/local: apply calling Plan
+2026-03-25T19:39:04.524-0500 [DEBUG] Building and walking plan graph for NormalMode
+2026-03-25T19:39:04.525-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/time"], implied first by time_sleep.wait (expand)
+2026-03-25T19:39:04.525-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/random"], implied first by random_string.vncpwd (expand)
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "random_string.vncpwd (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/random"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad_local (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ProviderTransformer: "time_sleep.wait (expand)" (*terraform.nodeExpandPlannableResource) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.industry" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.ociRegionIdentifier" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.resUserPublicKey" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.subnet_public_existing" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.instance_shape_config_ocpus" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.ociVcnOcid" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "local.availability_domain_override (expand)" references: [var.availability_domain_name]
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "random_string.vncpwd (expand)" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "var.shape_use_flex" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "local.workshop_map (expand)" references: []
+2026-03-25T19:39:04.525-0500 [DEBUG] ReferenceTransformer: "output.remote_desktop (expand)" references: [oci_core_instance.llw-hol (expand) random_string.vncpwd (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "output.workshop_desc (expand)" references: [var.instance_count local.instance_shape (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.resolved_default (expand)" references: [local.industry_supported (expand) local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.instance_shape (expand)" references: [var.shape_use_flex var.flex_instance_shape var.fixed_instance_shape]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.tenancy_ocid" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" references: [local.use_mp_listing (expand) local.mp_listing_id (expand) local.mp_listing_resource_version (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.normalized_industry (expand)" references: [var.industry]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.novnc_delay_sec" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_resource_version" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.desktop_app2_url" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.region_candidates (expand)" references: [var.region var.ociRegionIdentifier]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.selected_source (expand)" references: [var.custom_workshopfiles]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "output.instances (expand)" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" references: [local.use_mp_listing (expand) local.compartment_ocid (expand) local.mp_listing_id (expand) local.mp_listing_resource_version (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.ociPrivateSubnetOcid" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.computed_availability_domain (expand)" references: [local.availability_domain_override (expand) local.availability_domain_override (expand) data.oci_identity_availability_domain.ad_local (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_ocid (expand)" references: [local.public_subnet_candidates (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.desktop_app1_url" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_id (expand)" references: [var.instance_image_id]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.is_flex_shape (expand)" references: [var.shape_use_flex var.instance_shape_config_ocpus]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/random\"]" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.custom_workshopfiles" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" references: [local.use_mp_listing (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) local.compartment_ocid (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.ociUserPassword" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_candidates (expand)" references: [var.ociPublicSubnetOcid var.subnet_public_existing]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.compartment_candidates (expand)" references: [var.compartment_ocid var.ociCompartmentOcid]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.compartment_ocid (expand)" references: [local.compartment_candidates (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.ociCompartmentOcid" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.timestamp (expand)" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.compartment_ocid" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.industry_supported (expand)" references: [local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad_local (expand)" references: [local.availability_domain_override (expand) local.tenancy_ocid (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad (expand)" references: [var.ociTenancyOcid]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.use_marketplace_image" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.resId" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_version (expand)" references: [var.mp_listing_resource_version]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait (expand)" references: [oci_core_instance.llw-hol (expand) var.novnc_delay_sec]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.vcn_existing" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.tenancy_ocid (expand)" references: [local.tenancy_candidates (expand)]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.instance_image_id" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.desktop_guide_url" references: []
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "local.ssh_key_candidates (expand)" references: [var.ssh_public_key var.resUserPublicKey]
+2026-03-25T19:39:04.526-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.526-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.526-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol (expand)" references: [oci_core_app_catalog_subscription.mp_image_subscription (expand) var.instance_count local.computed_availability_domain (expand) local.timestamp (expand) local.ssh_authorized_keys (expand) local.selected_workshop (expand) random_string.vncpwd (expand) var.desktop_guide_url var.desktop_app1_url var.desktop_app2_url var.ociCompartmentOcid local.instance_shape (expand) local.is_flex_shape (expand) var.instance_shape_config_ocpus local.public_subnet_ocid (expand) local.timestamp (expand) local.timestamp (expand) var.instance_image_id]
+2026-03-25T19:39:04.526-0500 [DEBUG] ReferenceTransformer: "var.ociUserOcid" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.tenancy_candidates (expand)" references: [var.tenancy_ocid var.ociTenancyOcid]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.selected_workshop (expand)" references: [local.selected_source (expand) local.selected_source (expand) local.resolved_default (expand)]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.region" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.availability_domain_name" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.instance_count" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.provider_region (expand)" references: [local.region_candidates (expand)]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_id (expand)" references: [var.mp_listing_id]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.use_mp_listing (expand)" references: [var.use_marketplace_image local.mp_listing_id (expand)]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/oci\"]" references: [local.provider_region (expand) local.provider_region (expand) local.tenancy_ocid (expand)]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/time\"]" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.fixed_instance_shape" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.ssh_public_key" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.flex_instance_shape" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.ociPublicSubnetOcid" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "local.ssh_authorized_keys (expand)" references: [local.ssh_key_candidates (expand)]
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.ociTenancyOcid" references: []
+2026-03-25T19:39:04.527-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_id" references: []
+2026-03-25T19:39:04.528-0500 [DEBUG] Starting graph walk: walkPlan
+2026-03-25T19:39:04.528-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.528-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.530-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5]
+2026-03-25T19:39:04.532-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5405
+2026-03-25T19:39:04.532-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5
+2026-03-25T19:39:04.542-0500 [INFO]  provider.terraform-provider-time_v0.13.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.542-0500
+2026-03-25T19:39:04.546-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.546-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: plugin address: network=unix address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin3699606855 timestamp=2026-03-25T19:39:04.546-0500
+2026-03-25T19:39:04.550-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.550-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.551-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.552-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5]
+2026-03-25T19:39:04.553-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5406
+2026-03-25T19:39:04.553-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5
+2026-03-25T19:39:04.564-0500 [INFO]  provider.terraform-provider-random_v3.8.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.563-0500
+2026-03-25T19:39:04.568-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.568-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin847476186 network=unix timestamp=2026-03-25T19:39:04.568-0500
+2026-03-25T19:39:04.571-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:04.571-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:04.573-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 args=[.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0]
+2026-03-25T19:39:04.576-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5407
+2026-03-25T19:39:04.576-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0
+2026-03-25T19:39:04.629-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 [INFO] terraform-provider-oci 8.6.0
+2026-03-25T19:39:04.629-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 === Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.
+2026-03-25T19:39:04.629-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Initializing Mux server....
+2026-03-25T19:39:04.629-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:04 Starting Mux server....
+2026-03-25T19:39:04.629-0500 [INFO]  provider.terraform-provider-oci_v8.7.0: configuring server automatic mTLS: timestamp=2026-03-25T19:39:04.629-0500
+2026-03-25T19:39:04.633-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin326982584 network=unix timestamp=2026-03-25T19:39:04.633-0500
+2026-03-25T19:39:04.633-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:04.638-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:04.639-0500 [DEBUG] ReferenceTransformer: "random_string.vncpwd" references: []
+[0m[1mrandom_string.vncpwd: Refreshing state... [id=93EBahoJcI][0m
+2026-03-25T19:39:04.642-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_attribute_path=length tf_provider_addr=registry.terraform.io/hashicorp/random tf_resource_type=random_string tf_rpc=ReadResource timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.642-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_attribute_path=number tf_resource_type=random_string tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 @module=sdk.framework timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_attribute_path=min_lower tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_resource_type=random_string tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_attribute_path=result tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_provider_addr=registry.terraform.io/hashicorp/random tf_resource_type=random_string timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_resource_type=random_string tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_provider_addr=registry.terraform.io/hashicorp/random tf_attribute_path=id @module=sdk.framework timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_resource_type=random_string @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b @module=sdk.framework tf_attribute_path=min_numeric tf_provider_addr=registry.terraform.io/hashicorp/random tf_rpc=ReadResource timestamp=2026-03-25T19:39:04.642-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_attribute_path=min_special tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_rpc=ReadResource @module=sdk.framework @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_resource_type=random_string timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_attribute_path=numeric tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 @module=sdk.framework tf_resource_type=random_string timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_resource_type=random_string tf_rpc=ReadResource @module=sdk.framework tf_attribute_path=special tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: @module=sdk.framework tf_provider_addr=registry.terraform.io/hashicorp/random tf_rpc=ReadResource @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_attribute_path=upper tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_resource_type=random_string timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: tf_resource_type=random_string tf_rpc=ReadResource @module=sdk.framework tf_attribute_path=lower tf_provider_addr=registry.terraform.io/hashicorp/random tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.643-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: Value switched to prior value due to semantic equality logic: @caller=github.com/hashicorp/terraform-plugin-framework@v1.17.0/internal/fwschemadata/value_semantic_equality.go:91 tf_provider_addr=registry.terraform.io/hashicorp/random tf_rpc=ReadResource @module=sdk.framework tf_attribute_path=min_upper tf_req_id=74d40a00-1e17-65c0-f337-d0ed26ee5e2b tf_resource_type=random_string timestamp=2026-03-25T19:39:04.643-0500
+2026-03-25T19:39:04.652-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:04.653-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5406
+2026-03-25T19:39:04.653-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:05.050-0500 [INFO]  ReferenceTransformer: reference not found: "var.ociTenancyOcid"
+2026-03-25T19:39:05.050-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad" references: []
+2026-03-25T19:39:05.051-0500 [DEBUG] Resource instance state not found for node "oci_core_instance.llw-hol[0]", instance oci_core_instance.llw-hol[0]
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_app_catalog_subscription.mp_image_subscription"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.instance_count"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.timestamp"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.ssh_authorized_keys"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.selected_workshop"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.desktop_guide_url"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.desktop_app1_url"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.desktop_app2_url"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.ociCompartmentOcid"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.instance_shape"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.computed_availability_domain"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.is_flex_shape"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.instance_shape_config_ocpus"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.timestamp"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.public_subnet_ocid"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "local.timestamp"
+2026-03-25T19:39:05.051-0500 [INFO]  ReferenceTransformer: reference not found: "var.instance_image_id"
+2026-03-25T19:39:05.051-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol[0]" references: []
+[0m[1mdata.oci_identity_availability_domain.ad: Reading...[0m[0m
+2026-03-25T19:39:05.051-0500 [DEBUG] refresh: oci_core_instance.llw-hol[0]: no state, so not refreshing
+2026-03-25T19:39:05.051-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: DEBUG 2026/03/25 19:39:05.051591 The service for this policy has serviceExpectedRetryDurationMap defined. So, maxAttempts will be set to 0 as service code takes precedence
+2026-03-25T19:39:05.055-0500 [WARN]  Provider "registry.terraform.io/hashicorp/oci" produced an invalid plan for oci_core_instance.llw-hol[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .source_details[0].instance_source_image_filter_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .launch_volume_attachments: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .placement_constraint_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .platform_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .instance_options: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .launch_options: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .licensing_configs: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .preemptible_instance_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .agent_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .availability_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .create_vnic_details[0].ipv6address_ipv6subnet_cidr_pair_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+2026-03-25T19:39:05.055-0500 [DEBUG] Resource instance state not found for node "time_sleep.wait", instance time_sleep.wait
+2026-03-25T19:39:05.055-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_instance.llw-hol"
+2026-03-25T19:39:05.055-0500 [INFO]  ReferenceTransformer: reference not found: "var.novnc_delay_sec"
+2026-03-25T19:39:05.055-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait" references: []
+2026-03-25T19:39:05.055-0500 [DEBUG] refresh: time_sleep.wait: no state, so not refreshing
+2026-03-25T19:39:05.057-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: Marking Computed attributes with null configuration values as unknown (known after apply) in the plan to prevent potential Terraform errors: @module=sdk.framework tf_req_id=5b75ce71-c188-529f-1d62-53c437ee13e0 @caller=github.com/hashicorp/terraform-plugin-framework@v1.14.1/internal/fwserver/server_planresourcechange.go:229 tf_provider_addr=registry.terraform.io/hashicorp/time tf_resource_type=time_sleep tf_rpc=PlanResourceChange timestamp=2026-03-25T19:39:05.057-0500
+2026-03-25T19:39:05.057-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: marking computed attribute that is null in the config as unknown: tf_attribute_path=AttributeName("id") tf_provider_addr=registry.terraform.io/hashicorp/time tf_req_id=5b75ce71-c188-529f-1d62-53c437ee13e0 tf_resource_type=time_sleep tf_rpc=PlanResourceChange @caller=github.com/hashicorp/terraform-plugin-framework@v1.14.1/internal/fwserver/server_planresourcechange.go:480 @module=sdk.framework timestamp=2026-03-25T19:39:05.057-0500
+2026-03-25T19:39:05.058-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:05.058-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5405
+2026-03-25T19:39:05.058-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: DEBUG 2026/03/25 19:39:05.368524 EC.ShouldRetryOperation, no EC or in the past, returning false: endOfWindowTime = <nil>, now = 2026-03-25 19:39:05.368505 -0500 CDT m=+0.769530293
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: DEBUG 2026/03/25 19:39:05.368534 EC.ShouldRetryOperation, no EC or in the past, returning false: endOfWindowTime = <nil>, now = 2026-03-25 19:39:05.368533 -0500 CDT m=+0.769558460
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 ERROR IN GET: Error returned by Identity Service. Http Status Code: 404. Error Code: NotAuthorizedOrNotFound. Opc request id: 0b255a83227583d92070fbdbea29cbd9/9B6CA64DB109C8DB2980C469494144D7/86B4FA0915E6A792AA78767C22E2862E. Message: Authorization failed or requested resource not found
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Operation Name: ListAvailabilityDomains
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Timestamp: 2026-03-26 00:39:05 +0000 GMT
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Client Version: Oracle-GoSDK/65.109.3
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Request Endpoint: GET https://identity.us-ashburn-1.oci.oraclecloud.com/20160918/availabilityDomains?compartmentId=ocid1.tenancy.oc1..aaaaaaaa4jbkwc4jal7ydsvwohnrrq6hyxb2thgqazxv43olgwyboav5defq
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Troubleshooting Tips: See https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_404__404_notauthorizedornotfound for more information about resolving this error.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Also see https://docs.oracle.com/iaas/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains for details on this operation's requirements.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: To get more info on the failing request, you can set OCI_GO_SDK_DEBUG env var to info or higher level to log the request/response details.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: If you are unable to resolve this Identity issue, please contact Oracle support and provide them this full error message.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] Object does not exist. The error is
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0:  Error returned by Identity Service. Http Status Code: 404. Error Code: NotAuthorizedOrNotFound. Opc request id: 0b255a83227583d92070fbdbea29cbd9/9B6CA64DB109C8DB2980C469494144D7/86B4FA0915E6A792AA78767C22E2862E. Message: Authorization failed or requested resource not found
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Operation Name: ListAvailabilityDomains
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Timestamp: 2026-03-26 00:39:05 +0000 GMT
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Client Version: Oracle-GoSDK/65.109.3
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Request Endpoint: GET https://identity.us-ashburn-1.oci.oraclecloud.com/20160918/availabilityDomains?compartmentId=ocid1.tenancy.oc1..aaaaaaaa4jbkwc4jal7ydsvwohnrrq6hyxb2thgqazxv43olgwyboav5defq
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Troubleshooting Tips: See https://docs.oracle.com/iaas/Content/API/References/apierrors.htm#apierrors_404__404_notauthorizedornotfound for more information about resolving this error.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: Also see https://docs.oracle.com/iaas/api/#/en/identity/20160918/AvailabilityDomain/ListAvailabilityDomains for details on this operation's requirements.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: To get more info on the failing request, you can set OCI_GO_SDK_DEBUG env var to info or higher level to log the request/response details.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: If you are unable to resolve this Identity issue, please contact Oracle support and provide them this full error message.
+2026-03-25T19:39:05.368-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] the response contains an error, but ignoring it and voiding state
+[0m[1mdata.oci_identity_availability_domain.ad: Read complete after 0s[0m
+2026-03-25T19:39:05.369-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 Started Mux server....
+2026-03-25T19:39:05.369-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:05.374-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5407
+2026-03-25T19:39:05.374-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:05.376-0500 [DEBUG] building apply graph to check for errors
+2026-03-25T19:39:05.376-0500 [DEBUG] Resource state not found for node "time_sleep.wait", instance time_sleep.wait
+2026-03-25T19:39:05.376-0500 [DEBUG] Resource state not found for node "oci_core_instance.llw-hol[0]", instance oci_core_instance.llw-hol[0]
+2026-03-25T19:39:05.376-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/random"], implied first by random_string.vncpwd (expand)
+2026-03-25T19:39:05.376-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/time"], implied first by time_sleep.wait
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "random_string.vncpwd (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/random"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad_local (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol[0]" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "time_sleep.wait" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:05.376-0500 [DEBUG] ProviderTransformer: "time_sleep.wait (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociCompartmentOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.is_flex_shape (expand)" references: [var.shape_use_flex var.instance_shape_config_ocpus]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.novnc_delay_sec" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.shape_use_flex" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.region_candidates (expand)" references: [var.region var.ociRegionIdentifier]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.ssh_key_candidates (expand)" references: [var.ssh_public_key var.resUserPublicKey]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ssh_public_key" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_candidates (expand)" references: [var.ociPublicSubnetOcid var.subnet_public_existing]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.instance_shape (expand)" references: [var.shape_use_flex var.flex_instance_shape var.fixed_instance_shape]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/time\"]" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.fixed_instance_shape" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.computed_availability_domain (expand)" references: [local.availability_domain_override (expand) local.availability_domain_override (expand) data.oci_identity_availability_domain.ad_local (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "output.remote_desktop (expand)" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] random_string.vncpwd (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.compartment_ocid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_resource_version" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.use_marketplace_image" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.availability_domain_override (expand)" references: [var.availability_domain_name]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol (expand)" references: [var.instance_count]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad (expand)" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad_local (expand)" references: [local.availability_domain_override (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.region" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.desktop_guide_url" references: []
+2026-03-25T19:39:05.377-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.377-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.377-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.377-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_app_catalog_subscription.mp_image_subscription#destroy"
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol[0]" references: [oci_core_app_catalog_subscription.mp_image_subscription (expand) var.instance_count local.timestamp (expand) local.ssh_authorized_keys (expand) local.selected_workshop (expand) random_string.vncpwd (expand) var.desktop_guide_url var.desktop_app1_url var.desktop_app2_url var.ociCompartmentOcid local.instance_shape (expand) local.computed_availability_domain (expand) local.is_flex_shape (expand) var.instance_shape_config_ocpus local.public_subnet_ocid (expand) local.timestamp (expand) local.timestamp (expand) var.instance_image_id]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.timestamp (expand)" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.instance_count" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociPrivateSubnetOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.provider_region (expand)" references: [local.region_candidates (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "random_string.vncpwd (expand)" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.instance_image_id" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/oci\"]" references: [local.tenancy_ocid (expand) local.provider_region (expand) local.provider_region (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociRegionIdentifier" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.tenancy_ocid (expand)" references: [local.tenancy_candidates (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.compartment_candidates (expand)" references: [var.compartment_ocid var.ociCompartmentOcid]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.workshop_map (expand)" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.desktop_app2_url" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.vcn_existing" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_ocid (expand)" references: [local.public_subnet_candidates (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.compartment_ocid (expand)" references: [local.compartment_candidates (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociTenancyOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.resId" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.desktop_app1_url" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.instance_shape_config_ocpus" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_id (expand)" references: [var.instance_image_id]
+2026-03-25T19:39:05.377-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_instance.llw-hol#destroy"
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] var.novnc_delay_sec]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.availability_domain_name" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociUserOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_version (expand)" references: [var.mp_listing_resource_version]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "output.workshop_desc (expand)" references: [var.instance_count local.instance_shape (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.selected_workshop (expand)" references: [local.selected_source (expand) local.selected_source (expand) local.resolved_default (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "output.instances (expand)" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0]]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.tenancy_ocid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.custom_workshopfiles" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociUserPassword" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.resolved_default (expand)" references: [local.industry_supported (expand) local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.tenancy_candidates (expand)" references: [var.tenancy_ocid var.ociTenancyOcid]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.flex_instance_shape" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.industry" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociVcnOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.use_mp_listing (expand)" references: [var.use_marketplace_image local.mp_listing_id (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.resUserPublicKey" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_id (expand)" references: [var.mp_listing_id]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.industry_supported (expand)" references: [local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.ssh_authorized_keys (expand)" references: [local.ssh_key_candidates (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/random\"]" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_id" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.ociPublicSubnetOcid" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.normalized_industry (expand)" references: [var.industry]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "local.selected_source (expand)" references: [var.custom_workshopfiles]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait (expand)" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.377-0500 [DEBUG] ReferenceTransformer: "var.subnet_public_existing" references: []
+2026-03-25T19:39:05.377-0500 [DEBUG] pruneUnusedNodes: data.oci_identity_availability_domain.ad (expand) is no longer needed, removing
+2026-03-25T19:39:05.377-0500 [DEBUG] pruneUnusedNodes: oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) is no longer needed, removing
+2026-03-25T19:39:05.378-0500 [DEBUG] pruneUnusedNodes: local.compartment_ocid (expand) is no longer needed, removing
+2026-03-25T19:39:05.378-0500 [DEBUG] pruneUnusedNodes: local.mp_listing_resource_id (expand) is no longer needed, removing
+2026-03-25T19:39:05.378-0500 [DEBUG] pruneUnusedNodes: local.mp_listing_resource_version (expand) is no longer needed, removing
+2026-03-25T19:39:05.378-0500 [DEBUG] pruneUnusedNodes: data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand) is no longer needed, removing
+2026-03-25T19:39:05.378-0500 [DEBUG] pruneUnusedNodes: local.compartment_candidates (expand) is no longer needed, removing
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  [32m+[0m create[0m
+
+Terraform will perform the following actions:
+
+[1m  # oci_core_instance.llw-hol[0][0m will be created
+[0m  [32m+[0m[0m resource "oci_core_instance" "llw-hol" {
+      [32m+[0m[0m availability_domain                 = "Uocm:US-ASHBURN-AD-1"
+      [32m+[0m[0m boot_volume_id                      = (known after apply)
+      [32m+[0m[0m capacity_reservation_id             = (known after apply)
+      [32m+[0m[0m compartment_id                      = "ocid1.compartment.oc1..aaaaaaaarpe3ohrzzkor4vf7iziuyzbi7yfh3lkum7hxsrk7ekmwnuzkagda"
+      [32m+[0m[0m compute_cluster_id                  = (known after apply)
+      [32m+[0m[0m dedicated_vm_host_id                = (known after apply)
+      [32m+[0m[0m defined_tags                        = (known after apply)
+      [32m+[0m[0m display_name                        = (known after apply)
+      [32m+[0m[0m extended_metadata                   = (known after apply)
+      [32m+[0m[0m fault_domain                        = (known after apply)
+      [32m+[0m[0m freeform_tags                       = (known after apply)
+      [32m+[0m[0m hostname_label                      = (known after apply)
+      [32m+[0m[0m id                                  = (known after apply)
+      [32m+[0m[0m image                               = (known after apply)
+      [32m+[0m[0m instance_configuration_id           = (known after apply)
+      [32m+[0m[0m ipxe_script                         = (known after apply)
+      [32m+[0m[0m is_ai_enterprise_enabled            = (known after apply)
+      [32m+[0m[0m is_cross_numa_node                  = (known after apply)
+      [32m+[0m[0m is_pv_encryption_in_transit_enabled = (known after apply)
+      [32m+[0m[0m launch_mode                         = (known after apply)
+      [32m+[0m[0m metadata                            = {
+          [32m+[0m[0m "desktop_app1_url"    = ""
+          [32m+[0m[0m "desktop_app2_url"    = ""
+          [32m+[0m[0m "desktop_guide_url"   = "https://oracle-livelabs.github.io/livestack/big-star-retail-ai-agent/guide/workshops/desktop/"
+          [32m+[0m[0m "ssh_authorized_keys" = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC0ukDpcbhEI6wM84m1/gN3EspdPGM+nTFHh/d3uRaBSGWuAVn9NMfykEBdWpiMwEk244IvaU3IXD9I+MTEfh4nCH6cxO6Ot+acNQxyv/WtmeuhKJraiDHbIVYTD3xCChDmw05aczEQN2PzswXOAODL7hKZjm4lQ+kke4BRz8pjZmkjdvA3mLG9nXbqg4pDIxzYS2J37ud3z9vD74K8AYqhGk+smzgI6AXVXcYqXLvh6Z5mQEmGLFMV+RmhRHcUjQR871/EI60u60y0FD7IWvuw7DadXRtmOl60LniI6sr5DAJtjf+4NmGCMgKUdAv/YdyV6sp6UApq7gClN1JZ6kKNuIzjvMjAJiw9DuxJyyUW3fI5Na1Nx47C2jcILGZUGedJHFM4pPc7A79zFKvZXs0Mci1ukmLt8uExqWLbrz2x1eJuvwkOVkZ5W1OCgzyYjtKkE//2N5HebvABT5/8BVag1J/d/Uew2/p57QZroE2ddMpWLK4oDTBFNRIc1u7qSjO/G4TQtBhRDSGCW8w0ZRXzrR2nYPNUwvO/sPNkrSoaPKPURD/ay+Aj0FBCA2CWDTZfGKNr/mKrXlJ4aTCBdt8PODsx1qDexlMdduKsVc9Yx2q1Lt8g1WQ8BjSP6vDpouIQiTkLNJNHK+MXs2PL6tz3CX9UT7ehzWBtG5dHUSJA6Q== ley.sylvester@oracle.com"
+          [32m+[0m[0m "vncpwd"              = "93EBahoJcI"
+          [32m+[0m[0m "workshopfiles"       = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/lq-RHb168OE9MebS7yCZRZWYg81728T2Kl-eJxE8txO5lU-8Wg3xipebfWiKlVYI/n/c4u02/b/livestackbucket/o/retailapp.zip"
+        }
+      [32m+[0m[0m private_ip                          = (known after apply)
+      [32m+[0m[0m public_ip                           = (known after apply)
+      [32m+[0m[0m region                              = (known after apply)
+      [32m+[0m[0m security_attributes                 = (known after apply)
+      [32m+[0m[0m security_attributes_state           = (known after apply)
+      [32m+[0m[0m shape                               = "VM.Standard.E5.Flex"
+      [32m+[0m[0m state                               = (known after apply)
+      [32m+[0m[0m subnet_id                           = (known after apply)
+      [32m+[0m[0m system_tags                         = (known after apply)
+      [32m+[0m[0m time_created                        = (known after apply)
+      [32m+[0m[0m time_maintenance_reboot_due         = (known after apply)
+
+      [32m+[0m[0m create_vnic_details {
+          [32m+[0m[0m assign_ipv6ip          = (known after apply)
+          [32m+[0m[0m assign_public_ip       = "true"
+          [32m+[0m[0m defined_tags           = (known after apply)
+          [32m+[0m[0m display_name           = (known after apply)
+          [32m+[0m[0m freeform_tags          = (known after apply)
+          [32m+[0m[0m hostname_label         = (known after apply)
+          [32m+[0m[0m nsg_ids                = (known after apply)
+          [32m+[0m[0m private_ip             = (known after apply)
+          [32m+[0m[0m private_ip_id          = (known after apply)
+          [32m+[0m[0m security_attributes    = (known after apply)
+          [32m+[0m[0m skip_source_dest_check = (known after apply)
+          [32m+[0m[0m subnet_cidr            = (known after apply)
+          [32m+[0m[0m subnet_id              = "ocid1.subnet.oc1.iad.aaaaaaaal2ykd4lxnu7pvlqdgvorcj2mu7xzkjvcndrr5chkxte2pyq34anq"
+          [32m+[0m[0m vlan_id                = (known after apply)
+        }
+
+      [32m+[0m[0m shape_config {
+          [32m+[0m[0m baseline_ocpu_utilization     = (known after apply)
+          [32m+[0m[0m gpu_description               = (known after apply)
+          [32m+[0m[0m gpus                          = (known after apply)
+          [32m+[0m[0m local_disk_description        = (known after apply)
+          [32m+[0m[0m local_disks                   = (known after apply)
+          [32m+[0m[0m local_disks_total_size_in_gbs = (known after apply)
+          [32m+[0m[0m max_vnic_attachments          = (known after apply)
+          [32m+[0m[0m memory_in_gbs                 = (known after apply)
+          [32m+[0m[0m networking_bandwidth_in_gbps  = (known after apply)
+          [32m+[0m[0m nvmes                         = (known after apply)
+          [32m+[0m[0m ocpus                         = 4
+          [32m+[0m[0m processor_description         = (known after apply)
+          [32m+[0m[0m resource_management           = (known after apply)
+          [32m+[0m[0m vcpus                         = (known after apply)
+        }
+
+      [32m+[0m[0m source_details {
+          [32m+[0m[0m boot_volume_size_in_gbs = (known after apply)
+          [32m+[0m[0m boot_volume_vpus_per_gb = (known after apply)
+          [32m+[0m[0m source_id               = "ocid1.image.oc1.iad.aaaaaaaa7ocu3cnhlinayh56kw57ytq5kmproazsanskth2vd2u7bfai73ia"
+          [32m+[0m[0m source_type             = "image"
+        }
+    }
+
+[1m  # time_sleep.wait[0m will be created
+[0m  [32m+[0m[0m resource "time_sleep" "wait" {
+      [32m+[0m[0m create_duration = "300s"
+      [32m+[0m[0m id              = (known after apply)
+    }
+
+[1mPlan:[0m 2 to add, 0 to change, 0 to destroy.
+[0m
+Changes to Outputs:
+  [32m+[0m[0m instances      = [
+      [32m+[0m[0m (known after apply),
+    ]
+  [32m+[0m[0m remote_desktop = [
+      [32m+[0m[0m (known after apply),
+    ]
+2026-03-25T19:39:05.407-0500 [INFO]  backend/local: apply calling Apply
+2026-03-25T19:39:05.407-0500 [DEBUG] Building and walking apply graph for NormalMode plan
+2026-03-25T19:39:05.408-0500 [DEBUG] Resource state not found for node "time_sleep.wait", instance time_sleep.wait
+2026-03-25T19:39:05.408-0500 [DEBUG] Resource state not found for node "oci_core_instance.llw-hol[0]", instance oci_core_instance.llw-hol[0]
+2026-03-25T19:39:05.408-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/time"], implied first by time_sleep.wait (expand)
+2026-03-25T19:39:05.408-0500 [DEBUG] adding implicit provider configuration provider["registry.terraform.io/hashicorp/random"], implied first by random_string.vncpwd (expand)
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol[0]" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "time_sleep.wait" (*terraform.NodeApplyableResourceInstance) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "oci_core_instance.llw-hol (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "data.oci_identity_availability_domain.ad_local (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "time_sleep.wait (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/time"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/oci"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ProviderTransformer: "random_string.vncpwd (expand)" (*terraform.nodeExpandApplyableResource) needs provider["registry.terraform.io/hashicorp/random"]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.normalized_industry (expand)" references: [var.industry]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.selected_workshop (expand)" references: [local.selected_source (expand) local.selected_source (expand) local.resolved_default (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "output.remote_desktop (expand)" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] random_string.vncpwd (expand)]
+2026-03-25T19:39:05.408-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_instance.llw-hol#destroy"
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] var.novnc_delay_sec]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociUserPassword" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.resolved_default (expand)" references: [local.industry_supported (expand) local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.novnc_delay_sec" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ssh_public_key" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.is_flex_shape (expand)" references: [var.shape_use_flex var.instance_shape_config_ocpus]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.workshop_map (expand)" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.availability_domain_override (expand)" references: [var.availability_domain_name]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "oci_core_app_catalog_subscription.mp_image_subscription (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.desktop_app2_url" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociPrivateSubnetOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.instance_image_id" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.compartment_ocid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.selected_source (expand)" references: [var.custom_workshopfiles]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_ocid (expand)" references: [local.public_subnet_candidates (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol (expand)" references: [var.instance_count]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad_local (expand)" references: [local.availability_domain_override (expand)]
+2026-03-25T19:39:05.408-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.408-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.408-0500 [INFO]  ReferenceTransformer: reference not found: "count.index"
+2026-03-25T19:39:05.408-0500 [INFO]  ReferenceTransformer: reference not found: "oci_core_app_catalog_subscription.mp_image_subscription#destroy"
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "oci_core_instance.llw-hol[0]" references: [oci_core_app_catalog_subscription.mp_image_subscription (expand) var.instance_count local.timestamp (expand) local.ssh_authorized_keys (expand) local.selected_workshop (expand) random_string.vncpwd (expand) var.desktop_guide_url var.desktop_app1_url var.desktop_app2_url var.ociCompartmentOcid local.computed_availability_domain (expand) local.instance_shape (expand) local.is_flex_shape (expand) var.instance_shape_config_ocpus local.timestamp (expand) local.public_subnet_ocid (expand) local.timestamp (expand) var.instance_image_id]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.flex_instance_shape" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.fixed_instance_shape" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociVcnOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.custom_workshopfiles" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.instance_shape (expand)" references: [var.shape_use_flex var.flex_instance_shape var.fixed_instance_shape]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.use_marketplace_image" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.resUserPublicKey" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociPublicSubnetOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.tenancy_ocid (expand)" references: [local.tenancy_candidates (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand)" references: [local.use_mp_listing (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociUserOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.vcn_existing" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.subnet_public_existing" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.provider_region (expand)" references: [local.region_candidates (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.industry_supported (expand)" references: [local.workshop_map (expand) local.normalized_industry (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_id (expand)" references: [var.instance_image_id]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.ssh_key_candidates (expand)" references: [var.ssh_public_key var.resUserPublicKey]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "random_string.vncpwd (expand)" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_resource_version" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.availability_domain_name" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.region_candidates (expand)" references: [var.region var.ociRegionIdentifier]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.public_subnet_candidates (expand)" references: [var.ociPublicSubnetOcid var.subnet_public_existing]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.shape_use_flex" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociTenancyOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "output.workshop_desc (expand)" references: [var.instance_count local.instance_shape (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/random\"]" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.mp_listing_id" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.tenancy_ocid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_resource_version (expand)" references: [var.mp_listing_resource_version]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/oci\"]" references: [local.provider_region (expand) local.provider_region (expand) local.tenancy_ocid (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociRegionIdentifier" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.region" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "provider[\"registry.terraform.io/hashicorp/time\"]" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.mp_listing_id (expand)" references: [var.mp_listing_id]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.compartment_ocid (expand)" references: [local.compartment_candidates (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.industry" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.use_mp_listing (expand)" references: [var.use_marketplace_image local.mp_listing_id (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.tenancy_candidates (expand)" references: [var.tenancy_ocid var.ociTenancyOcid]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "output.instances (expand)" references: [oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0] oci_core_instance.llw-hol (expand) oci_core_instance.llw-hol[0]]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "data.oci_identity_availability_domain.ad (expand)" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.instance_count" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.desktop_guide_url" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.ociCompartmentOcid" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.computed_availability_domain (expand)" references: [local.availability_domain_override (expand) local.availability_domain_override (expand) data.oci_identity_availability_domain.ad_local (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "time_sleep.wait (expand)" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.resId" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.instance_shape_config_ocpus" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.ssh_authorized_keys (expand)" references: [local.ssh_key_candidates (expand)]
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.timestamp (expand)" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "var.desktop_app1_url" references: []
+2026-03-25T19:39:05.408-0500 [DEBUG] ReferenceTransformer: "local.compartment_candidates (expand)" references: [var.compartment_ocid var.ociCompartmentOcid]
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: oci_core_app_catalog_listing_resource_version_agreement.mp_image_agreement (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: data.oci_core_app_catalog_subscriptions.mp_image_subscription (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: local.mp_listing_resource_id (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: local.mp_listing_resource_version (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: local.compartment_ocid (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: data.oci_identity_availability_domain.ad (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] pruneUnusedNodes: local.compartment_candidates (expand) is no longer needed, removing
+2026-03-25T19:39:05.409-0500 [DEBUG] Starting graph walk: walkApply
+2026-03-25T19:39:05.410-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:05.410-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:05.411-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5]
+2026-03-25T19:39:05.413-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5408
+2026-03-25T19:39:05.413-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5
+2026-03-25T19:39:05.430-0500 [INFO]  provider.terraform-provider-random_v3.8.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:05.429-0500
+2026-03-25T19:39:05.435-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:05.435-0500 [DEBUG] provider.terraform-provider-random_v3.8.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin807023874 network=unix timestamp=2026-03-25T19:39:05.435-0500
+2026-03-25T19:39:05.439-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:05.439-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:05.441-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 args=[.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5]
+2026-03-25T19:39:05.442-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5409
+2026-03-25T19:39:05.442-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5
+2026-03-25T19:39:05.454-0500 [INFO]  provider.terraform-provider-time_v0.13.1_x5: configuring server automatic mTLS: timestamp=2026-03-25T19:39:05.453-0500
+2026-03-25T19:39:05.458-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:05.458-0500 [DEBUG] provider.terraform-provider-time_v0.13.1_x5: plugin address: address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin2723462516 network=unix timestamp=2026-03-25T19:39:05.457-0500
+2026-03-25T19:39:05.462-0500 [DEBUG] created provider logger: level=debug
+2026-03-25T19:39:05.462-0500 [INFO]  provider: configuring client automatic mTLS
+2026-03-25T19:39:05.463-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:05.463-0500 [DEBUG] No provider meta schema returned
+2026-03-25T19:39:05.464-0500 [DEBUG] provider: starting plugin: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 args=[.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0]
+2026-03-25T19:39:05.467-0500 [DEBUG] provider: plugin started: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5410
+2026-03-25T19:39:05.467-0500 [DEBUG] provider: waiting for RPC address: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0
+2026-03-25T19:39:05.519-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [INFO] terraform-provider-oci 8.6.0
+2026-03-25T19:39:05.519-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 === Executable runs in Terraform plugin mode by default. For additional usage options, please run with the '-help' flag.
+2026-03-25T19:39:05.519-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 Initializing Mux server....
+2026-03-25T19:39:05.519-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 Starting Mux server....
+2026-03-25T19:39:05.519-0500 [INFO]  provider.terraform-provider-oci_v8.7.0: configuring server automatic mTLS: timestamp=2026-03-25T19:39:05.519-0500
+2026-03-25T19:39:05.538-0500 [DEBUG] provider: using plugin: version=5
+2026-03-25T19:39:05.538-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: plugin address: network=unix address=/var/folders/p5/3lsw8cvn6b1224ny5n3m9vmm0000gp/T/plugin1413166720 timestamp=2026-03-25T19:39:05.538-0500
+2026-03-25T19:39:05.545-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:05.546-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/random/3.8.1/darwin_arm64/terraform-provider-random_v3.8.1_x5 pid=5408
+2026-03-25T19:39:05.546-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:05.950-0500 [WARN]  Provider "registry.terraform.io/hashicorp/oci" produced an invalid plan for oci_core_instance.llw-hol[0], but we are tolerating it because it is using the legacy plugin SDK.
+    The following problems may be the cause of any confusing errors from downstream operations:
+      - .placement_constraint_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .platform_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .source_details[0].instance_source_image_filter_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .launch_volume_attachments: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .availability_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .create_vnic_details[0].ipv6address_ipv6subnet_cidr_pair_details: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .instance_options: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .launch_options: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .licensing_configs: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .preemptible_instance_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+      - .agent_config: attribute representing nested block must not be unknown itself; set nested attribute values to unknown instead
+[0m[1moci_core_instance.llw-hol[0]: Creating...[0m[0m
+2026-03-25T19:39:05.950-0500 [INFO]  Starting apply for oci_core_instance.llw-hol[0]
+2026-03-25T19:39:05.950-0500 [DEBUG] oci_core_instance.llw-hol[0]: applying the planned Create change
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "system_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "licensing_configs" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "agent_config" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "instance_options" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "source_details.0.instance_source_image_filter_details" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "source_details.0.instance_source_image_filter_details" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "launch_options" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "security_attributes" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.freeform_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.nsg_ids" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.defined_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.security_attributes" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.defined_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.defined_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.security_attributes" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.freeform_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "create_vnic_details.0.nsg_ids" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "extended_metadata" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "preemptible_instance_config" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "freeform_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "platform_config" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "placement_constraint_details" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "availability_config" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "launch_volume_attachments" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "defined_tags" from ComputedKeys
+2026-03-25T19:39:05.951-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:05 [DEBUG] setting computed for "defined_tags" from ComputedKeys
+2026-03-25T19:39:05.953-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: DEBUG 2026/03/25 19:39:05.952197 The service for this policy has serviceExpectedRetryDurationMap defined. So, maxAttempts will be set to 0 as service code takes precedence
+2026-03-25T19:39:06.215-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: DEBUG 2026/03/25 19:39:06.215224 EC.ShouldRetryOperation, no EC or in the past, returning false: endOfWindowTime = <nil>, now = 2026-03-25 19:39:06.215196 -0500 CDT m=+0.725483376
+2026-03-25T19:39:06.215-0500 [ERROR] provider.terraform-provider-oci_v8.7.0: Response contains error diagnostic: tf_proto_version=5.10 tf_resource_type=oci_core_instance @module=sdk.proto diagnostic_detail= diagnostic_summary="400-CannotParseRequest, Incorrectly formatted request. Please refer to our documentation for help.
+Suggestion: Please retry or contact support for help with service: Core Instance
+Documentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+API Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+Request Target: POST https://iaas.us-ashburn-1.oraclecloud.com/20160918/instances 
+Provider version: 8.6.0, released on 2026-03-17. This provider is 1 Update(s) behind to current. 
+Service: Core Instance 
+Operation Name: LaunchInstance 
+OPC request ID: e0ed84be249e5c141dc6efd27d2a1446/54FBDC036CFA9FCA2A80C46949414438/87822F62D58076DD00D0BC09ABD97B29 
+" tf_rpc=ApplyResourceChange @caller=github.com/hashicorp/terraform-plugin-go@v0.29.0/tfprotov5/internal/diag/diagnostics.go:58 diagnostic_severity=ERROR tf_provider_addr=registry.terraform.io/hashicorp/oci tf_req_id=ebd1f4ff-3c1c-8fb9-4be6-9b00aa45a730 timestamp=2026-03-25T19:39:06.215-0500
+2026-03-25T19:39:06.221-0500 [DEBUG] State storage *statemgr.Filesystem declined to persist a state snapshot
+2026-03-25T19:39:06.221-0500 [ERROR] vertex "oci_core_instance.llw-hol[0]" error: 400-CannotParseRequest, Incorrectly formatted request. Please refer to our documentation for help.
+Suggestion: Please retry or contact support for help with service: Core Instance
+Documentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+API Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+Request Target: POST https://iaas.us-ashburn-1.oraclecloud.com/20160918/instances 
+Provider version: 8.6.0, released on 2026-03-17. This provider is 1 Update(s) behind to current. 
+Service: Core Instance 
+Operation Name: LaunchInstance 
+OPC request ID: e0ed84be249e5c141dc6efd27d2a1446/54FBDC036CFA9FCA2A80C46949414438/87822F62D58076DD00D0BC09ABD97B29
+[31m╷[0m[0m
+[31m│[0m [0m[1m[31mError: [0m[0m[1m400-CannotParseRequest, Incorrectly formatted request. Please refer to our documentation for help.
+[31m│[0m [0mSuggestion: Please retry or contact support for help with service: Core Instance
+[31m│[0m [0mDocumentation: https://registry.terraform.io/providers/oracle/oci/latest/docs/resources/core_instance 
+[31m│[0m [0mAPI Reference: https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Instance/LaunchInstance 
+[31m│[0m [0mRequest Target: POST https://iaas.us-ashburn-1.oraclecloud.com/20160918/instances 
+[31m│[0m [0mProvider version: 8.6.0, released on 2026-03-17. This provider is 1 Update(s) behind to current. 
+[31m│[0m [0mService: Core Instance 
+[31m│[0m [0mOperation Name: LaunchInstance 
+[31m│[0m [0mOPC request ID: e0ed84be249e5c141dc6efd27d2a1446/54FBDC036CFA9FCA2A80C46949414438/87822F62D58076DD00D0BC09ABD97B29 
+[31m│[0m [0m[0m
+[31m│[0m [0m
+[31m│[0m [0m[0m  with oci_core_instance.llw-hol[0],
+[31m│[0m [0m  on instance.tf line 31, in resource "oci_core_instance" "llw-hol":
+[31m│[0m [0m  31: resource "oci_core_instance" "llw-hol" [4m{[0m[0m
+[31m│[0m [0m
+[31m╵[0m[0m
+2026-03-25T19:39:06.226-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:06.226-0500 [DEBUG] provider.terraform-provider-oci_v8.7.0: 2026/03/25 19:39:06 Started Mux server....
+2026-03-25T19:39:06.226-0500 [DEBUG] provider.stdio: received EOF, stopping recv loop: err="rpc error: code = Unavailable desc = error reading from server: EOF"
+2026-03-25T19:39:06.226-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/time/0.13.1/darwin_arm64/terraform-provider-time_v0.13.1_x5 pid=5409
+2026-03-25T19:39:06.226-0500 [DEBUG] provider: plugin exited
+2026-03-25T19:39:06.231-0500 [DEBUG] provider: plugin process exited: path=.terraform/providers/registry.terraform.io/hashicorp/oci/8.7.0/darwin_arm64/terraform-provider-oci_v8.7.0 pid=5410
+2026-03-25T19:39:06.231-0500 [DEBUG] provider: plugin exited

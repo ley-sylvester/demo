@@ -24,13 +24,13 @@ locals {
 }
 
 data "oci_identity_availability_domain" "ad" {
-    compartment_id = var.ociTenancyOcid
+    compartment_id = local.tenancy_ocid
     ad_number      = 1
 }
 
 resource "oci_core_instance" "llw-hol" {
   count               = var.instance_count
-  availability_domain = data.oci_identity_availability_domain.ad.name
+  availability_domain = local.computed_availability_domain
   compartment_id      = var.ociCompartmentOcid
   display_name        = "llw-hol-s${format("%02d", count.index + 1)}-${local.timestamp}"
   shape               = local.instance_shape
@@ -47,7 +47,8 @@ resource "oci_core_instance" "llw-hol" {
   dynamic "shape_config" {
     for_each = local.is_flex_shape
     content {
-      ocpus = var.instance_shape_config_ocpus
+      ocpus         = var.instance_shape_config_ocpus
+      memory_in_gbs = var.instance_shape_config_ocpus * 16
     }
   }
 
