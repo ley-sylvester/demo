@@ -20,7 +20,8 @@ terraform {
   # }
 }
 
+
 provider "oci" {
-  tenancy_ocid = var.ociTenancyOcid
-  region       = var.ociRegionIdentifier
+  tenancy_ocid = local.tenancy_ocid
+  region       = local.provider_region != "" ? local.provider_region : null
 }

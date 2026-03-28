@@ -96,15 +96,12 @@ if [[ ${#COMPARTMENT_OCID} -le 5 || ${COMPARTMENT_OCID} =~ '<html>' ]]; then
  export COMPARTMENT_OCID="${compartment_ocidlocal:-}"
 fi
 
-
 # Fallback plan if ingestion fails
-#export workshopfiles=$(curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/workshopfiles)
-
-export workshopfiles=$(cat /home/opc/test_workshopfiles)
+export workshopfiles=$(curl -s -H "Authorization: Bearer Oracle" -L http://169.254.169.254/opc/v2/instance/metadata/workshopfiles)
 
 if [[ -z "${workshopfiles}" || "${workshopfiles}" == *"<html>"* ]]; then
-  echo "ERROR: Terrafoam metadata missing or is not accessible. Using fallback workshop"
-  workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/twoDNdBr-Akaon32XS8NaKtcSKxlg5Aq-_X9Tg4P_RQVDfY9QvfqTmAl1dqo8dKJ/n/c4u02/b/livestackbucket/o/agentapp_updated.zip"
+  echo "ERROR: Terraform metadata missing or is not accessible. Using fallback workshop"
+  workshopfiles="https://objectstorage.us-ashburn-1.oraclecloud.com/p/YvUAp8GYB-dWw4vQY8CpfxUVz36cBGOxmSpb_XRl7XzQEa3F1LnS9cun39mzDhxk/n/c4u02/b/livestackbucket/o/retailagent.zip"
 fi
 
 export ENDPOINT="https://inference.generativeai.${AI_ENDPOINT_REGION}.oci.oraclecloud.com"

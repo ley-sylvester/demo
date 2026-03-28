@@ -48,6 +48,7 @@ variableGroups:
     variables:
     - instance_count
     - availability_domain_name
+    - industry
     - inst_use_ssh
     - generate_ssh_key_pair
     - ssh_public_key
@@ -78,6 +79,16 @@ variables:
     description: "All instances will be provisioned in this availability domain"
     dependsOn:
       compartmentId: ${compartment_ocid}
+
+  industry:
+    type: string
+    required: true
+    title: "Select your Industry"
+    description: "Select the industry app to deploy"
+    enum:
+      - "retail"
+      - "agent"
+      - "healthcare"
 
   instance_count:
     type: number

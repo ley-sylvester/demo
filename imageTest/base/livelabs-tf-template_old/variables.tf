@@ -44,7 +44,7 @@ variable "mp_listing_resource_version" {
 
 variable "instance_image_id" {
   #Provide the image OCID
-  default = "ocid1.image.oc1.iad.aaaaaaaattdrao7dxczhrubf5m27aephegc3kncoyj42576cwcyqrouiaeqa"
+  default = "ocid1.image.oc1.iad.aaaaaaaasj2dgv5ut5sxb3ofsrofiaymq75gbb6w2kqqk5vfwaxay2qwcxla"
 }
 
 /*
@@ -92,6 +92,18 @@ variable "instance_count" {
 
 variable "instance_shape_config_ocpus" {
   default = 4
+}
+
+variable "industry" {
+  description = "Industry to deploy"
+  type        = string
+  default     = ""
+}
+
+variable "custom_workshopfiles" {
+  description = "Optional custom workshop zip URL"
+  type        = string
+  default     = ""
 }
 
 resource "random_string" "vncpwd" {

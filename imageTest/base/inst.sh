@@ -86,7 +86,7 @@ mkdir -p /home/opc/.config/systemd/user
 ## update the url to build.zip
 ################################################ 
 ## this should point to the custom service file for your workshop
-wget -O /home/opc/build_dev.zip "https://objectstorage.us-ashburn-1.oraclecloud.com/p/6zuFU6HQ9lTb-sfGYp4P_ALRwK6Zdg45sR61NY4T93Tz6eewrpbwPWJmkUYMtcSG/n/c4u02/b/livestackbucket/o/build.zip"
+wget -O /home/opc/build_dev.zip "https://objectstorage.us-ashburn-1.oraclecloud.com/p/7LoHMhbvBhoSoUNZ_gZHqTY1gWkFn11Pujt9yy5doYpj5M40vaNHeb7bFJn1O2Gb/n/c4u02/b/livestackbucket/o/build.zip"
 
 if [[ -f /home/opc/build_dev.zip ]]; then
   unzip -oq /home/opc/build_dev.zip -d /home/opc/ && rm /home/opc/build_dev.zip
